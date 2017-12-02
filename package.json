@@ -5,13 +5,17 @@
   "license": "MIT",
   "scripts": {
     "client": "npm run start --prefix client",
-    "development": "concurrently \"npm run server\" \"npm run client\"",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
     "server": "nodemon server/server.js",
     "start": "node server/server.js"
   },
   "dependencies": {
+    "body-parser": "^1.18.2",
     "concurrently": "^3.5.1",
     "express": "^4.16.2",
+    "lodash": "^4.17.4",
+    "mongodb": "^2.2.33",
+    "mongoose": "^4.13.5",
     "socket.io": "^2.0.4"
   }
 }

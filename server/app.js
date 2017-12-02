@@ -1,11 +1,15 @@
 const express = require('express');
 const path = require('path');
+const bodyParser = require('body-parser');
+const _ = require('lodash');
 
 const clientPath = path.join(__dirname, '../client/build');
 const app = express();
 
 app.use(express.static(clientPath));
+app.use(bodyParser.json());
 
+//Fake route to test front end connection
 app.get('/users', (req, res) => {
   res.json([
     {
@@ -16,6 +20,14 @@ app.get('/users', (req, res) => {
       username: "D0loresH4ze"
     }
   ]);
+});
+
+app.post('/login', (req,res) => {
+  let body = _.pick(req.body, ['username', 'password']);
+  res.send({
+    username: body.username,
+    password: body.password
+  })
 });
 
 module.exports = app;
