@@ -5,8 +5,9 @@
   "license": "MIT",
   "scripts": {
     "client": "npm run start --prefix client",
+    "development": "concurrently \"npm run server\" \"npm run client\"",
     "server": "nodemon server/server.js",
-    "development": "concurrently \"npm run server\" \"npm run client\""
+    "start": "node server/server.js"
   },
   "dependencies": {
     "concurrently": "^3.5.1",
