@@ -3,7 +3,13 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "scripts": {
+    "client": "npm run start --prefix client",
+    "server": "nodemon server/server.js",
+    "development": "concurrently \"npm run server\" \"npm run client\""
+  },
   "dependencies": {
+    "concurrently": "^3.5.1",
     "express": "^4.16.2",
     "socket.io": "^2.0.4"
   }
