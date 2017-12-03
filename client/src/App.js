@@ -1,25 +1,22 @@
-import React, { Component } from 'react';
 import './App.css';
 
-class App extends Component {
-  state = {users: []}
+import React, { Component } from 'react';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
-  async componentDidMount() {
-    let res = await fetch('/users');
-    let users = await res.json();
-    this.setState({ users });
-  }
+import SignUp from './components/signup';
+import TestRoute from './components/TestRoute';
 
+export default class App extends Component {
   render() {
     return (
       <div className="App">
-        <h1>Users</h1>
-        {this.state.users.map(user =>
-          <div key={user.id}>{user.username}</div>
-        )}
+        <BrowserRouter>
+          <Switch>
+            <Route path='/signup' component={SignUp} />
+            <Route path='/' component={TestRoute} />
+          </Switch>
+        </BrowserRouter>
       </div>
     );
   }
 }
-
-export default App;

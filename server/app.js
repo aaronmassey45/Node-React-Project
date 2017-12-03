@@ -16,7 +16,7 @@ app.use(bodyParser.json());
 
 //Fake route to test front end connection
 app.get('/users', (req, res) => {
-  res.json([
+  res.send([
     {
       id: 1,
       username: "samsepi0l"
@@ -27,7 +27,7 @@ app.get('/users', (req, res) => {
   ]);
 });
 
-app.post('/signup', async (req,res) => {
+app.post('/signup/newuser', async (req,res) => {
   try {
     let body = _.pick(req.body, ['username', 'email', 'password', 'isAFoodTruck']);
 
