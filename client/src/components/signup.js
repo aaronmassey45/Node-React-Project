@@ -10,14 +10,6 @@ export default class SignUp extends Component {
     isAFoodTruck: false
   }
 
-  componentWillMount() {
-    document.body.style.backgroundColor = "#a0081e";
-  }
-
-  componentWillUnmount() {
-      document.body.style.backgroundColor = null;
-  }
-
   handleChange = (e) => {
     if (e.target.id === 'isAFoodTruck') return this.setState({ isAFoodTruck: !this.state.isAFoodTruck });
 
