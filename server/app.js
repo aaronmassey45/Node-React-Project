@@ -7,6 +7,7 @@ const _ = require('lodash');
 
 let { mongoose } = require('./db/mongoose');
 let { User } = require('./models/user');
+const authenticate = require('./middleware/authenticate')
 
 const clientPath = path.join(__dirname, '../client/build');
 let app = express();
@@ -27,6 +28,10 @@ app.get('/users', (req, res) => {
   ]);
 });
 
+app.get('/users/me', authenticate, async (req,res) => {
+  res.send(req.user);
+});
+
 app.post('/signup/newuser', async (req,res) => {
   try {
     let body = _.pick(req.body, ['username', 'email', 'password', 'isAFoodTruck']);
@@ -38,9 +43,10 @@ app.post('/signup/newuser', async (req,res) => {
       username: body.username
     };
 
-    let user = new User(userInfo);
+    const user = new User(userInfo);
     await user.save();
-    res.send(user);
+    const token = user.generateAuthToken();
+    res.header('x-auth', token).send(user);
   } catch (e) {
     res.status(400).send(e);
   }
