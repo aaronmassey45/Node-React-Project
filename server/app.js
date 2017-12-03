@@ -1,10 +1,15 @@
+require('./config/config');
+
 const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
 const _ = require('lodash');
 
+let { mongoose } = require('./db/mongoose');
+let { User } = require('./models/user');
+
 const clientPath = path.join(__dirname, '../client/build');
-const app = express();
+let app = express();
 
 app.use(express.static(clientPath));
 app.use(bodyParser.json());
@@ -22,12 +27,31 @@ app.get('/users', (req, res) => {
   ]);
 });
 
+app.post('/signup', async (req,res) => {
+  try {
+    let body = _.pick(req.body, ['username', 'email', 'password', 'isAFoodTruck']);
+
+    let userInfo = {
+      email: body.email,
+      isAFoodTruck: body.isAFoodTruck,
+      password: body.password,
+      username: body.username
+    };
+
+    let user = new User(userInfo);
+    await user.save();
+    res.send(user);
+  } catch (e) {
+    res.status(400).send(e);
+  }
+});
+
 app.post('/login', (req,res) => {
   let body = _.pick(req.body, ['username', 'password']);
   res.send({
     username: body.username,
     password: body.password
-  })
+  });
 });
 
 module.exports = app;
