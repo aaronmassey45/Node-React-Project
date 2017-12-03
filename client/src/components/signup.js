@@ -28,9 +28,10 @@ export default class SignUp extends Component {
     e.preventDefault();
     try {
       let res = await axios.post('/signup/newuser', this.state);
-      console.log(res.data);
+      let token = res.headers['x-auth']
+      localStorage.setItem('x-auth', token);
       alert('Signup successful!');
-      window.location.href = '/';
+      window.location.href = '/users/me';
     } catch (err) {
       console.log(err);
     }

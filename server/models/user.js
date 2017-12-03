@@ -59,7 +59,7 @@ UserSchema.methods.generateAuthToken = function () {
   }, process.env.JWT_SECRET).toString();
 
   user.tokens.push({access, token});
-  return user.save(() => {
+  return user.save().then(() => {
     return token;
   });
 };

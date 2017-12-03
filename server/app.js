@@ -45,7 +45,7 @@ app.post('/signup/newuser', async (req,res) => {
 
     const user = new User(userInfo);
     await user.save();
-    const token = user.generateAuthToken();
+    const token = await user.generateAuthToken();
     res.header('x-auth', token).send(user);
   } catch (e) {
     res.status(400).send(e);
