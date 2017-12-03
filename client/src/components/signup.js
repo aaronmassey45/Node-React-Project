@@ -67,7 +67,7 @@ export default class SignUp extends Component {
                 </form>
               </div>
               <div className="card-footer">
-                <p>Already a user? <Link to='/login'>Login</Link></p>
+                Already a user? <Link to='/login'>Login</Link>
               </div>
             </div>
           </div>
