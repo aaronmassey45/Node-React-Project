@@ -52,12 +52,15 @@ app.post('/signup/newuser', async (req,res) => {
   }
 });
 
-app.post('/login', (req,res) => {
-  let body = _.pick(req.body, ['username', 'password']);
-  res.send({
-    username: body.username,
-    password: body.password
-  });
+app.post('/user/login', async (req,res) => {
+  try {
+    const body = _.pick(req.body, ['username', 'password']);
+    const user = await User.findByCredentials(body.username, body.password);
+    const token = await user.generateAuthToken();
+    res.header('x-auth', token).send(user);
+  } catch (e) {
+    res.status(400).send(e);
+  }
 });
 
 module.exports = app;
