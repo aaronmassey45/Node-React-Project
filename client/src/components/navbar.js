@@ -1,10 +1,18 @@
 import React, {Component} from 'react';
+import axios from 'axios';
 
 export default class Navbar extends Component {
-  // handleLogout = () => {
-  //   const token = localStorage.getItem('x-auth');
-  //   let res = await axios.get('/users/me', { headers: { 'x-auth': token } });
-  // }
+  handleLogout = async () => {
+    try {
+      const token = localStorage.getItem('x-auth');
+      await axios.delete('/logout', { headers: { 'x-auth': token } });
+      localStorage.setItem('x-auth', null);
+      alert('You logged out successfully');
+      window.location.href = '/';
+    } catch (e) {
+      console.log(e);
+    }
+  }
 
   render() {
     return (
@@ -18,7 +26,7 @@ export default class Navbar extends Component {
             <a href="/" className="nav-item nav-link">Home</a>
             <a href="/login" className="nav-item nav-link">Login</a>
             <a href="/signup" className="nav-item nav-link">Sign Up</a>
-            <a href="/logout" className="nav-item nav-link">Logout</a>
+            <span className="nav-item nav-link" onClick={this.handleLogout}>Logout</span>
           </ul>
         </div>
       </nav>
