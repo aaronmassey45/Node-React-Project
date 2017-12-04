@@ -14,6 +14,18 @@ export default class MyAccount extends Component {
     this.setState({ username: user.username });
   }
 
+  newPost = async (e) => {
+    e.preventDefault();
+    try {
+      const token = localStorage.getItem('x-auth');
+      await axios.post('/chowt', { text: this.state.chowt }, { headers: { 'x-auth': token } });
+      alert('Successful post');
+      this.setState({ chowt: '' })
+    } catch (err) {
+      alert('Post failed')
+    }
+  }
+
   handleChange = e => {
     this.setState({ chowt: e.target.value });
   }
@@ -37,7 +49,7 @@ export default class MyAccount extends Component {
           <div className="col-xs-12 col-sm-8">
             <div className="card">
               <div className="card-body">
-                <form className="form-row">
+                <form className="form-row" onSubmit={this.newPost}>
                   <div className="input-group">
                     <input
                       type="text"
