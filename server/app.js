@@ -41,6 +41,15 @@ app.post('/chowt', authenticate, async (req, res) => {
   }
 });
 
+app.get('/posts', async (req, res) => {
+  try {
+    let posts = await Post.find({});
+    res.send(posts);
+  } catch (err) {
+    res.status(400).send(err);
+  }
+});
+
 //Routes for users
 app.get('/users/me', authenticate, async (req,res) => {
   res.send(req.user);
