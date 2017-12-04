@@ -63,6 +63,18 @@ app.get('/posts/user/:id', async (req, res) => {
   }
 });
 
+app.get('/post/:id', async (req, res) => {
+  try {
+    let { id } = req.params;
+    if (!ObjectID.isValid(id)) return res.status(404).send();
+
+    let post = await Post.findOne({ _id: id });
+    res.send(post);
+  } catch (err) {
+    res.status(400).send(err);
+  }
+});
+
 //Routes for users
 app.get('/users/me', authenticate, async (req,res) => {
   res.send(req.user);
