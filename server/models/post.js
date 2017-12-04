@@ -14,7 +14,7 @@ let Post = mongoose.model('Post', {
     required: true,
     minlength: 1,
     trim: true
-  }
+  },
   timeCreated: {
     type: Number,
     default: null

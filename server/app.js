@@ -7,6 +7,7 @@ const _ = require('lodash');
 
 let { mongoose } = require('./db/mongoose');
 let { User } = require('./models/user');
+let { Post } = require('./models/post');
 const authenticate = require('./middleware/authenticate')
 
 const clientPath = path.join(__dirname, '../client/build');
@@ -28,6 +29,19 @@ app.get('/users', (req, res) => {
   ]);
 });
 
+//Routes for posts
+app.post('/chowt', authenticate, async (req, res) => {
+  try {
+    const body = _.pick(req.body, ['text']);
+    let post = new Post({ text: body.text, _creator: req.user._id, timeCreated: new Date().getTime() });
+    let doc = await post.save();
+    res.send(doc);
+  } catch (err) {
+    res.status(400).send();
+  }
+});
+
+//Routes for users
 app.get('/users/me', authenticate, async (req,res) => {
   res.send(req.user);
 });
