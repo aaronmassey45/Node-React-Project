@@ -14,14 +14,16 @@ export default class App extends Component {
     return (
       <div className="App">
         <Navbar />
-        <BrowserRouter>
-          <Switch>
-            <Route path='/login' component={Login} />
-            <Route path='/users/me' component={MyAccount} />
-            <Route path='/signup' component={SignUp} />
-            <Route path='/' component={TestRoute} />
-          </Switch>
-        </BrowserRouter>
+        <div className="mt-5">
+          <BrowserRouter>
+            <Switch>
+              <Route path='/login' component={Login} />
+              <Route path='/users/me' component={MyAccount} />
+              <Route path='/signup' component={SignUp} />
+              <Route path='/' component={TestRoute} />
+            </Switch>
+          </BrowserRouter>
+        </div>
       </div>
     );
   }
