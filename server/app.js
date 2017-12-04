@@ -4,6 +4,7 @@ const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
 const _ = require('lodash');
+const { ObjectID } = require('mongodb');
 
 let { mongoose } = require('./db/mongoose');
 let { User } = require('./models/user');
@@ -44,6 +45,18 @@ app.post('/chowt', authenticate, async (req, res) => {
 app.get('/posts', async (req, res) => {
   try {
     let posts = await Post.find({});
+    res.send(posts);
+  } catch (err) {
+    res.status(400).send(err);
+  }
+});
+
+app.get('/posts/user/:id', async (req, res) => {
+  try {
+    let { id } = req.params;
+    if (!ObjectID.isValid(id)) return res.status(404).send();
+
+    let posts = await Post.find({ _creator: id });
     res.send(posts);
   } catch (err) {
     res.status(400).send(err);
