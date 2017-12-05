@@ -1,17 +1,20 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
+import PostList from './posts-list';
+
 export default class MyAccount extends Component {
   state = {
     chowt: '',
-    username: null
+    username: '',
+    _id: ''
   }
 
   async componentDidMount() {
     const token = localStorage.getItem('x-auth');
     let res = await axios.get('/users/me', { headers: { 'x-auth': token } });
     let user = res.data;
-    this.setState({ username: user.username });
+    this.setState({ username: user.username, _id: user._id });
   }
 
   newPost = async (e) => {
@@ -31,7 +34,7 @@ export default class MyAccount extends Component {
   }
 
   render() {
-    let { username, chowt } = this.state;
+    let { username, chowt, _id } = this.state;
     if (!username) return <div>Unauthorized user</div>;
 
     return (
@@ -64,10 +67,7 @@ export default class MyAccount extends Component {
                   </div>
                 </form>
               </div>
-              <ul className="list-group list-group-flush">
-                <li className="list-group-item">My second post</li>
-                <li className="list-group-item">My first post</li>
-              </ul>
+              <PostList type='user' id={_id} />
             </div>
           </div>
         </div>
