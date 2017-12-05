@@ -120,4 +120,9 @@ app.delete('/logout', authenticate, async (req, res) => {
   }
 });
 
+//404 route
+app.get('*', (req,res) => {
+  res.sendFile(clientPath);
+});
+
 module.exports = app;

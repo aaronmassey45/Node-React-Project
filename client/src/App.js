@@ -3,9 +3,10 @@ import './App.css';
 import React, { Component } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
-import Navbar from './components/navbar';
 import Login from './components/login';
 import MyAccount from './components/users-me';
+import Navbar from './components/navbar';
+import NotFound from './components/notfound';
 import SignUp from './components/signup';
 import TestRoute from './components/TestRoute';
 
@@ -20,7 +21,8 @@ export default class App extends Component {
               <Route path='/login' component={Login} />
               <Route path='/users/me' component={MyAccount} />
               <Route path='/signup' component={SignUp} />
-              <Route path='/' component={TestRoute} />
+              <Route path='/' exact component={TestRoute} />
+              <Route path='*' component={NotFound} />
             </Switch>
           </BrowserRouter>
         </div>
