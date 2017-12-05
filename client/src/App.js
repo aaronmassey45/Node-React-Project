@@ -15,7 +15,7 @@ export default class App extends Component {
     return (
       <div className="App">
         <Navbar />
-        <div className="mt-5">
+        <div className="mt-app container">
           <BrowserRouter>
             <Switch>
               <Route path='/login' component={Login} />

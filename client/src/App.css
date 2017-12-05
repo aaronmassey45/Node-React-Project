@@ -9,3 +9,7 @@ body {
 .fake-link {
   cursor: pointer;
 }
+
+.mt-app {
+  margin-top: 5rem !important;
+}
