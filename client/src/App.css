@@ -5,3 +5,7 @@
 body {
   background-color: #a0081e;
 }
+
+.fake-link {
+  cursor: pointer;
+}

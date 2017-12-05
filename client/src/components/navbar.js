@@ -26,7 +26,7 @@ export default class Navbar extends Component {
             <a href="/" className="nav-item nav-link">Home</a>
             <a href="/login" className="nav-item nav-link">Login</a>
             <a href="/signup" className="nav-item nav-link">Sign Up</a>
-            <span className="nav-item nav-link" onClick={this.handleLogout}>Logout</span>
+            <span className="nav-item nav-link fake-link" onClick={this.handleLogout}>Logout</span>
           </ul>
         </div>
       </nav>
