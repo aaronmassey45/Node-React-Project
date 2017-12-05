@@ -17,19 +17,6 @@ let app = express();
 app.use(express.static(clientPath));
 app.use(bodyParser.json());
 
-//Fake route to test front end connection
-app.get('/users', (req, res) => {
-  res.send([
-    {
-      id: 1,
-      username: "samsepi0l"
-    }, {
-      id: 2,
-      username: "D0loresH4ze"
-    }
-  ]);
-});
-
 //Routes for posts
 app.post('/chowt', authenticate, async (req, res) => {
   try {
