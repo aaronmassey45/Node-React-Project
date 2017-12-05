@@ -7,7 +7,8 @@ export default class MyAccount extends Component {
   state = {
     chowt: '',
     username: '',
-    _id: ''
+    _id: '',
+    key: 0
   }
 
   async componentDidMount() {
@@ -22,8 +23,8 @@ export default class MyAccount extends Component {
     try {
       const token = localStorage.getItem('x-auth');
       await axios.post('/chowt', { text: this.state.chowt }, { headers: { 'x-auth': token } });
-      alert('Successful post');
-      this.setState({ chowt: '' })
+      let rand = Math.random();
+      this.setState({ chowt: '', key: Math.random()*10000 })
     } catch (err) {
       alert('Post failed')
     }
@@ -34,7 +35,7 @@ export default class MyAccount extends Component {
   }
 
   render() {
-    let { username, chowt, _id } = this.state;
+    let { username, chowt, _id, key } = this.state;
     if (!username) return <div>Unauthorized user</div>;
 
     return (
@@ -67,7 +68,7 @@ export default class MyAccount extends Component {
                   </div>
                 </form>
               </div>
-              <PostList type='user' id={_id} />
+              <PostList key={key} type='user' id={_id} />
             </div>
           </div>
         </div>
