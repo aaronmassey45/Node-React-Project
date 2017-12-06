@@ -23,7 +23,6 @@ export default class MyAccount extends Component {
     try {
       const token = localStorage.getItem('x-auth');
       await axios.post('/chowt', { text: this.state.chowt }, { headers: { 'x-auth': token } });
-      let rand = Math.random();
       this.setState({ chowt: '', key: Math.random()*10000 })
     } catch (err) {
       alert('Post failed')
