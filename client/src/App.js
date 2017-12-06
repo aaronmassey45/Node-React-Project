@@ -14,10 +14,10 @@ import UserPage from './components/users-page';
 export default class App extends Component {
   render() {
     return (
-      <div className="App">
-        <Navbar />
-        <div className="mt-app container">
-          <BrowserRouter>
+      <BrowserRouter>
+        <div className="App">
+          <Navbar />
+          <div className="mt-app container">
             <Switch>
               <Route path='/login' component={Login} />
               <Route path='/users/account/:username' component={UserPage} />
@@ -26,9 +26,9 @@ export default class App extends Component {
               <Route path='/' exact component={HomePage} />
               <Route path='*' component={NotFound} />
             </Switch>
-          </BrowserRouter>
+          </div>
         </div>
-      </div>
+      </BrowserRouter>
     );
   }
 }
