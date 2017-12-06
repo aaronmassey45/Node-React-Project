@@ -9,6 +9,7 @@ import MyAccount from './components/users-me';
 import Navbar from './components/navbar';
 import NotFound from './components/notfound';
 import SignUp from './components/signup';
+import UserPage from './components/users-page';
 
 export default class App extends Component {
   render() {
@@ -19,6 +20,7 @@ export default class App extends Component {
           <BrowserRouter>
             <Switch>
               <Route path='/login' component={Login} />
+              <Route path='/users/account/:username' component={UserPage} />
               <Route path='/users/me' component={MyAccount} />
               <Route path='/signup' component={SignUp} />
               <Route path='/' exact component={HomePage} />

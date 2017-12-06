@@ -67,6 +67,17 @@ app.get('/users/me', authenticate, async (req,res) => {
   res.send(req.user);
 });
 
+app.get('/users/account/:username', async (req,res) => {
+  try {
+    let { username } = req.params;
+    let user = await User.findOne({ username });
+    if (!user) return res.status(400).send(); 
+    res.send(user);
+  } catch (err) {
+    res.status(400).send(err);
+  }
+});
+
 app.post('/signup/newuser', async (req,res) => {
   try {
     let body = _.pick(req.body, ['username', 'email', 'password', 'isAFoodTruck']);
