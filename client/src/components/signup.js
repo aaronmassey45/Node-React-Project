@@ -1,13 +1,14 @@
 import React, {Component} from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 
 export default class SignUp extends Component {
   state = {
-    username: '',
-    password: '',
+    isAFoodTruck: false,
     email: '',
-    isAFoodTruck: false
+    password: '',
+    redirect: false,
+    username: ''
   }
 
   handleChange = (e) => {
@@ -19,17 +20,21 @@ export default class SignUp extends Component {
   handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      let res = await axios.post('/signup/newuser', this.state);
+      const { isAFoodTruck, email, password, username } = this.state;
+      let res = await axios.post('/signup/newuser', { isAFoodTruck, email, password, username });
       let token = res.headers['x-auth']
       localStorage.setItem('x-auth', token);
       alert('Signup successful!');
-      window.location.href = '/users/me';
+      this.setState({ redirect: true });
     } catch (err) {
+      alert('Signup failed!');
       console.log(err);
     }
   }
 
   render() {
+    if (this.state.redirect) return <Redirect to='/users/me' />;
+
     return (
       <div className='SignUp container'>
         <div className="row">

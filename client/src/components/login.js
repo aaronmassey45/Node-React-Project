@@ -1,11 +1,12 @@
 import React, {Component} from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 
 export default class Login extends Component {
   state = {
-    username: '',
-    password: ''
+    password: '',
+    redirect: false,
+    username: ''
   }
 
   handleChange = (e) => {
@@ -15,17 +16,21 @@ export default class Login extends Component {
   handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      let res = await axios.post('/user/login', this.state);
+      const { password, username } = this.state;
+      let res = await axios.post('/user/login', { password, username });
       let token = res.headers['x-auth'];
       localStorage.setItem('x-auth', token);
-      alert('Login successful!');
-      window.location.href = '/users/me';
+      this.setState({ redirect: true });
     } catch (err) {
+      alert('Login failed!');
       console.log(err);
     }
   }
 
   render() {
+    const { password, redirect, username } = this.state;
+    if (redirect) return <Redirect to='/users/me' />;
+
     return (
       <div className='Login container'>
         <div className="row">
@@ -35,11 +40,11 @@ export default class Login extends Component {
                 <form onSubmit={this.handleSubmit}>
                   <div className="form-group">
                     <label htmlFor="username">Username</label>
-                    <input type="text" className="form-control" id="username" placeholder="Create a username" onChange={this.handleChange} value={this.state.username} />
+                    <input type="text" className="form-control" id="username" placeholder="Enter username" onChange={this.handleChange} value={username} />
                   </div>
                   <div className="form-group">
                     <label htmlFor="password">Password</label>
-                    <input type="password" className="form-control" id="password" placeholder="Password" onChange={this.handleChange} value={this.state.password} />
+                    <input type="password" className="form-control" id="password" placeholder="Password" onChange={this.handleChange} value={password} />
                   </div>
                   <button type="submit" className="btn btn-primary btn-block">Submit</button>
                 </form>
