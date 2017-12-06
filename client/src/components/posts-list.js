@@ -21,7 +21,6 @@ export default class PostList extends Component {
         break;
       default:
         throw new Error('Invalid prop type on PostList component');
-        break;
     }
 
     try {
