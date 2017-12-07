@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
 import axios from 'axios';
 import { NavLink, Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 
-export default class Navbar extends Component {
+class Navbar extends Component {
   handleLogout = async () => {
     try {
       const token = localStorage.getItem('x-auth');
@@ -51,3 +52,9 @@ export default class Navbar extends Component {
     );
   }
 }
+
+const mapStateToProps = state => ({
+  appState: state.appState
+ });
+
+export default connect(mapStateToProps)(Navbar);
