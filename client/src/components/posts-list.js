@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import axios from 'axios';
 
+import Post from './post';
+
 export default class PostList extends Component {
   constructor(props) {
     super(props);
@@ -25,7 +27,15 @@ export default class PostList extends Component {
 
     try {
       let res = await axios.get(url);
-      let posts = res.data.reverse().map((post, i) => <li key={i} className="list-group-item">{post.text}</li>);
+      let users = await axios.get('/userlist');
+      let posts = res.data.reverse().map((post, i) => {
+        let profile = users.data.find(x => x._id === post._creator);
+        return (
+          <div key={i} className="list-group-item">
+            <Post text={post.text} username={profile.username}/>
+          </div>
+        );
+      });
       this.setState({ posts });
     } catch (err) {
       console.log(err);
@@ -34,9 +44,9 @@ export default class PostList extends Component {
 
   render() {
     return (
-      <ul className="list-group list-group-flush">
+      <div className="list-group list-group-flush">
         {this.state.posts}
-      </ul>
+      </div>
     );
   }
 }
