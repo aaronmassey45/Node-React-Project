@@ -28,6 +28,9 @@ export default class Navbar extends Component {
               <NavLink to="/" exact className="nav-link">Home</NavLink>
             </li>
             <li className="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
+              <NavLink to="/users/me" exact className="nav-link">My Account</NavLink>
+            </li>
+            <li className="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
               <NavLink to="/login" className="nav-link">Login</NavLink>
             </li>
             <li className="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
