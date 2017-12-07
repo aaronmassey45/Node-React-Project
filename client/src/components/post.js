@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Post = (props) => {
   return (
@@ -9,7 +10,11 @@ const Post = (props) => {
         </div>
         <div className="col my-auto">
           <div className="text-left col-12">{props.text}</div>
-          <div className="col-12 text-right">@{props.username}</div>
+          <div className="col-12 text-right">
+            <Link to={`/users/account/${props.username}`}>
+              @{props.username}
+            </Link>
+          </div>
         </div>
       </div>
     </div>

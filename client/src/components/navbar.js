@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import axios from 'axios';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 
 export default class Navbar extends Component {
   handleLogout = async () => {
@@ -28,16 +28,22 @@ export default class Navbar extends Component {
               <NavLink to="/" exact className="nav-link">Home</NavLink>
             </li>
             <li className="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
-              <NavLink to="/users/me" exact className="nav-link">My Account</NavLink>
-            </li>
-            <li className="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
               <NavLink to="/login" className="nav-link">Login</NavLink>
             </li>
             <li className="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
               <NavLink to="/signup" className="nav-link">Sign Up</NavLink>
             </li>
-            <li className="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
-              <span className="nav-link fake-link">Logout</span>
+            <li className="nav-item dropdown">
+              <a className="nav-link dropdown-toggle fake-link" id='navbarDropdown' role='button' data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Account</a>
+              <div className="dropdown-menu bg-dark" aria-labelledby='navbarDropdown'>
+                <div className="dropdown-item" data-toggle="collapse" data-target=".navbar-collapse.show">
+                  <Link to="/users/me" className="nav-link">Profile</Link>
+                </div>
+                <div className="dropdown-divider"></div>
+                <div className="dropdown-item" data-toggle="collapse" data-target=".navbar-collapse.show">
+                  <span className="nav-link fake-link" onClick={this.handleLogout}>Logout</span>
+                </div>
+              </div>
             </li>
           </div>
         </ul>
