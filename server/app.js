@@ -62,6 +62,20 @@ app.get('/post/:id', async (req, res) => {
   }
 });
 
+app.patch('/post/:id', authenticate, async (req, res) => {
+  try {
+    let { id } = req.params;
+    if (!ObjectID.isValid(id)) return res.status(404).send();
+
+    let post = await Post.findOneAndUpdate({ _id: id }, { $inc: { likes: 1 } }, { new: true });
+    if (!post) return res.status(404).send();
+    res.send({ post });
+  } catch (err) {
+    res.status(400).send();
+  }
+});
+
+//Routes for users
 app.get('/userlist', async (req, res) => {
   try {
     let users = await User.find({});
@@ -71,7 +85,6 @@ app.get('/userlist', async (req, res) => {
   }
 });
 
-//Routes for users
 app.get('/users/me', authenticate, async (req,res) => {
   res.send(req.user);
 });
