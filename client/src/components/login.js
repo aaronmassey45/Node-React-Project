@@ -1,8 +1,11 @@
 import React, {Component} from 'react';
-import axios from 'axios';
 import { Link, Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
-export default class Login extends Component {
+import { login } from '../store/actions/loginActions';
+
+class Login extends Component {
   state = {
     password: '',
     redirect: false,
@@ -17,9 +20,8 @@ export default class Login extends Component {
     e.preventDefault();
     try {
       const { password, username } = this.state;
-      let res = await axios.post('/user/login', { password, username });
-      let token = res.headers['x-auth'];
-      localStorage.setItem('x-auth', token);
+      const credentials = { password, username };
+      await this.props.actions.login(credentials);
       this.setState({ redirect: true });
     } catch (err) {
       alert('Login failed!');
@@ -59,3 +61,9 @@ export default class Login extends Component {
     );
   }
 }
+
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators({login}, dispatch)
+});
+
+export default connect(null, mapDispatchToProps)(Login);

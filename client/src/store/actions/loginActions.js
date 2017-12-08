@@ -7,10 +7,23 @@ export const LOGIN_FAILURE = 'LOGIN_FAILURE';
 export function login(credentials) {
   return {
     [CALL_API]: {
-      types: [LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE],
+      types: [
+        LOGIN_REQUEST,
+        {
+          type: LOGIN_SUCCESS,
+          meta: (action, state, res) => {
+            if (res) {
+              const token = res.headers.get('x-auth');
+              localStorage.setItem('x-auth', token);
+            }
+          },
+        },
+        LOGIN_FAILURE
+      ],
       endpoint: '/user/login',
       method: 'POST',
-      body: credentials
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(credentials)
     }
   };
 }
