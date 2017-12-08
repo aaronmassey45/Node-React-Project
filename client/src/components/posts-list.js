@@ -28,11 +28,11 @@ export default class PostList extends Component {
     try {
       let res = await axios.get(url);
       let users = await axios.get('/userlist');
-      let posts = res.data.reverse().map((post, i) => {
+      let posts = res.data.reverse().map(post => {
         let profile = users.data.find(x => x._id === post._creator);
         return (
-          <div key={i} className="list-group-item">
-            <Post text={post.text} username={profile.username}/>
+          <div key={post._id} className="list-group-item">
+            <Post text={post.text} username={profile.username} id={post._id}/>
           </div>
         );
       });

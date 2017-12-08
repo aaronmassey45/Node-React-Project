@@ -1,7 +1,20 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+
+import { likePost } from '../store/actions/postActions';
 
 const Post = (props) => {
+  const likePost = async () => {
+    try {
+      await props.actions.likePost(props.id);
+    } catch (err) {
+      alert('Couldn\'t like post');
+      console.log(err);
+    }
+  };
+
   return (
     <div className="Post">
       <div className="row">
@@ -14,6 +27,7 @@ const Post = (props) => {
             <Link to={`/users/account/${props.username}`}>
               @{props.username}
             </Link>
+            <span className="fake-link" onClick={likePost}>Like post</span>
           </div>
         </div>
       </div>
@@ -21,4 +35,8 @@ const Post = (props) => {
   );
 }
 
-export default Post;
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators({likePost}, dispatch)
+});
+
+export default connect(null, mapDispatchToProps)(Post);
