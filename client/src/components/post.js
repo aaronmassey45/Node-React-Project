@@ -34,14 +34,23 @@ class Post extends Component {
             <img src="https://dummyimage.com/600x400/000/fff&text=Dummy+Header" alt="" className="rounded float-left img-fluid"/>
           </div>
           <div className="col my-auto">
-            <div className="text-left col-12">{text}</div>
-            <div className="col-12 text-right">
-              <Link to={`/users/account/${username}`}>
-                @{username}
-              </Link>
-              <p>
-                <i className={`fa fa-heart${heart} fa-lg fake-link`} onClick={this.likePost}></i>
-              </p>
+            <div className="text-left row">
+              <span className="col-10">
+                <Link to={`/users/account/${username}`}>
+                  @{username}
+                </Link>
+              </span>
+              <span className="col-2 text-right">
+                <i className="fa fa-trash fake-link"></i>
+              </span>
+            </div>
+            <div className="row text-left">
+              <div className="col-12 mt-1">
+                {text}
+              </div>
+              <div className='col-12 mt-1'>
+                <i className={`fa fa-heart${heart} fa-sm fake-link`} onClick={this.likePost}></i>
+              </div>
             </div>
           </div>
         </div>
