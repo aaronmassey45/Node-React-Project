@@ -1,4 +1,4 @@
-import { LOGIN_SUCCESS, AUTH_SUCCESS } from '../actions/loginActions';
+import { LOGIN_SUCCESS, AUTH_SUCCESS, LOGIN_FAILURE } from '../actions/loginActions';
 
 const INITIAL_STATE = {
   loggedIn: false,
@@ -22,6 +22,8 @@ const appState = (state=INITIAL_STATE, action) => {
         ...state,
         loggedIn: true
       }
+    case LOGIN_FAILURE:
+      throw new Error('Login failed');
     default:
       return state;
   }

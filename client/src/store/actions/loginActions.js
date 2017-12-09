@@ -1,9 +1,10 @@
 import { CALL_API } from 'redux-api-middleware';
 
 export const REQUEST = 'REQUEST';
-export const FAILURE = 'FAILURE';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
+export const LOGIN_FAILURE = 'LOGIN_FAILURE';
 export const AUTH_SUCCESS = 'AUTH_SUCCESS';
+export const AUTH_FAILURE = 'AUTH_FAILURE';
 
 export function login(credentials) {
   return {
@@ -19,7 +20,7 @@ export function login(credentials) {
             }
           },
         },
-        FAILURE
+        LOGIN_FAILURE
       ],
       endpoint: '/user/login',
       method: 'POST',
@@ -33,7 +34,7 @@ export function isUserAuthenticated() {
   const token = localStorage.getItem('x-auth');
   return {
     [CALL_API]: {
-      types: [REQUEST, AUTH_SUCCESS, FAILURE],
+      types: [REQUEST, AUTH_SUCCESS, AUTH_FAILURE],
       endpoint: '/authenticated',
       method: 'GET',
       headers: { 'x-auth': token }
