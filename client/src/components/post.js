@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { likePost } from '../store/actions/postActions';
+import { modifyPost } from '../store/actions/postActions';
 
 class Post extends Component {
   constructor(props) {
@@ -16,13 +16,21 @@ class Post extends Component {
 
   likePost = async () => {
     try {
-      await this.props.actions.likePost(this.props.id);
+      await this.props.actions.modifyPost(this.props.id, 'PATCH');
       this.setState({ liked: true });
     } catch (err) {
       alert('Couldn\'t like post');
       console.log(err);
     }
-  };
+  }
+
+  deletePost = async () => {
+    try {
+      await this.props.actions.modifyPost(this.props.id, 'DELETE');
+    } catch (err) {
+      console.log(err);
+    }
+  }
 
   render () {
     let heart = !this.state.liked ? '-o' : ' text-danger';
@@ -41,7 +49,7 @@ class Post extends Component {
                 </Link>
               </span>
               <span className="col-2 text-right">
-                <i className="fa fa-trash fake-link"></i>
+                <i className="fa fa-trash fake-link" onClick={this.deletePost}></i>
               </span>
             </div>
             <div className="row text-left">
@@ -60,7 +68,7 @@ class Post extends Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators({likePost}, dispatch)
+  actions: bindActionCreators({modifyPost}, dispatch)
 });
 
 export default connect(null, mapDispatchToProps)(Post);
