@@ -67,7 +67,7 @@ export default class MyAccount extends Component {
                   </div>
                 </form>
               </div>
-              <PostList key={key} type='user' id={_id} />
+              <PostList key={key} type='user' id={_id} showDelete={true}/>
             </div>
           </div>
         </div>

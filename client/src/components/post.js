@@ -34,7 +34,7 @@ class Post extends Component {
 
   render () {
     let heart = !this.state.liked ? '-o' : ' text-danger';
-    const { text, username } = this.props;
+    const { text, username, showDelete } = this.props;
     return (
       <div className="Post">
         <div className="row">
@@ -48,9 +48,13 @@ class Post extends Component {
                   @{username}
                 </Link>
               </span>
-              <span className="col-2 text-right">
-                <i className="fa fa-trash fake-link" onClick={this.deletePost}></i>
-              </span>
+              {
+                showDelete ?
+                  <span className="col-2 text-right">
+                    <i className="fa fa-trash fake-link" onClick={this.deletePost}></i>
+                  </span> :
+                  ''
+              }
             </div>
             <div className="row text-left">
               <div className="col-12 mt-1">
