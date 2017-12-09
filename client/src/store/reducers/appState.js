@@ -1,4 +1,4 @@
-import { LOGIN_SUCCESS } from '../actions/loginActions';
+import { LOGIN_SUCCESS, AUTH_SUCCESS } from '../actions/loginActions';
 
 const INITIAL_STATE = {
   loggedIn: false,
@@ -17,6 +17,11 @@ const appState = (state=INITIAL_STATE, action) => {
         "user.username": action.payload.username,
         "user._id": action.payload._id
        };
+    case AUTH_SUCCESS:
+      return {
+        ...state,
+        loggedIn: true
+      }
     default:
       return state;
   }
