@@ -105,6 +105,16 @@ app.get('/users/me', authenticate, async (req,res) => {
   res.send(req.user);
 });
 
+app.delete('/users/me', authenticate, async (req,res) => {
+  try {
+    let user = await User.findOneAndRemove({ _id: req.user._id });
+    if (!user) return res.status(400).send();
+    res.send({ removedUser: user });
+  } catch (err) {
+    res.status(400).send(err);
+  }
+});
+
 app.get('/users/account/:username', async (req,res) => {
   try {
     let { username } = req.params;
