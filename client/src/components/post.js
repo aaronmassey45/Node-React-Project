@@ -57,9 +57,7 @@ class Post extends Component {
               }
             </div>
             <div className="row text-left">
-              <div className="col-12 mt-1">
-                {text}
-              </div>
+              <div className="col-12 mt-1" dangerouslySetInnerHTML={{ __html: text}} />
               <div className='col-12 mt-1'>
                 <i className={`fa fa-heart${heart} fa-sm fake-link`} onClick={this.likePost}></i>
               </div>
