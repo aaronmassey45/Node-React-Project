@@ -1,16 +1,16 @@
 import { CALL_API } from 'redux-api-middleware';
 
-export const LIKE_REQUEST = 'LIKE_REQUEST';
-export const LIKE_SUCCESS = 'LIKE_SUCCESS';
-export const LIKE_FAILURE = 'LIKE_FAILURE';
+export const POST_REQUEST = 'POST_REQUEST';
+export const POST_SUCCESS = 'POST_SUCCESS';
+export const POST_FAILURE = 'POST_FAILURE';
 
-export function likePost(id) {
+export function modifyPost(id, method) {
   const token = localStorage.getItem('x-auth');
   return {
     [CALL_API]: {
-      types: [LIKE_REQUEST, LIKE_SUCCESS, LIKE_FAILURE],
+      types: [POST_REQUEST, POST_SUCCESS, POST_FAILURE],
       endpoint: `/post/${id}`,
-      method: 'PATCH',
+      method,
       headers: { 'x-auth': token }
     }
   };
