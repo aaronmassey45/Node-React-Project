@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 import { Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+
+import { deleteUser } from '../store/actions/userActions';
 
 class AccountEdit extends Component {
   constructor() {
@@ -13,10 +16,7 @@ class AccountEdit extends Component {
 
   deleteAccount = async () => {
     try {
-      const token = localStorage.getItem('x-auth');
-      await axios.delete('/users/me', { headers: { 'x-auth': token } });
-      alert('Account deleted.');
-      localStorage.removeItem('x-auth');
+      await this.props.actions.deleteUser();
       this.setState({ redirect: true })
     } catch (err) {
       alert('Couldn\'t delete account');
@@ -58,4 +58,9 @@ class AccountEdit extends Component {
     );
   }
 }
- export default AccountEdit;
+
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators({deleteUser}, dispatch)
+});
+
+export default connect(null, mapDispatchToProps)(AccountEdit);
