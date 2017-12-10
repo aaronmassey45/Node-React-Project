@@ -7,6 +7,8 @@ export const AUTH_SUCCESS = 'AUTH_SUCCESS';
 export const AUTH_FAILURE = 'AUTH_FAILURE';
 export const SIGNUP_SUCCESS = 'SIGNUP_SUCCESS';
 export const SIGNUP_FAILURE = 'SIGNUP_FAILURE';
+export const DELETE_USER_SUCCESS = 'DELETE_USER_SUCCESS';
+export const DELETE_USER_FAILURE = 'DELETE_USER_FAILURE';
 
 export function login(credentials) {
   return {
@@ -64,6 +66,29 @@ export function signup(credentials) {
       body: JSON.stringify(credentials)
     }
   };
+}
+
+export function deleteUser() {
+  const token = localStorage.getItem('x-auth');
+  return {
+    [CALL_API]: {
+      types: [
+        REQUEST,
+        {
+          type: DELETE_USER_SUCCESS,
+          meta: (action, state, res) => {
+            if (res) {
+              localStorage.removeItem('x-auth');
+            }
+          },
+        },
+        DELETE_USER_FAILURE
+      ],
+      endpoint: '/users/me',
+      method: 'DELETE',
+      headers: { 'x-auth': token },
+    }
+  }
 }
 
 function setAuthToken(response) {
