@@ -109,6 +109,7 @@ app.delete('/users/me', authenticate, async (req,res) => {
   try {
     let user = await User.findOneAndRemove({ _id: req.user._id });
     if (!user) return res.status(400).send();
+    await Post.remove({ _creator: req.user._id });
     res.send({ removedUser: user });
   } catch (err) {
     res.status(400).send(err);
