@@ -5,6 +5,12 @@ const _ = require('lodash');
 const bcrypt = require('bcryptjs');
 
 let UserSchema = new mongoose.Schema({
+  bio: {
+    default: 'Chowster n00b',
+    minlength: 1,
+    trim: true,
+    type: String
+  },
   email: {
     minlength: 1,
     required: true,
@@ -20,6 +26,12 @@ let UserSchema = new mongoose.Schema({
   isAFoodTruck: {
     required: true,
     type: Boolean
+  },
+  location: {
+    default: 'Somewhere chowin\' down',
+    minlength: 1,
+    trim: true,
+    type: String
   },
   password: {
     minlength: 6,
