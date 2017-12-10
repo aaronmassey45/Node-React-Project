@@ -25,7 +25,7 @@ app.post('/chowt', authenticate, async (req, res) => {
     let doc = await post.save();
     res.send(doc);
   } catch (err) {
-    res.status(400).send();
+    res.status(400).send(err);
   }
 });
 
@@ -71,7 +71,7 @@ app.patch('/post/:id', authenticate, async (req, res) => {
     if (!post) return res.status(404).send();
     res.send({ post });
   } catch (err) {
-    res.status(400).send();
+    res.status(400).send(err);
   }
 });
 
@@ -102,7 +102,11 @@ app.get('/userlist', async (req, res) => {
 });
 
 app.get('/users/me', authenticate, async (req,res) => {
-  res.send(req.user);
+  try {
+    res.send(req.user);
+  } catch (err) {
+    res.status(400).send(err);
+  }
 });
 
 app.delete('/users/me', authenticate, async (req,res) => {
@@ -168,7 +172,7 @@ app.delete('/logout', authenticate, async (req, res) => {
 });
 
 app.get('/authenticated', authenticate, (req,res) => {
-  res.send(true);
+  res.status(200).send();
 });
 
 //404 route
