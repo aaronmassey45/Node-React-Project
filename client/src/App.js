@@ -3,6 +3,7 @@ import './App.css';
 import React, { Component } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
+import AccountEdit from './components/users-edit';
 import HomePage from './components/homepage';
 import Login from './components/login';
 import MyAccount from './components/users-me';
@@ -19,10 +20,11 @@ export default class App extends Component {
           <Navbar />
           <div className="mt-app container">
             <Switch>
-              <Route path='/login' component={Login} />
-              <Route path='/users/account/:username' component={UserPage} />
-              <Route path='/users/me' component={MyAccount} />
-              <Route path='/signup' component={SignUp} />
+              <Route path='/login' exact component={Login} />
+              <Route path='/users/account/edit' exact component={AccountEdit} />
+              <Route path='/users/account/:username' exact component={UserPage} />
+              <Route path='/users/me' exact component={MyAccount} />
+              <Route path='/signup' exact component={SignUp} />
               <Route path='/' exact component={HomePage} />
               <Route path='*' component={NotFound} />
             </Switch>
