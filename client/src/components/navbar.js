@@ -38,7 +38,7 @@ class Navbar extends Component {
             {
               this.props.appState.loggedIn ?
                 <li className="nav-item dropdown">
-                  <a className="nav-link dropdown-toggle fake-link" id='navbarDropdown' role='button' data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">User</a>
+                  <a className="nav-link dropdown-toggle fake-link" id='navbarDropdown' role='button' data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{this.props.appState.user.username}</a>
                   <div className="dropdown-menu bg-dark dropdown-menu-right" aria-labelledby='navbarDropdown'>
                     <div className="dropdown-item" data-toggle="collapse" data-target=".navbar-collapse.show">
                       <Link to="/users/me" className="nav-link">Profile</Link>
