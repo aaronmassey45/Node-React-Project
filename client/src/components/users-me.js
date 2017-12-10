@@ -1,22 +1,14 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import { connect } from 'react-redux';
 
 import PostList from './posts-list';
 
-export default class MyAccount extends Component {
+class MyAccount extends Component {
   state = {
-    _id: '',
     chowt: '',
     key: 0,
     sendLocation: false,
-    username: '',
-  }
-
-  async componentDidMount() {
-    const token = localStorage.getItem('x-auth');
-    let res = await axios.get('/users/me', { headers: { 'x-auth': token } });
-    let user = res.data;
-    this.setState({ username: user.username, _id: user._id });
   }
 
   newPost = async (e) => {
@@ -53,8 +45,9 @@ export default class MyAccount extends Component {
   }
 
   render() {
-    let { username, chowt, _id, key } = this.state;
-    if (!username) return <div>Unauthorized user</div>;
+    let { chowt, key } = this.state;
+    let { loggedIn, user } = this.props.appState;
+    if (!loggedIn) return <div>Unauthorized user</div>;
 
     return (
       <div className="MyAccount mt-3">
@@ -63,8 +56,9 @@ export default class MyAccount extends Component {
             <div className="card">
               <img src="https://dummyimage.com/600x400/000/fff&text=Dummy+Header" alt="header" className="card-img-top"/>
               <div className="card-body">
-                @<span>{username}</span>
-                <p>This is my biiiiiioooooo. Dueces</p>
+                <div><b>{user.username}</b></div>
+                <div>{user.bio}</div>
+                <div>{user.location}</div>
               </div>
             </div>
           </div>
@@ -92,7 +86,7 @@ export default class MyAccount extends Component {
                   </div>
                 </form>
               </div>
-              <PostList key={key} type='user' id={_id} showDelete={true}/>
+              <PostList key={key} type='user' id={user._id} showDelete={true}/>
             </div>
           </div>
         </div>
@@ -100,3 +94,9 @@ export default class MyAccount extends Component {
     );
   }
 }
+
+const mapStateToProps = state => ({
+  appState: state.appState
+ });
+
+export default connect(mapStateToProps)(MyAccount);
