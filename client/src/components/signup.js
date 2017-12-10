@@ -1,8 +1,11 @@
 import React, {Component} from 'react';
-import axios from 'axios';
 import { Link, Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
-export default class SignUp extends Component {
+import { signup } from '../store/actions/loginActions';
+
+class SignUp extends Component {
   state = {
     isAFoodTruck: false,
     email: '',
@@ -21,9 +24,7 @@ export default class SignUp extends Component {
     e.preventDefault();
     try {
       const { isAFoodTruck, email, password, username } = this.state;
-      let res = await axios.post('/signup/newuser', { isAFoodTruck, email, password, username });
-      let token = res.headers['x-auth']
-      localStorage.setItem('x-auth', token);
+      await this.props.actions.signup({ isAFoodTruck, email, password, username });
       alert('Signup successful!');
       this.setState({ redirect: true });
     } catch (err) {
@@ -74,3 +75,9 @@ export default class SignUp extends Component {
     );
   }
 }
+
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators({signup}, dispatch)
+});
+
+export default connect(null, mapDispatchToProps)(SignUp)
