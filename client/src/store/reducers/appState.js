@@ -12,19 +12,24 @@ const appState = (state=INITIAL_STATE, action) => {
   switch(action.type) {
     case LOGIN_SUCCESS:
     case SIGNUP_SUCCESS:
-      return {
-        ...state,
-        loggedIn: true,
-        "user.username": action.payload.username,
-        "user._id": action.payload._id
-       };
     case AUTH_SUCCESS:
       return {
         ...state,
-        loggedIn: true
+        loggedIn: true,
+        user: {
+          ...state.user,
+          username: action.payload.username,
+          _id: action.payload._id
+        }
       };
     case DELETE_USER_SUCCESS:
-      return { ...INITIAL_STATE };
+      return {
+        loggedIn: false,
+        user: {
+          username: '',
+          _id: ''
+        }
+      };
     case LOGIN_FAILURE:
       throw new Error('Login failed');
     case SIGNUP_FAILURE:

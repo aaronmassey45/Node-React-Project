@@ -171,10 +171,6 @@ app.delete('/logout', authenticate, async (req, res) => {
   }
 });
 
-app.get('/authenticated', authenticate, (req,res) => {
-  res.status(200).send();
-});
-
 //404 route
 app.get('*', (req,res) => {
   res.sendFile(clientPath);

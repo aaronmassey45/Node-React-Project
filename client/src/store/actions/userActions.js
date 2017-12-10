@@ -38,7 +38,7 @@ export function isUserAuthenticated() {
   return {
     [CALL_API]: {
       types: [REQUEST, AUTH_SUCCESS, AUTH_FAILURE],
-      endpoint: '/authenticated',
+      endpoint: '/users/me',
       method: 'GET',
       headers: { 'x-auth': token }
     }
