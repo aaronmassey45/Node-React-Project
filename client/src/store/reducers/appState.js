@@ -3,8 +3,10 @@ import { LOGIN_SUCCESS, AUTH_SUCCESS, LOGIN_FAILURE, SIGNUP_SUCCESS, SIGNUP_FAIL
 const INITIAL_STATE = {
   loggedIn: false,
   user: {
-    username: '',
-    _id: ''
+    _id: '',
+    bio: '',
+    location: '',
+    username: ''
   }
 };
 
@@ -18,16 +20,20 @@ const appState = (state=INITIAL_STATE, action) => {
         loggedIn: true,
         user: {
           ...state.user,
-          username: action.payload.username,
-          _id: action.payload._id
+          _id: action.payload._id,
+          bio: action.payload.bio,
+          location: action.payload.location,
+          username: action.payload.username
         }
       };
     case DELETE_USER_SUCCESS:
       return {
         loggedIn: false,
         user: {
-          username: '',
-          _id: ''
+          _id: '',
+          bio: '',
+          location: '',
+          username: ''
         }
       };
     case LOGIN_FAILURE:
