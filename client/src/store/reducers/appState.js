@@ -1,4 +1,4 @@
-import { LOGIN_SUCCESS, AUTH_SUCCESS, LOGIN_FAILURE } from '../actions/loginActions';
+import { LOGIN_SUCCESS, AUTH_SUCCESS, LOGIN_FAILURE, SIGNUP_SUCCESS, SIGNUP_FAILURE } from '../actions/loginActions';
 
 const INITIAL_STATE = {
   loggedIn: false,
@@ -11,6 +11,7 @@ const INITIAL_STATE = {
 const appState = (state=INITIAL_STATE, action) => {
   switch(action.type) {
     case LOGIN_SUCCESS:
+    case SIGNUP_SUCCESS:
       return {
         ...state,
         loggedIn: true,
@@ -24,6 +25,8 @@ const appState = (state=INITIAL_STATE, action) => {
       }
     case LOGIN_FAILURE:
       throw new Error('Login failed');
+    case SIGNUP_FAILURE:
+      throw new Error('Could not sign you up');
     default:
       return state;
   }
