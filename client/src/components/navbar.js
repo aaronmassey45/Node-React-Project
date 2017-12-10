@@ -4,7 +4,7 @@ import { NavLink, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { isUserAuthenticated } from '../store/actions/loginActions';
+import { isUserAuthenticated } from '../store/actions/userActions';
 
 class Navbar extends Component {
   componentWillMount() {

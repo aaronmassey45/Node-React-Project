@@ -17,8 +17,7 @@ export function login(credentials) {
           type: LOGIN_SUCCESS,
           meta: (action, state, res) => {
             if (res) {
-              const token = res.headers.get('x-auth');
-              localStorage.setItem('x-auth', token);
+              setAuthToken(res)
             }
           },
         },

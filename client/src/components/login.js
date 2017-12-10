@@ -3,7 +3,7 @@ import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { login } from '../store/actions/loginActions';
+import { login } from '../store/actions/userActions';
 
 class Login extends Component {
   state = {
