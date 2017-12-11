@@ -1,4 +1,4 @@
-import { LOGIN_SUCCESS, AUTH_SUCCESS, LOGIN_FAILURE, SIGNUP_SUCCESS, SIGNUP_FAILURE, DELETE_USER_SUCCESS, DELETE_USER_FAILURE } from '../actions/userActions';
+import * as Actions from '../actions/actionTypes';
 
 const INITIAL_STATE = {
   loggedIn: false,
@@ -12,9 +12,10 @@ const INITIAL_STATE = {
 
 const appState = (state=INITIAL_STATE, action) => {
   switch(action.type) {
-    case LOGIN_SUCCESS:
-    case SIGNUP_SUCCESS:
-    case AUTH_SUCCESS:
+    case Actions.LOGIN_SUCCESS:
+    case Actions.SIGNUP_SUCCESS:
+    case Actions.AUTH_SUCCESS:
+    case Actions.UPDATE_SUCCESS:
       return {
         ...state,
         loggedIn: true,
@@ -26,7 +27,7 @@ const appState = (state=INITIAL_STATE, action) => {
           username: action.payload.username
         }
       };
-    case DELETE_USER_SUCCESS:
+    case Actions.DELETE_USER_SUCCESS:
       return {
         loggedIn: false,
         user: {
@@ -36,12 +37,14 @@ const appState = (state=INITIAL_STATE, action) => {
           username: ''
         }
       };
-    case LOGIN_FAILURE:
+    case Actions.LOGIN_FAILURE:
       throw new Error('Login failed');
-    case SIGNUP_FAILURE:
+    case Actions.SIGNUP_FAILURE:
       throw new Error('Could not sign you up');
-    case DELETE_USER_FAILURE:
+    case Actions.DELETE_USER_FAILURE:
       throw new Error('Could not delete your account');
+    case Actions.UPDATE_FAILURE:
+      throw new Error('Could not update your account');
     default:
       return state;
   }

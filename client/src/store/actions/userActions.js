@@ -1,29 +1,20 @@
 import { CALL_API } from 'redux-api-middleware';
-
-export const REQUEST = 'REQUEST';
-export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
-export const LOGIN_FAILURE = 'LOGIN_FAILURE';
-export const AUTH_SUCCESS = 'AUTH_SUCCESS';
-export const AUTH_FAILURE = 'AUTH_FAILURE';
-export const SIGNUP_SUCCESS = 'SIGNUP_SUCCESS';
-export const SIGNUP_FAILURE = 'SIGNUP_FAILURE';
-export const DELETE_USER_SUCCESS = 'DELETE_USER_SUCCESS';
-export const DELETE_USER_FAILURE = 'DELETE_USER_FAILURE';
+import * as Actions from './actionTypes';
 
 export function login(credentials) {
   return {
     [CALL_API]: {
       types: [
-        REQUEST,
+        Actions.REQUEST,
         {
-          type: LOGIN_SUCCESS,
+          type: Actions.LOGIN_SUCCESS,
           meta: (action, state, res) => {
             if (res) {
               setAuthToken(res)
             }
           },
         },
-        LOGIN_FAILURE
+        Actions.LOGIN_FAILURE
       ],
       endpoint: '/user/login',
       method: 'POST',
@@ -37,7 +28,7 @@ export function isUserAuthenticated() {
   const token = localStorage.getItem('x-auth');
   return {
     [CALL_API]: {
-      types: [REQUEST, AUTH_SUCCESS, AUTH_FAILURE],
+      types: [Actions.REQUEST, Actions.AUTH_SUCCESS, Actions.AUTH_FAILURE],
       endpoint: '/users/me',
       method: 'GET',
       headers: { 'x-auth': token }
@@ -49,16 +40,16 @@ export function signup(credentials) {
   return {
     [CALL_API]: {
       types: [
-        REQUEST,
+        Actions.REQUEST,
         {
-          type: SIGNUP_SUCCESS,
+          type: Actions.SIGNUP_SUCCESS,
           meta: (action, state, res) => {
             if (res) {
               setAuthToken(res)
             }
           },
         },
-        SIGNUP_FAILURE
+        Actions.SIGNUP_FAILURE
       ],
       endpoint: '/signup/newuser',
       method: 'POST',
@@ -73,22 +64,35 @@ export function deleteUser() {
   return {
     [CALL_API]: {
       types: [
-        REQUEST,
+        Actions.REQUEST,
         {
-          type: DELETE_USER_SUCCESS,
+          type: Actions.DELETE_USER_SUCCESS,
           meta: (action, state, res) => {
             if (res) {
               localStorage.removeItem('x-auth');
             }
           },
         },
-        DELETE_USER_FAILURE
+        Actions.DELETE_USER_FAILURE
       ],
       endpoint: '/users/me',
       method: 'DELETE',
       headers: { 'x-auth': token },
     }
   }
+}
+
+export function updateUser(body) {
+  const token = localStorage.getItem('x-auth');
+  return {
+    [CALL_API]: {
+      types: [Actions.REQUEST, Actions.UPDATE_SUCCESS, Actions.UPDATE_FAILURE],
+      endpoint: '/users/me',
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json', 'x-auth': token },
+      body: JSON.stringify(body)
+    }
+  };
 }
 
 function setAuthToken(response) {
