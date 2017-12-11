@@ -92,6 +92,11 @@ UserSchema.methods.removeToken = function (token) {
   })
 }
 
+UserSchema.methods.getExtraProps = function () {
+  let user = this;
+  return { password: user.password, email: user.email }
+}
+
 UserSchema.statics.findByToken = function (token) {
   let User = this;
   let decoded;
@@ -99,7 +104,7 @@ UserSchema.statics.findByToken = function (token) {
   try {
     decoded = jwt.verify(token, process.env.JWT_SECRET)
   } catch (err) {
-    return Promise.reject(err);
+    return Promise.reject();
   }
 
   return User.findOne({

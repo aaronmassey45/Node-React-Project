@@ -5,6 +5,7 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const _ = require('lodash');
 const { ObjectID } = require('mongodb');
+const bcrypt = require('bcryptjs');
 
 let { mongoose } = require('./db/mongoose');
 let { User } = require('./models/user');
@@ -117,6 +118,35 @@ app.delete('/users/me', authenticate, async (req,res) => {
     res.send({ removedUser: user });
   } catch (err) {
     res.status(400).send(err);
+  }
+});
+
+app.patch('/users/me', authenticate, async (req,res) => {
+  try {
+    const body = _.pick(req.body, ['username', 'email', 'currentPassword', 'newPassword', 'bio', 'location']);
+
+    if (body.newPassword) {
+      bcrypt.genSalt(10, (err, salt) => {
+        bcrypt.hash(body.newPassword, salt, (err, hash) => {
+          body.newPassword = hash;
+        });
+      });
+    }
+
+    const user = await User.findByCredentials(req.user.username, body.currentPassword);
+    const props = await user.getExtraProps();
+    const updatedUser = await User.findOneAndUpdate({ _id: req.user._id }, {
+      $set: {
+        bio: body.bio || req.user.bio,
+        email: body.email || props.email,
+        location: body.location || req.user.location,
+        password: body.newPassword || props.password,
+        username: body.username || req.user.username
+      }
+    }, { new: true });
+    res.send(updatedUser);
+  } catch (err) {
+    res.status(400).send();
   }
 });
 
