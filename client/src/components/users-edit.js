@@ -3,7 +3,7 @@ import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { deleteUser } from '../store/actions/userActions';
+import { deleteUser, updateUser } from '../store/actions/userActions';
 
 class AccountEdit extends Component {
   constructor() {
@@ -43,8 +43,16 @@ class AccountEdit extends Component {
     this.setState({ [e.target.id]: e.target.value})
   }
 
-  handleSubmit = e => {
-    console.log('submitted');
+  handleSubmit = async (e) => {
+    const { bio, currentPassword, email, location, newPassword, username } = this.state;
+    if (!currentPassword) return alert('You must enter your current password');
+
+    try {
+      await this.props.actions.updateUser({ bio, currentPassword, email, location, newPassword, username })
+      alert('You\'re account was updated!')
+    } catch (err) {
+      alert(err)
+    }
   }
 
   render() {
@@ -55,7 +63,7 @@ class AccountEdit extends Component {
       <div className='AccountEdit text-left'>
         <div className="card bg-secondary text-white mb-3">
           <div className="card-body p-2">
-            <h4 className="card-title mb-0">User Account</h4>
+            <h4 className="card-title mb-0">Edit User Account</h4>
           </div>
         </div>
         <div className="card bg-light">
@@ -104,7 +112,7 @@ class AccountEdit extends Component {
             </button>
           </div>
           <div className="card-footer text-right">
-            <button className="btn btn-success" onClick={this.handleSubmit}>Save</button>
+            <button className="btn btn-success" onClick={this.handleSubmit}>Update</button>
           </div>
         </div>
 
@@ -139,7 +147,7 @@ const mapStateToProps = state => ({
  });
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators({deleteUser}, dispatch)
+  actions: bindActionCreators({deleteUser, updateUser}, dispatch)
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AccountEdit);
