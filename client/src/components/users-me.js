@@ -45,7 +45,7 @@ class MyAccount extends Component {
   }
 
   render() {
-    let { chowt, key } = this.state;
+    let { chowt, key, sendLocation } = this.state;
     let { loggedIn, user } = this.props.appState;
     if (!loggedIn) return <div>Unauthorized user</div>;
 
@@ -80,7 +80,7 @@ class MyAccount extends Component {
                   </div>
                   <div className="form-check text-right mb-0 mt-1">
                     <label className="form-check-label">
-                      <input type="checkbox" className="form-check-input" id='sendLocation' onChange={this.handleChange} />
+                      <input type="checkbox" className="form-check-input" id='sendLocation' checked={sendLocation} onChange={this.handleChange} />
                       Send Location
                     </label>
                   </div>
