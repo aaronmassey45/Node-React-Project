@@ -11,14 +11,14 @@ Things you can currently do:
 - Like posts if authenticated.
 - Delete your post if authenticated.
 - Users can add location to post.
+- Delete your account.
+- Update your account details.
 
 Some ideas to be implemented:
 - Rate a food truck.
 - Only food trucks accounts can post location.
 - Display total number of likes for a post.
 - Post can only be liked once by an user.
-- Delete your account.
-- Update your account details.
 
 ### Live
 The project is not yet live.
