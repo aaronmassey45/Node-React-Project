@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import axios from 'axios';
-import { NavLink, Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
@@ -33,31 +33,51 @@ class Navbar extends Component {
         <ul className="collapse navbar-collapse mb-0 justify-content-end p-0" id="navbarNav">
           <div className="navbar-nav">
             <li className="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
-              <NavLink to="/" exact className="nav-link">Home</NavLink>
+              <NavLink to="/" exact className="nav-link">
+                <i className="fa fa-home fa-fw" />
+                Home
+              </NavLink>
             </li>
             {
               this.props.appState.loggedIn ?
                 <li className="nav-item dropdown">
-                  <a className="nav-link dropdown-toggle fake-link" id='navbarDropdown' role='button' data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{this.props.appState.user.username}</a>
+                  <a className="nav-link dropdown-toggle fake-link" id='navbarDropdown' role='button' data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    {this.props.appState.user.username}
+                  </a>
                   <div className="dropdown-menu bg-dark dropdown-menu-right" aria-labelledby='navbarDropdown'>
                     <div className="dropdown-item" data-toggle="collapse" data-target=".navbar-collapse.show">
-                      <Link to="/users/me" className="nav-link">Profile</Link>
+                      <NavLink to="/users/me" exact className="nav-link">
+                        <i className="fa fa-user fa-fw" />
+                        Profile
+                      </NavLink>
                     </div>
                     <div className="dropdown-item" data-toggle="collapse" data-target=".navbar-collapse.show">
-                      <Link to='/users/account/edit' className="nav-link">Account</Link>
+                      <NavLink to='/users/account/edit' exact className="nav-link">
+                      <i className="fa fa-pencil fa-fw" />
+                        Account
+                      </NavLink>
                     </div>
                     <div className="dropdown-divider"></div>
                     <div className="dropdown-item" data-toggle="collapse" data-target=".navbar-collapse.show">
-                      <span className="nav-link fake-link" onClick={this.handleLogout}>Logout</span>
+                      <span className="nav-link fake-link" onClick={this.handleLogout}>
+                        <i className="fa fa-sign-out fa-fw" />
+                        Logout
+                      </span>
                     </div>
                   </div>
                 </li> :
                 <span style={{display: 'inline-flex'}}>
                   <li className="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
-                    <NavLink to="/login" className="nav-link">Login</NavLink>
+                    <NavLink to="/login" className="nav-link">
+                      <i className="fa fa-sign-in fa-fw" />
+                      Login
+                    </NavLink>
                   </li>
                   <li className="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
-                    <NavLink to="/signup" className="nav-link">Sign Up</NavLink>
+                    <NavLink to="/signup" className="nav-link">
+                      <i className="fa fa-user-plus fa-fw" />
+                      Sign Up
+                    </NavLink>
                   </li>
                 </span>
             }
