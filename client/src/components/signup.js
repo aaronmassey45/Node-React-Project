@@ -46,15 +46,24 @@ class SignUp extends Component {
                   <div className="form-group">
                     <label htmlFor="email">Email Address</label>
                     <input type="email" className="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email" onChange={this.handleChange} />
-                    <small id="emailHelp" className="form-text text-muted">We'll never share your email with anyone else.</small>
+                    <small id="emailHelp" className="form-text text-muted text-left">We'll never share your email with anyone else.</small>
                   </div>
                   <div className="form-group">
                     <label htmlFor="username">Username</label>
-                    <input type="text" className="form-control" id="username" placeholder="Create a username" onChange={this.handleChange}/>
+                    <input type="text" className="form-control" id="username" placeholder="Create a username" aria-describedby="userHelp" onChange={this.handleChange}/>
+                    <div className="row" id="userHelp">
+                      <div className="col-6 text-left">
+                        <small className="form-text text-muted">Min: 4</small>
+                      </div>
+                      <div className="col-6 text-right">
+                        <small className="form-text text-muted">Max: 20</small>
+                      </div>
+                    </div>
                   </div>
                   <div className="form-group">
                     <label htmlFor="password">Password</label>
-                    <input type="password" className="form-control" id="password" placeholder="Password" onChange={this.handleChange} />
+                    <input type="password" className="form-control" id="password" placeholder="Password" aria-describedby="passHelp" onChange={this.handleChange} />
+                    <small className="form-text text-muted text-left">Min: 6</small>
                   </div>
                   <div className="form-check">
                     <label className="form-check-label">
