@@ -12,6 +12,7 @@ let Post = mongoose.model('Post', {
   text: {
     type: String,
     required: true,
+    maxlength: 300,
     minlength: 1,
     trim: true
   },

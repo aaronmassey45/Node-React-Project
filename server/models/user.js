@@ -7,11 +7,13 @@ const bcrypt = require('bcryptjs');
 let UserSchema = new mongoose.Schema({
   bio: {
     default: 'Chowster n00b',
+    maxlength: 240,
     minlength: 1,
     trim: true,
     type: String
   },
   email: {
+    maxlength: 40,
     minlength: 1,
     required: true,
     trim: true,
@@ -29,11 +31,13 @@ let UserSchema = new mongoose.Schema({
   },
   location: {
     default: 'Somewhere chowin\' down',
+    maxlength: 30,
     minlength: 1,
     trim: true,
     type: String
   },
   password: {
+    maxlength: 20,
     minlength: 6,
     required: true,
     type: String
@@ -49,7 +53,8 @@ let UserSchema = new mongoose.Schema({
     }
   }],
   username: {
-    minlength: 1,
+    maxlength: 20,
+    minlength: 3,
     required: true,
     trim: true,
     type: String,
