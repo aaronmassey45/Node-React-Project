@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import axios from 'axios';
-import { NavLink } from 'react-router-dom';
+import { NavLink, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
@@ -21,6 +21,10 @@ class Navbar extends Component {
       alert('You aren\'t logged in')
       console.log(err);
     }
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return nextProps.location !== this.props.location;
   }
 
   render() {
@@ -68,13 +72,13 @@ class Navbar extends Component {
                 </li> :
                 <span style={{display: 'inline-flex'}}>
                   <li className="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
-                    <NavLink to="/login" className="nav-link">
+                    <NavLink to="/login" exact className="nav-link">
                       <i className="fa fa-sign-in fa-fw" />
                       Login
                     </NavLink>
                   </li>
                   <li className="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
-                    <NavLink to="/signup" className="nav-link">
+                    <NavLink to="/signup" exact className="nav-link">
                       <i className="fa fa-user-plus fa-fw" />
                       Sign Up
                     </NavLink>
@@ -96,4 +100,4 @@ const mapStateToProps = state => ({
    actions: bindActionCreators({isUserAuthenticated}, dispatch)
  });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Navbar);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Navbar));
