@@ -31,7 +31,7 @@ class Login extends Component {
 
   render() {
     const { password, redirect, username } = this.state;
-    if (redirect) return <Redirect to='/users/me' />;
+    if (redirect || this.props.appState.loggedIn) return <Redirect to='/users/me' />;
 
     return (
       <div className='Login container'>
@@ -62,8 +62,12 @@ class Login extends Component {
   }
 }
 
+const mapStateToProps = state => ({
+  appState: state.appState
+ });
+
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({login}, dispatch)
 });
 
-export default connect(null, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
