@@ -84,7 +84,7 @@ UserSchema.methods.toJSON = function () {
   let user = this;
   let userObj = user.toObject();
 
-  return _.pick(userObj, ['_id', 'username', 'bio', 'location']);
+  return _.pick(userObj, ['_id', 'username', 'bio', 'location', 'isAFoodTruck']);
 };
 
 UserSchema.methods.removeToken = function (token) {
