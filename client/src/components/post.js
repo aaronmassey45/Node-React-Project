@@ -41,7 +41,7 @@ class Post extends Component {
           <div className="col-3 my-auto">
             <img src="https://dummyimage.com/600x400/000/fff&text=Dummy+Header" alt="" className="rounded float-left img-fluid"/>
           </div>
-          <div className="col my-auto">
+          <div className="col-8 my-auto">
             <div className="text-left row">
               <span className="col-10">
                 <Link to={`/users/account/${username}`}>
