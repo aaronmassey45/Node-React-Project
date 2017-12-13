@@ -7,8 +7,13 @@ import { bindActionCreators } from 'redux';
 import { isUserAuthenticated } from '../store/actions/userActions';
 
 class Navbar extends Component {
-  componentWillMount() {
-    this.props.actions.isUserAuthenticated();
+  async componentWillMount() {
+    try {
+      await this.props.actions.isUserAuthenticated();
+      this.forceUpdate();
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   handleLogout = async () => {
@@ -28,6 +33,7 @@ class Navbar extends Component {
   }
 
   render() {
+    console.log(this.props.appState);
     return (
       <nav className='navbar fixed-top navbar-expand-md navbar-dark bg-dark'>
         <span className="navbar-brand mb-0 h1">Chowster</span>
