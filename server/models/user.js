@@ -41,6 +41,11 @@ let UserSchema = new mongoose.Schema({
     required: true,
     type: String
   },
+  profilePic: {
+    default: 'https://dummyimage.com/600x400/000/fff&text=Dummy+Img',
+    minlength: 1,
+    type: String
+  },
   tokens: [{
     access: {
       required: true,
