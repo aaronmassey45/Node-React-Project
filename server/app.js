@@ -201,6 +201,11 @@ app.delete('/logout', authenticate, async (req, res) => {
   }
 });
 
+// app.patch('/tempupdatingroute', async (req, res) => {
+//   let update = await User.update({}, {$set: { profileImg: 'https://dummyimage.com/600x400/000/fff&text=Dummy+Img' }}, {new:true, multi:true} );
+//   res.send(update)
+// })
+
 //404 route
 app.get('*', (req,res) => {
   res.sendFile(clientPath);
