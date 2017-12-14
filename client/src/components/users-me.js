@@ -54,7 +54,7 @@ class MyAccount extends Component {
         <div className="row p-3">
           <div className="col-xs-12 col-sm-4">
             <div className="card">
-              <img src="https://dummyimage.com/600x400/000/fff&text=Dummy+Header" alt="header" className="card-img-top"/>
+              <img src={user.profileImg} alt="header" className="card-img-top"/>
               <div className="card-body">
                 <div><b>{user.username}</b></div>
                 <div>{user.bio}</div>

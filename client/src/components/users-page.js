@@ -20,6 +20,7 @@ export default class UserPage extends Component {
         bio: res.data.bio,
         id: res.data._id,
         location: res.data.location,
+        profileImg: res.data.profileImg,
         username: res.data.username
       })
     } catch (err) {
@@ -28,7 +29,7 @@ export default class UserPage extends Component {
   }
 
   render() {
-    const {bio, id, location, redirect, username} = this.state;
+    const {bio, id, location, profileImg, redirect, username} = this.state;
 
     if (redirect) return <Redirect to={`/404/${this.props.match.params.username}`} />;
     if (!username) return <div></div>;
@@ -38,7 +39,7 @@ export default class UserPage extends Component {
         <div className="row p-3">
           <div className="col-xs-12 col-sm-4">
             <div className="card">
-              <img src="https://dummyimage.com/600x400/000/fff&text=Dummy+Header" alt="header" className="card-img-top"/>
+              <img src={profileImg} alt="header" className="card-img-top"/>
               <div className="card-body">
                 <div><b>{username}</b></div>
                 <div>{bio}</div>
