@@ -32,7 +32,7 @@ export default class PostList extends Component {
         let profile = users.data.find(x => x._id === post._creator);
         return (
           <div key={post._id} className="list-group-item">
-            <Post text={post.text} username={profile.username} id={post._id} showDelete={this.props.showDelete}/>
+            <Post post={post} username={profile.username} id={post._id} showDelete={this.props.showDelete}/>
           </div>
         );
       });
