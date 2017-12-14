@@ -7,7 +7,7 @@ import { bindActionCreators } from 'redux';
 import { isUserAuthenticated } from '../store/actions/userActions';
 
 class Navbar extends Component {
-  async componentWillMount() {
+  async componentDidMount() {
     try {
       await this.props.actions.isUserAuthenticated();
       this.forceUpdate();
@@ -33,7 +33,6 @@ class Navbar extends Component {
   }
 
   render() {
-    console.log(this.props.appState);
     return (
       <nav className='navbar fixed-top navbar-expand-md navbar-dark bg-dark'>
         <span className="navbar-brand mb-0 h1">Chowster</span>
