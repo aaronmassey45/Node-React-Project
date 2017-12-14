@@ -41,7 +41,7 @@ let UserSchema = new mongoose.Schema({
     required: true,
     type: String
   },
-  profilePic: {
+  profileImg: {
     default: 'https://dummyimage.com/600x400/000/fff&text=Dummy+Img',
     minlength: 1,
     type: String
@@ -89,7 +89,7 @@ UserSchema.methods.toJSON = function () {
   let user = this;
   let userObj = user.toObject();
 
-  return _.pick(userObj, ['_id', 'username', 'bio', 'location', 'isAFoodTruck']);
+  return _.pick(userObj, ['_id', 'username', 'bio', 'location', 'isAFoodTruck', 'profileImg']);
 };
 
 UserSchema.methods.removeToken = function (token) {

@@ -6,6 +6,7 @@ const INITIAL_STATE = {
     _id: '',
     bio: '',
     location: '',
+    profileImg: '',
     username: ''
   }
 };
@@ -24,6 +25,7 @@ const appState = (state=INITIAL_STATE, action) => {
           _id: action.payload._id,
           bio: action.payload.bio,
           location: action.payload.location,
+          profileImg: action.payload.profileImg,
           username: action.payload.username
         }
       };
