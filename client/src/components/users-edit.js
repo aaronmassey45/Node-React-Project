@@ -6,18 +6,32 @@ import { bindActionCreators } from 'redux';
 import { deleteUser, updateUser } from '../store/actions/userActions';
 
 class AccountEdit extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
+    const { user } = props.appState;
     this.state = {
-      bio: '',
+      bio: user.bio,
       currentPassword: '',
-      email: '',
-      location: '',
+      email: user.email,
+      location: user.location,
       newPassword: '',
+      profileImg: user.profileImg,
       redirect: false,
-      username: ''
+      username: user.username
     };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.appState === nextProps.appState) return false;
+    const { user } = nextProps.appState;
+    this.setState({
+      bio: user.bio,
+      email: user.email,
+      location: user.location,
+      profileImg: user.profileImg,
+      username: user.username
+    });
   }
 
   deleteAccount = async () => {
@@ -30,12 +44,27 @@ class AccountEdit extends Component {
     }
   }
 
-  fillInputs = () => {
-    if (this.state.username === '') {
-      const { user } = this.props.appState;
-      this.setState({
-        username: user.username
+  checkUrl = async (url, timeoutT) => {
+    try {
+      return new Promise((resolve, reject) => {
+        let timeout = timeoutT || 2500;
+        let timer, img = new Image();
+        img.onerror = img.onabort = function () {
+          clearTimeout(timer);
+          reject("error");
+        };
+        img.onload = function () {
+          clearTimeout(timer);
+          resolve("success");
+        };
+        timer = setTimeout(function () {
+          img.src = "//!!!!/test.jpg";
+          reject("timeout");
+        }, timeout);
+        img.src = url;
       });
+    } catch (err) {
+      console.log(err);
     }
   }
 
@@ -44,19 +73,26 @@ class AccountEdit extends Component {
   }
 
   handleSubmit = async (e) => {
-    const { bio, currentPassword, email, location, newPassword, username } = this.state;
+    const { bio, currentPassword, email, location, newPassword, profileImg, username } = this.state;
     if (!currentPassword) return alert('You must enter your current password');
-
-    try {
-      await this.props.actions.updateUser({ bio, currentPassword, email, location, newPassword, username })
-      alert('You\'re account was updated!')
-    } catch (err) {
-      alert(err)
+    if (!bio || !email || !location || !profileImg || !username ) {
+      return alert('You can\'t have any empty fields')
+    }
+    let urlPassed = await this.checkUrl(profileImg);
+    if (urlPassed === 'success') {
+      try {
+        await this.props.actions.updateUser({ bio, currentPassword, email, location, newPassword, profileImg, username })
+        alert('You\'re account was updated!')
+      } catch (err) {
+        alert(err)
+      }
+    } else {
+      return alert('You profile image link is invalid')
     }
   }
 
   render() {
-    let { redirect, username } = this.state;
+    let { bio, email, location, profileImg, redirect, username } = this.state;
     if (redirect) return <Redirect to='/' />;
 
     return (
@@ -71,6 +107,12 @@ class AccountEdit extends Component {
           <div className="card-body">
             <form onSubmit={e => e.preventDefault()}>
               <div className="form-group row">
+                <label htmlFor="profileImg" className="col-sm-2 col-form-label">Profile Image Link</label>
+                <div className="col-sm-10">
+                  <input type="text" className="form-control" id="profileImg" onChange={this.handleChange} value={profileImg}/>
+                </div>
+              </div>
+              <div className="form-group row">
                 <label htmlFor="username" className="col-sm-2 col-form-label">Username</label>
                 <div className="col-sm-10">
                   <input type="text" className="form-control" id="username" onChange={this.handleChange} value={username}/>
@@ -79,19 +121,19 @@ class AccountEdit extends Component {
               <div className="form-group row">
                 <label htmlFor="email" className="col-sm-2 col-form-label">Email Address</label>
                 <div className="col-sm-10 my-auto">
-                  <input type="email" className="form-control" id="email" onChange={this.handleChange}/>
+                  <input type="email" className="form-control" id="email" onChange={this.handleChange} value={email}/>
                 </div>
               </div>
               <div className="form-group row">
                 <label htmlFor="location" className="col-sm-2 col-form-label">Location</label>
                 <div className="col-sm-10">
-                  <input type="text" className="form-control" id="location" onChange={this.handleChange}/>
+                  <input type="text" className="form-control" id="location" onChange={this.handleChange} value={location}/>
                 </div>
               </div>
               <div className="form-group row">
                 <label htmlFor="bio" className="col-sm-2 col-form-label">Bio</label>
                 <div className="col-sm-10">
-                  <textarea id="bio" className='form-control' rows="3" style={{resize:'none'}} onChange={this.handleChange}></textarea>
+                  <textarea id="bio" className='form-control' rows="3" style={{resize:'none'}} onChange={this.handleChange} value={bio} />
                 </div>
               </div>
               <div className="form-group row">
@@ -101,7 +143,7 @@ class AccountEdit extends Component {
                 </div>
               </div>
               <div className="form-group row">
-                <label htmlFor="password" className="col-sm-2 col-form-label">Current Password</label>
+                <label htmlFor="password" className="col-sm-2 col-form-label">Current Password *</label>
                 <div className="col-sm-10 my-auto">
                   <input type="password" className="form-control" id="currentPassword" onChange={this.handleChange}/>
                 </div>

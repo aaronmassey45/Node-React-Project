@@ -123,7 +123,7 @@ app.delete('/users/me', authenticate, async (req,res) => {
 
 app.patch('/users/me', authenticate, async (req,res) => {
   try {
-    const body = _.pick(req.body, ['username', 'email', 'currentPassword', 'newPassword', 'bio', 'location']);
+    const body = _.pick(req.body, ['username', 'email', 'currentPassword', 'profileImg', 'newPassword', 'bio', 'location']);
 
     if (body.newPassword) {
       bcrypt.genSalt(10, (err, salt) => {
@@ -137,11 +137,12 @@ app.patch('/users/me', authenticate, async (req,res) => {
     const props = await user.getExtraProps();
     const updatedUser = await User.findOneAndUpdate({ _id: req.user._id }, {
       $set: {
-        bio: body.bio || req.user.bio,
-        email: body.email || props.email,
-        location: body.location || req.user.location,
+        bio: body.bio,
+        email: body.email,
+        profileImg: body.profileImg,
+        location: body.location,
         password: body.newPassword || props.password,
-        username: body.username || req.user.username
+        username: body.username
       }
     }, { new: true });
     res.send(updatedUser);
