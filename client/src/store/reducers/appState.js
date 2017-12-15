@@ -6,6 +6,7 @@ const INITIAL_STATE = {
     _id: '',
     bio: '',
     email: '',
+    isAFoodTruck: false,
     location: '',
     profileImg: '',
     username: ''
@@ -26,6 +27,7 @@ const appState = (state=INITIAL_STATE, action) => {
           _id: action.payload._id,
           bio: action.payload.bio,
           email: action.payload.email,
+          isAFoodTruck: action.payload.isAFoodTruck,
           location: action.payload.location,
           profileImg: action.payload.profileImg,
           username: action.payload.username
