@@ -107,31 +107,31 @@ class AccountEdit extends Component {
           <div className="card-body">
             <form onSubmit={e => e.preventDefault()}>
               <div className="form-group row">
-                <label htmlFor="profileImg" className="col-sm-2 col-form-label">Profile Image Link</label>
+                <label htmlFor="profileImg" className="col-sm-2 col-form-label">Profile Image Link *</label>
                 <div className="col-sm-10">
                   <input type="text" className="form-control" id="profileImg" onChange={this.handleChange} value={profileImg}/>
                 </div>
               </div>
               <div className="form-group row">
-                <label htmlFor="username" className="col-sm-2 col-form-label">Username</label>
+                <label htmlFor="username" className="col-sm-2 col-form-label">Username *</label>
                 <div className="col-sm-10">
                   <input type="text" className="form-control" id="username" onChange={this.handleChange} value={username}/>
                 </div>
               </div>
               <div className="form-group row">
-                <label htmlFor="email" className="col-sm-2 col-form-label">Email Address</label>
+                <label htmlFor="email" className="col-sm-2 col-form-label">Email Address *</label>
                 <div className="col-sm-10 my-auto">
                   <input type="email" className="form-control" id="email" onChange={this.handleChange} value={email}/>
                 </div>
               </div>
               <div className="form-group row">
-                <label htmlFor="location" className="col-sm-2 col-form-label">Location</label>
+                <label htmlFor="location" className="col-sm-2 col-form-label">Location *</label>
                 <div className="col-sm-10">
                   <input type="text" className="form-control" id="location" onChange={this.handleChange} value={location}/>
                 </div>
               </div>
               <div className="form-group row">
-                <label htmlFor="bio" className="col-sm-2 col-form-label">Bio</label>
+                <label htmlFor="bio" className="col-sm-2 col-form-label">Bio *</label>
                 <div className="col-sm-10">
                   <textarea id="bio" className='form-control' rows="3" style={{resize:'none'}} onChange={this.handleChange} value={bio} />
                 </div>
