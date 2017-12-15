@@ -34,18 +34,18 @@ class Post extends Component {
 
   render () {
     let heart = !this.state.liked ? '-o' : ' text-danger';
-    const { post, username, showDelete } = this.props;
+    const { post, profile, showDelete } = this.props;
     return (
       <div className="Post">
         <div className="row">
           <div className="col-3 my-auto">
-            <img src="https://dummyimage.com/600x400/000/fff&text=Dummy+Header" alt="" className="rounded float-left img-fluid"/>
+            <img src={profile.profileImg} alt="" className="rounded float-left img-fluid"/>
           </div>
           <div className="col-8 my-auto">
             <div className="text-left row">
               <span className="col-10">
-                <Link to={`/users/account/${username}`}>
-                  @{username}
+                <Link to={`/users/account/${profile.username}`}>
+                  @{profile.username}
                 </Link>
               </span>
               {
