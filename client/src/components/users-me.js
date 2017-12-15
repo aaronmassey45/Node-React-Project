@@ -78,12 +78,16 @@ class MyAccount extends Component {
                       <button className="btn btn-secondary" type='submit'>Send</button>
                     </span>
                   </div>
-                  <div className="form-check text-right mb-0 mt-1">
-                    <label className="form-check-label">
-                      <input type="checkbox" className="form-check-input" id='sendLocation' checked={sendLocation} onChange={this.handleChange} />
-                      Send Location
-                    </label>
-                  </div>
+                  {
+                    this.props.appState.user.isAFoodTruck ?
+                    <div className="form-check text-right mb-0 mt-1">
+                      <label className="form-check-label">
+                        <input type="checkbox" className="form-check-input" id='sendLocation' checked={sendLocation} onChange={this.handleChange} />
+                        Send Location
+                      </label>
+                    </div> :
+                    ''
+                  }
                 </form>
               </div>
               <PostList key={key} type='user' id={user._id} showDelete={true}/>
