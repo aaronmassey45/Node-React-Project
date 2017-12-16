@@ -1,52 +1,60 @@
 import React, {Component} from 'react';
 import axios from 'axios';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
+import { fetchPosts } from '../store/actions/postActions';
 import Post from './post';
 
-export default class PostList extends Component {
+class PostList extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      posts: []
+      users: []
     }
   }
 
   async componentDidMount() {
-    let url;
-    switch (this.props.type) {
-      case 'home':
-        url = '/posts';
-        break;
-      case 'user':
-        url = `/posts/user/${this.props.id}`;
-        break;
-      default:
-        throw new Error('Invalid prop type on PostList component');
-    }
-
     try {
-      let res = await axios.get(url);
+      this.props.fetchPosts();
       let users = await axios.get('/userlist');
-      let posts = res.data.reverse().map(post => {
-        let profile = users.data.find(x => x._id === post._creator);
-        return (
-          <div key={post._id} className="list-group-item">
-            <Post post={post} profile={profile} id={post._id} showDelete={this.props.showDelete}/>
-          </div>
-        );
-      });
-      this.setState({ posts });
+      this.setState({ users });
     } catch (err) {
       console.log(err);
     }
   }
 
+  renderPost = (postData) => {
+    if (!this.state.users.data) return;
+    let profile = this.state.users.data.find(x => x._id === postData._creator);
+    return (
+      <div key={postData._id} className="list-group-item">
+        <Post post={postData} profile={profile} id={postData._id} showDelete={this.props.showDelete}/>
+      </div>
+    );
+  }
+
   render() {
+    if (this.props.posts.length === 0) return <div></div>;
     return (
       <div className="list-group list-group-flush">
-        {this.state.posts}
+        {
+          this.props.type === 'user' ?
+            this.props.posts.filter(post => post._creator === this.props.id).map(this.renderPost) :
+            this.props.posts.map(this.renderPost)
+        }
       </div>
     );
   }
 }
+
+const mapStateToProps = state => ({
+  posts: state.posts
+ });
+
+const mapDispatchToProps = dispatch => {
+  return bindActionCreators({fetchPosts}, dispatch)
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(PostList);
