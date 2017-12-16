@@ -1,8 +1,6 @@
 import { CALL_API } from 'redux-api-middleware';
 
-export const POST_REQUEST = 'POST_REQUEST';
-export const POST_SUCCESS = 'POST_SUCCESS';
-export const POST_FAILURE = 'POST_FAILURE';
+import { POST_REQUEST, POST_SUCCESS, POST_FAILURE, FETCH_POSTS_SUCCESS, FETCH_POSTS_FAILURE } from './actionTypes';
 
 export function modifyPost(id, method) {
   const token = localStorage.getItem('x-auth');
@@ -12,6 +10,16 @@ export function modifyPost(id, method) {
       endpoint: `/post/${id}`,
       method,
       headers: { 'x-auth': token }
+    }
+  };
+}
+
+export function fetchPosts() {
+  return {
+    [CALL_API]: {
+      types: [POST_REQUEST, FETCH_POSTS_SUCCESS, FETCH_POSTS_FAILURE],
+      endpoint: '/posts',
+      method: 'GET'
     }
   };
 }
