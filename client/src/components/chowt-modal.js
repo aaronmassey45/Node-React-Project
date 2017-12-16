@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+
+import { fetchPosts } from '../store/actions/postActions';
 
 class FloatingChowt extends Component {
   state = {
@@ -29,12 +32,13 @@ class FloatingChowt extends Component {
           const URL =  `https://www.google.com/maps?q=${position.coords.latitude},${position.coords.longitude}`;
           const locationMessage = `<p class='mb-0'><small><a href='${URL}' target="_blank">My Location</a></small></p>`;
           await axios.post('/chowt', { text: this.state.chowt + locationMessage }, { headers });
-          this.setState({ chowt: '', key: Math.random()*10000, sendLocation: false });
+          this.setState({ chowt: '', sendLocation: false });
         })
       } else {
         await axios.post('/chowt', { text: this.state.chowt }, { headers });
-        this.setState({ chowt: '', key: Math.random()*10000 });
-      }
+        this.setState({ chowt: '' });
+      }      
+      this.props.fetchPosts();
     } catch (err) {
       alert('Post failed')
     }
@@ -99,4 +103,8 @@ const mapStateToProps = state => ({
   appState: state.appState
  });
 
-export default connect(mapStateToProps)(FloatingChowt);
+ const mapDispatchToProps = dispatch => {
+   return bindActionCreators({fetchPosts}, dispatch)
+ };
+
+ export default connect(mapStateToProps, mapDispatchToProps)(FloatingChowt);
