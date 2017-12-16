@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { modifyPost } from '../store/actions/postActions';
+import { modifyPost, fetchPosts } from '../store/actions/postActions';
 
 class Post extends Component {
   constructor(props) {
@@ -16,8 +16,9 @@ class Post extends Component {
 
   likePost = async () => {
     try {
-      await this.props.actions.modifyPost(this.props.id, 'PATCH');
+      await this.props.modifyPost(this.props.id, 'PATCH');
       this.setState({ liked: true });
+      this.props.fetchPosts();
     } catch (err) {
       alert('Couldn\'t like post');
       console.log(err);
@@ -26,7 +27,8 @@ class Post extends Component {
 
   deletePost = async () => {
     try {
-      await this.props.actions.modifyPost(this.props.id, 'DELETE');
+      await this.props.modifyPost(this.props.id, 'DELETE');
+      this.props.fetchPosts();
     } catch (err) {
       console.log(err);
     }
@@ -70,8 +72,8 @@ class Post extends Component {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators({modifyPost}, dispatch)
-});
+const mapDispatchToProps = dispatch => {
+  return bindActionCreators({modifyPost, fetchPosts}, dispatch)
+};
 
 export default connect(null, mapDispatchToProps)(Post);
