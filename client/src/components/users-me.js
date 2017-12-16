@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
+import { fetchPosts } from '../store/actions/postActions';
 import PostList from './posts-list';
 
 class MyAccount extends Component {
   state = {
     chowt: '',
-    key: 0,
     sendLocation: false,
   }
 
@@ -27,12 +28,14 @@ class MyAccount extends Component {
           const URL =  `https://www.google.com/maps?q=${position.coords.latitude},${position.coords.longitude}`;
           const locationMessage = `<p class='mb-0'><small><a href='${URL}' target="_blank">My Location</a></small></p>`;
           await axios.post('/chowt', { text: this.state.chowt + locationMessage }, { headers });
-          this.setState({ chowt: '', key: Math.random()*10000, sendLocation: false });
+          this.setState({ chowt: '', sendLocation: false });
+          this.props.fetchPosts();
         })
       } else {
         await axios.post('/chowt', { text: this.state.chowt }, { headers });
-        this.setState({ chowt: '', key: Math.random()*10000 });
+        this.setState({ chowt: '' });
       }
+      this.props.fetchPosts();
     } catch (err) {
       alert('Post failed')
     }
@@ -45,7 +48,7 @@ class MyAccount extends Component {
   }
 
   render() {
-    let { chowt, key, sendLocation } = this.state;
+    let { chowt, sendLocation } = this.state;
     let { loggedIn, user } = this.props.appState;
     if (!loggedIn) return <div>Unauthorized user</div>;
 
@@ -90,7 +93,7 @@ class MyAccount extends Component {
                   }
                 </form>
               </div>
-              <PostList key={key} type='user' id={user._id} showDelete={true}/>
+              <PostList type='user' id={user._id} showDelete={true}/>
             </div>
           </div>
         </div>
@@ -103,4 +106,8 @@ const mapStateToProps = state => ({
   appState: state.appState
  });
 
-export default connect(mapStateToProps)(MyAccount);
+const mapDispatchToProps = dispatch => {
+  return bindActionCreators({fetchPosts}, dispatch)
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(MyAccount);
