@@ -20,7 +20,7 @@ class App extends Component {
       <BrowserRouter>
         <div className="App">
           <Navbar />
-          <div className="mt-app container">
+          <div className="mt-app">
             <Switch>
               <Route path='/login' exact component={Login} />
               <Route path='/users/account/edit' exact component={AccountEdit} />
