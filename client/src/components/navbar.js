@@ -28,6 +28,20 @@ class Navbar extends Component {
     }
   }
 
+  searchUser = async (e) => {
+    e.preventDefault();
+    if (this.refs.userSearch.value) {
+      try {
+        const users = await axios.get('/userlist');
+        const foundUser = users.data.find(user => user.username === this.refs.userSearch.value);
+        if (!foundUser) return alert(`No user found: ${this.refs.userSearch.value}`);
+        window.location.href = `/users/account/${foundUser.username}`
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  }
+
   shouldComponentUpdate(nextProps, nextState) {
     return nextProps.location !== this.props.location;
   }
@@ -39,8 +53,8 @@ class Navbar extends Component {
         <button className="navbar-toggler" type='button' data-toggle='collapse' data-target='#navbarNav' aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span className="navbar-toggler-icon"></span>
         </button>
-        <ul className="collapse navbar-collapse mb-0 justify-content-end p-0" id="navbarNav">
-          <div className="navbar-nav">
+        <div className="navbar-collapse collapse justify-content-between" id="navbarNav">
+          <ul className="navbar-nav mb-0 p-0">
             <li className="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
               <NavLink to="/" exact className="nav-link">
                 <i className="fa fa-home fa-fw" />
@@ -75,7 +89,7 @@ class Navbar extends Component {
                     </div>
                   </div>
                 </li> :
-                <span style={{display: 'inline-flex'}}>
+                <ul className='navbar-nav'>
                   <li className="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
                     <NavLink to="/login" exact className="nav-link">
                       <i className="fa fa-sign-in fa-fw" />
@@ -88,10 +102,14 @@ class Navbar extends Component {
                       Sign Up
                     </NavLink>
                   </li>
-                </span>
-            }
-          </div>
-        </ul>
+                </ul>
+              }
+          </ul>
+          <form className="form-inline justify-content-end" onSubmit={this.searchUser}>
+            <input type="search" placeholder='Search username' className="form-control mr-sm-2" ref='userSearch'/>
+            <button className="btn btn-outline-light my-sm-0 my-2 mx-auto" type='submit'>Search</button>
+          </form>
+        </div>
       </nav>
     );
   }
