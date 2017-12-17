@@ -46,6 +46,20 @@ let UserSchema = new mongoose.Schema({
     minlength: 1,
     type: String
   },
+  rating: {
+    average: {
+      default: 0,
+      type: Number
+    },
+    numberOfRatings: {
+      default: 0,
+      type: Number
+    },
+    totalRating: {
+      default: 0,
+      type: Number
+    }
+  },
   tokens: [{
     access: {
       required: true,
