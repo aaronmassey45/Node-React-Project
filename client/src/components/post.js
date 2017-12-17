@@ -17,8 +17,8 @@ class Post extends Component {
   likePost = async () => {
     try {
       await this.props.modifyPost(this.props.id, 'PATCH');
+      await this.props.fetchPosts();
       this.setState({ liked: true });
-      this.props.fetchPosts();
     } catch (err) {
       alert('Couldn\'t like post');
       console.log(err);
