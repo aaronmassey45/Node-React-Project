@@ -15,13 +15,15 @@ class Post extends Component {
   }
 
   likePost = async () => {
-    try {
-      await this.props.modifyPost(this.props.id, 'PATCH');
-      await this.props.fetchPosts();
-      this.setState({ liked: true });
-    } catch (err) {
-      alert('Couldn\'t like post');
-      console.log(err);
+    if (this.props.loggedIn) {
+      try {
+        await this.props.modifyPost(this.props.id, 'PATCH');
+        await this.props.fetchPosts();
+        this.setState({ liked: true });
+      } catch (err) {
+        alert('Couldn\'t like post');
+        console.log(err);
+      }
     }
   }
 
@@ -43,7 +45,7 @@ class Post extends Component {
           <div className="col-3 my-auto">
             <img src={profile.profileImg} alt="" className="rounded float-left img-fluid"/>
           </div>
-          <div className="col-8 my-auto">
+          <div className="col-8 my-auto itim-font">
             <div className="text-left row">
               <span className="col-10">
                 <Link to={`/users/account/${profile.username}`}>
@@ -72,8 +74,12 @@ class Post extends Component {
   }
 }
 
+const mapStateToProps = state => ({
+  loggedIn: state.appState.loggedIn
+});
+
 const mapDispatchToProps = dispatch => {
   return bindActionCreators({modifyPost, fetchPosts}, dispatch)
 };
 
-export default connect(null, mapDispatchToProps)(Post);
+export default connect(mapStateToProps, mapDispatchToProps)(Post);

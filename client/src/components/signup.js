@@ -37,9 +37,9 @@ class SignUp extends Component {
     if (this.state.redirect || this.props.appState.loggedIn) return <Redirect to='/users/me' />;
 
     return (
-      <div className='SignUp container'>
+      <div className='SignUp container my-1'>
         <div className="row">
-          <div className="col-sm-6 mx-auto mt-5 ">
+          <div className="col-sm-6 mx-auto">
             <div className="card">
               <div className="card-body">
                 <form onSubmit={this.handleSubmit}>
