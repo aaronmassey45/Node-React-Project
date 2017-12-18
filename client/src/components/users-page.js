@@ -1,26 +1,36 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom';
+import Rater from 'react-rater'
 
 import PostList from './posts-list';
+import 'react-rater/lib/react-rater.css';
 
 export default class UserPage extends Component {
   state = {
     bio: '',
     id: '',
+    isAFoodTruck: false,
     location: '',
+    rating: 0,
     redirect: false,
     username: '',
   }
 
-  async componentWillMount() {
+  componentWillMount() {
+    this.getUser();
+  }
+
+  getUser = async () => {
     try {
       let res = await axios.get(`/users/account/${this.props.match.params.username}`);
       this.setState({
         bio: res.data.bio,
         id: res.data._id,
+        isAFoodTruck: res.data.isAFoodTruck,
         location: res.data.location,
         profileImg: res.data.profileImg,
+        rating: parseFloat(res.data.rating.average),
         username: res.data.username
       })
     } catch (err) {
@@ -28,8 +38,21 @@ export default class UserPage extends Component {
     }
   }
 
+  rateUser = async (rate) => {
+    try {
+      if (rate.type === 'click') {
+        const token = localStorage.getItem('x-auth');
+        const headers = { 'x-auth': token };
+        await axios.patch(`/rate/user/${this.state.id}`, { rating: rate.rating }, { headers });
+        this.getUser();
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   render() {
-    const {bio, id, location, profileImg, redirect, username} = this.state;
+    const {bio, id, isAFoodTruck, location, profileImg, rating, redirect, username} = this.state;
 
     if (redirect) return <Redirect to={`/404/${this.props.match.params.username}`} />;
     if (!username) return <div></div>;
@@ -44,6 +67,14 @@ export default class UserPage extends Component {
                 <div><b>{username}</b></div>
                 <div>{bio}</div>
                 <div>{location}</div>
+                {
+                  isAFoodTruck ?
+                  <div>
+                    <Rater total={5} onRate={this.rateUser} rating={rating} />
+                    <p><small>Rated <span>{rating}</span> out of 5!</small></p>
+                  </div> :
+                  ''
+                }
               </div>
             </div>
           </div>
