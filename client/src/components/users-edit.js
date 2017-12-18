@@ -96,7 +96,7 @@ class AccountEdit extends Component {
     if (redirect) return <Redirect to='/' />;
 
     return (
-      <div className='AccountEdit text-left'>
+      <div className='AccountEdit text-left container my-1'>
         <div className="card bg-secondary text-white mb-3">
           <div className="card-body p-2">
             <h4 className="card-title mb-0">Edit User Account</h4>
@@ -107,31 +107,31 @@ class AccountEdit extends Component {
           <div className="card-body">
             <form onSubmit={e => e.preventDefault()}>
               <div className="form-group row">
-                <label htmlFor="profileImg" className="col-sm-2 col-form-label">Profile Image Link *</label>
-                <div className="col-sm-10">
+                <label htmlFor="profileImg" className="col-sm-2 col-form-label">Link for Profile Pic*</label>
+                <div className="col-sm-10 my-auto">
                   <input type="text" className="form-control" id="profileImg" onChange={this.handleChange} value={profileImg}/>
                 </div>
               </div>
               <div className="form-group row">
-                <label htmlFor="username" className="col-sm-2 col-form-label">Username *</label>
+                <label htmlFor="username" className="col-sm-2 col-form-label">Username*</label>
                 <div className="col-sm-10">
                   <input type="text" className="form-control" id="username" onChange={this.handleChange} value={username}/>
                 </div>
               </div>
               <div className="form-group row">
-                <label htmlFor="email" className="col-sm-2 col-form-label">Email Address *</label>
+                <label htmlFor="email" className="col-sm-2 col-form-label">Email Address*</label>
                 <div className="col-sm-10 my-auto">
                   <input type="email" className="form-control" id="email" onChange={this.handleChange} value={email}/>
                 </div>
               </div>
               <div className="form-group row">
-                <label htmlFor="location" className="col-sm-2 col-form-label">Location *</label>
+                <label htmlFor="location" className="col-sm-2 col-form-label">Location*</label>
                 <div className="col-sm-10">
                   <input type="text" className="form-control" id="location" onChange={this.handleChange} value={location}/>
                 </div>
               </div>
               <div className="form-group row">
-                <label htmlFor="bio" className="col-sm-2 col-form-label">Bio *</label>
+                <label htmlFor="bio" className="col-sm-2 col-form-label">Bio*</label>
                 <div className="col-sm-10">
                   <textarea id="bio" className='form-control' rows="3" style={{resize:'none'}} onChange={this.handleChange} value={bio} />
                 </div>
@@ -143,7 +143,7 @@ class AccountEdit extends Component {
                 </div>
               </div>
               <div className="form-group row">
-                <label htmlFor="password" className="col-sm-2 col-form-label">Current Password *</label>
+                <label htmlFor="password" className="col-sm-2 col-form-label">Current Password*</label>
                 <div className="col-sm-10 my-auto">
                   <input type="password" className="form-control" id="currentPassword" onChange={this.handleChange}/>
                 </div>
