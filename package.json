@@ -3,8 +3,22 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "scripts": {
+    "client": "npm run start --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "nodemon server/server.js",
+    "start": "node server/server.js"
+  },
   "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.18.2",
+    "concurrently": "^3.5.1",
     "express": "^4.16.2",
-    "socket.io": "^2.0.4"
+    "jsonwebtoken": "^8.1.0",
+    "lodash": "^4.17.4",
+    "mongodb": "^2.2.33",
+    "mongoose": "^4.13.5",
+    "react-rater": "^0.4.8",
+    "validator": "^9.1.2"
   }
 }
