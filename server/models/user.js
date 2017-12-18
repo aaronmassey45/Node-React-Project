@@ -49,7 +49,7 @@ let UserSchema = new mongoose.Schema({
   rating: {
     average: {
       default: 0,
-      type: Number
+      type: String
     },
     numberOfRatings: {
       default: 0,
@@ -103,7 +103,7 @@ UserSchema.methods.toJSON = function () {
   let user = this;
   let userObj = user.toObject();
 
-  return _.pick(userObj, ['_id', 'username', 'bio', 'location', 'isAFoodTruck', 'profileImg', 'email']);
+  return _.pick(userObj, ['_id', 'username', 'bio', 'location', 'isAFoodTruck', 'profileImg', 'email', 'rating']);
 };
 
 UserSchema.methods.removeToken = function (token) {
