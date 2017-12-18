@@ -202,10 +202,34 @@ app.delete('/logout', authenticate, async (req, res) => {
   }
 });
 
-// app.patch('/tempupdatingroute', async (req, res) => {
-//   let update = await User.update({}, {$set: { profileImg: 'https://dummyimage.com/600x400/000/fff&text=Dummy+Img' }}, {new:true, multi:true} );
-//   res.send(update)
-// })
+app.patch('/rate/user/:id', authenticate, async (req, res) => {
+  let { id } = req.params;
+  const body = _.pick(req.body, ['rating']);
+  if (!ObjectID.isValid(id)) return res.status(404).send();
+
+  try {
+    let user = await User.findById(id);
+    if (!user) return res.status(404).send();
+    if (!user.isAFoodTruck) return res.status(400).send('Not a food truck account');
+
+    const totalRating = user.rating.totalRating + body.rating;
+    const numberOfRatings = user.rating.numberOfRatings + 1;
+    const average = (totalRating / numberOfRatings).toFixed(1);
+
+    let updatedUser = await User.findOneAndUpdate({ _id: id}, {
+      $set: {
+        rating: {
+          average,
+          numberOfRatings,
+          totalRating
+        }
+      }
+    }, { new: true } );
+    res.send({ updatedUser });
+  } catch (err) {
+    res.status(400).send(err);
+  }
+});
 
 //404 route
 app.get('*', (req,res) => {
