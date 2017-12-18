@@ -64,7 +64,14 @@ class MyAccount extends Component {
                 <div><b>{user.username}</b></div>
                 <div>{user.bio}</div>
                 <div>{user.location}</div>
-                <Rater total={5} interactive={false} rating={parseFloat(user.rating.average)}/>
+                {
+                  user.isAFoodTruck ?
+                  <div>
+                    <Rater total={5} interactive={false} rating={parseFloat(user.rating.average)}/>
+                    <p><small>Rated <span>{user.rating.average}</span> out of 5!</small></p>
+                  </div> :
+                  ''
+                }
               </div>
             </div>
           </div>
@@ -85,7 +92,7 @@ class MyAccount extends Component {
                     </span>
                   </div>
                   {
-                    this.props.appState.user.isAFoodTruck ?
+                    user.isAFoodTruck ?
                     <div className="form-check text-right mb-0 mt-1">
                       <label className="form-check-label">
                         <input type="checkbox" className="form-check-input" id='sendLocation' checked={sendLocation} onChange={this.handleChange} />
