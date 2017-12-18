@@ -9,6 +9,7 @@ const INITIAL_STATE = {
     isAFoodTruck: false,
     location: '',
     profileImg: '',
+    rating: '',
     username: ''
   }
 };
@@ -30,6 +31,7 @@ const appState = (state=INITIAL_STATE, action) => {
           isAFoodTruck: action.payload.isAFoodTruck,
           location: action.payload.location,
           profileImg: action.payload.profileImg,
+          rating: action.payload.rating,
           username: action.payload.username
         }
       };
@@ -39,7 +41,11 @@ const appState = (state=INITIAL_STATE, action) => {
         user: {
           _id: '',
           bio: '',
+          email: '',
+          isAFoodTruck: false,
           location: '',
+          profileImg: '',
+          rating: '',
           username: ''
         }
       };
