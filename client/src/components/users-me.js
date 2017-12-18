@@ -2,9 +2,11 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import Rater from 'react-rater'
 
 import { fetchPosts } from '../store/actions/postActions';
 import PostList from './posts-list';
+import 'react-rater/lib/react-rater.css'
 
 class MyAccount extends Component {
   state = {
@@ -53,7 +55,7 @@ class MyAccount extends Component {
     if (!loggedIn) return <div>Unauthorized user</div>;
 
     return (
-      <div className="MyAccount mt-3">
+      <div className="MyAccount">
         <div className="row p-3">
           <div className="col-xs-12 col-sm-4">
             <div className="card">
@@ -62,6 +64,7 @@ class MyAccount extends Component {
                 <div><b>{user.username}</b></div>
                 <div>{user.bio}</div>
                 <div>{user.location}</div>
+                <Rater total={5} interactive={false} rating={parseFloat(user.rating.average)}/>
               </div>
             </div>
           </div>
