@@ -21,11 +21,11 @@ class Post extends Component {
         await this.props.fetchPosts();
         this.setState({ liked: true });
       } catch (err) {
-        alert('Couldn\'t like post');
+        alert("Couldn't like post");
         console.log(err);
       }
     }
-  }
+  };
 
   deletePost = async () => {
     try {
@@ -34,16 +34,20 @@ class Post extends Component {
     } catch (err) {
       console.log(err);
     }
-  }
+  };
 
-  render () {
+  render() {
     let heart = !this.state.liked ? '-o' : ' text-danger';
     const { post, profile, showDelete } = this.props;
     return (
       <div className="Post">
         <div className="row">
           <div className="col-3 my-auto">
-            <img src={profile.profileImg} alt="" className="rounded float-left img-fluid"/>
+            <img
+              src={profile.profileImg}
+              alt=""
+              className="rounded float-left img-fluid"
+            />
           </div>
           <div className="col-8 my-auto itim-font">
             <div className="text-left row">
@@ -52,18 +56,27 @@ class Post extends Component {
                   @{profile.username}
                 </Link>
               </span>
-              {
-                showDelete ?
-                  <span className="col-2 text-right">
-                    <i className="fa fa-trash fake-link" onClick={this.deletePost}></i>
-                  </span> :
-                  ''
-              }
+              {showDelete ? (
+                <span className="col-2 text-right">
+                  <i
+                    className="fa fa-trash fake-link"
+                    onClick={this.deletePost}
+                  />
+                </span>
+              ) : (
+                ''
+              )}
             </div>
             <div className="row text-left">
-              <div className="col-12 mt-1" dangerouslySetInnerHTML={{ __html: post.text}} />
-              <div className='col-12 mt-1'>
-                <i className={`fa fa-heart${heart} fa-sm fake-link`} onClick={this.likePost}></i>
+              <div
+                className="col-12 mt-1"
+                dangerouslySetInnerHTML={{ __html: post.text }}
+              />
+              <div className="col-12 mt-1">
+                <i
+                  className={`fa fa-heart${heart} fa-sm fake-link`}
+                  onClick={this.likePost}
+                />
                 <span className="text-gray ml-2">{post.likes}</span>
               </div>
             </div>
@@ -79,7 +92,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => {
-  return bindActionCreators({modifyPost, fetchPosts}, dispatch)
+  return bindActionCreators({ modifyPost, fetchPosts }, dispatch);
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Post);

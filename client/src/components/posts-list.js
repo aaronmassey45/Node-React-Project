@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -12,7 +12,7 @@ class PostList extends Component {
 
     this.state = {
       users: []
-    }
+    };
   }
 
   async componentDidMount() {
@@ -25,25 +25,31 @@ class PostList extends Component {
     }
   }
 
-  renderPost = (postData) => {
+  renderPost = postData => {
     if (!this.state.users.data) return;
     let profile = this.state.users.data.find(x => x._id === postData._creator);
     return (
       <div key={postData._id} className="list-group-item">
-        <Post post={postData} profile={profile} id={postData._id} showDelete={this.props.showDelete}/>
+        <Post
+          post={postData}
+          profile={profile}
+          id={postData._id}
+          showDelete={this.props.showDelete}
+        />
       </div>
     );
-  }
+  };
 
   render() {
-    if (this.props.posts.length === 0) return <div></div>;
+    if (this.props.posts.length === 0) return <div />;
     return (
       <div className="list-group list-group-flush">
-        {
-          this.props.type === 'user' ?
-            this.props.posts.reverse().filter(post => post._creator === this.props.id).map(this.renderPost) :
-            this.props.posts.reverse().map(this.renderPost)
-        }
+        {this.props.type === 'user'
+          ? this.props.posts
+              .reverse()
+              .filter(post => post._creator === this.props.id)
+              .map(this.renderPost)
+          : this.props.posts.reverse().map(this.renderPost)}
       </div>
     );
   }
@@ -51,10 +57,10 @@ class PostList extends Component {
 
 const mapStateToProps = state => ({
   posts: state.posts
- });
+});
 
 const mapDispatchToProps = dispatch => {
-  return bindActionCreators({fetchPosts}, dispatch)
+  return bindActionCreators({ fetchPosts }, dispatch);
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(PostList);

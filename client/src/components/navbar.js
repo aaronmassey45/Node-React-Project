@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import axios from 'axios';
 import { NavLink, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -23,24 +23,27 @@ class Navbar extends Component {
       localStorage.setItem('x-auth', null);
       window.location.href = '/';
     } catch (err) {
-      alert('You aren\'t logged in')
+      alert("You aren't logged in");
       console.log(err);
     }
-  }
+  };
 
-  searchUser = async (e) => {
+  searchUser = async e => {
     e.preventDefault();
     if (this.refs.userSearch.value) {
       try {
         const users = await axios.get('/userlist');
-        const foundUser = users.data.find(user => user.username === this.refs.userSearch.value);
-        if (!foundUser) return alert(`No user found: ${this.refs.userSearch.value}`);
-        window.location.href = `/users/account/${foundUser.username}`
+        const foundUser = users.data.find(
+          user => user.username === this.refs.userSearch.value
+        );
+        if (!foundUser)
+          return alert(`No user found: ${this.refs.userSearch.value}`);
+        window.location.href = `/users/account/${foundUser.username}`;
       } catch (err) {
         console.log(err);
       }
     }
-  }
+  };
 
   shouldComponentUpdate(nextProps, nextState) {
     return nextProps.location !== this.props.location;
@@ -48,66 +51,117 @@ class Navbar extends Component {
 
   render() {
     return (
-      <nav className='navbar fixed-top navbar-expand-md navbar-dark bg-dark'>
+      <nav className="navbar fixed-top navbar-expand-md navbar-dark bg-dark">
         <span className="navbar-brand mb-0 h1">Chowster</span>
-        <button className="navbar-toggler" type='button' data-toggle='collapse' data-target='#navbarNav' aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-          <span className="navbar-toggler-icon"></span>
+        <button
+          className="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation">
+          <span className="navbar-toggler-icon" />
         </button>
-        <div className="navbar-collapse collapse justify-content-between" id="navbarNav">
+        <div
+          className="navbar-collapse collapse justify-content-between"
+          id="navbarNav">
           <ul className="navbar-nav mb-0 p-0">
-            <li className="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
+            <li
+              className="nav-item"
+              data-toggle="collapse"
+              data-target=".navbar-collapse.show">
               <NavLink to="/" exact className="nav-link">
                 <i className="fa fa-home fa-fw" />
                 Home
               </NavLink>
             </li>
-            {
-              this.props.appState.loggedIn ?
-                <li className="nav-item dropdown">
-                  <a className="nav-link dropdown-toggle fake-link" id='navbarDropdown' role='button' data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    {this.props.appState.user.username}
-                  </a>
-                  <div className="dropdown-menu bg-dark dropdown-menu-right" aria-labelledby='navbarDropdown'>
-                    <div className="dropdown-item" data-toggle="collapse" data-target=".navbar-collapse.show">
-                      <NavLink to="/users/me" exact className="nav-link">
-                        <i className="fa fa-user fa-fw" />
-                        Profile
-                      </NavLink>
-                    </div>
-                    <div className="dropdown-item" data-toggle="collapse" data-target=".navbar-collapse.show">
-                      <NavLink to='/users/account/edit' exact className="nav-link">
-                      <i className="fa fa-pencil fa-fw" />
-                        Account
-                      </NavLink>
-                    </div>
-                    <div className="dropdown-divider"></div>
-                    <div className="dropdown-item" data-toggle="collapse" data-target=".navbar-collapse.show">
-                      <span className="nav-link fake-link" onClick={this.handleLogout}>
-                        <i className="fa fa-sign-out fa-fw" />
-                        Logout
-                      </span>
-                    </div>
+            {this.props.appState.loggedIn ? (
+              <li className="nav-item dropdown">
+                <a
+                  className="nav-link dropdown-toggle fake-link"
+                  id="navbarDropdown"
+                  role="button"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false">
+                  {this.props.appState.user.username}
+                </a>
+                <div
+                  className="dropdown-menu bg-dark dropdown-menu-right"
+                  aria-labelledby="navbarDropdown">
+                  <div
+                    className="dropdown-item"
+                    data-toggle="collapse"
+                    data-target=".navbar-collapse.show">
+                    <NavLink to="/users/me" exact className="nav-link">
+                      <i className="fa fa-user fa-fw" />
+                      Profile
+                    </NavLink>
                   </div>
-                </li> :
-                <ul className='navbar-nav'>
-                  <li className="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
-                    <NavLink to="/login" exact className="nav-link">
-                      <i className="fa fa-sign-in fa-fw" />
-                      Login
+                  <div
+                    className="dropdown-item"
+                    data-toggle="collapse"
+                    data-target=".navbar-collapse.show">
+                    <NavLink
+                      to="/users/account/edit"
+                      exact
+                      className="nav-link">
+                      <i className="fa fa-pencil fa-fw" />
+                      Account
                     </NavLink>
-                  </li>
-                  <li className="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
-                    <NavLink to="/signup" exact className="nav-link">
-                      <i className="fa fa-user-plus fa-fw" />
-                      Sign Up
-                    </NavLink>
-                  </li>
-                </ul>
-              }
+                  </div>
+                  <div className="dropdown-divider" />
+                  <div
+                    className="dropdown-item"
+                    data-toggle="collapse"
+                    data-target=".navbar-collapse.show">
+                    <span
+                      className="nav-link fake-link"
+                      onClick={this.handleLogout}>
+                      <i className="fa fa-sign-out fa-fw" />
+                      Logout
+                    </span>
+                  </div>
+                </div>
+              </li>
+            ) : (
+              <ul className="navbar-nav">
+                <li
+                  className="nav-item"
+                  data-toggle="collapse"
+                  data-target=".navbar-collapse.show">
+                  <NavLink to="/login" exact className="nav-link">
+                    <i className="fa fa-sign-in fa-fw" />
+                    Login
+                  </NavLink>
+                </li>
+                <li
+                  className="nav-item"
+                  data-toggle="collapse"
+                  data-target=".navbar-collapse.show">
+                  <NavLink to="/signup" exact className="nav-link">
+                    <i className="fa fa-user-plus fa-fw" />
+                    Sign Up
+                  </NavLink>
+                </li>
+              </ul>
+            )}
           </ul>
-          <form className="form-inline justify-content-end" onSubmit={this.searchUser}>
-            <input type="search" placeholder='Search username' className="form-control mr-sm-2" ref='userSearch'/>
-            <button className="btn btn-outline-light my-sm-0 my-2 mx-auto" type='submit'>Search</button>
+          <form
+            className="form-inline justify-content-end"
+            onSubmit={this.searchUser}>
+            <input
+              type="search"
+              placeholder="Search username"
+              className="form-control mr-sm-2"
+              ref="userSearch"
+            />
+            <button
+              className="btn btn-outline-light my-sm-0 my-2 mx-auto"
+              type="submit">
+              Search
+            </button>
           </form>
         </div>
       </nav>
@@ -117,10 +171,10 @@ class Navbar extends Component {
 
 const mapStateToProps = state => ({
   appState: state.appState
- });
+});
 
- const mapDispatchToProps = dispatch => ({
-   actions: bindActionCreators({isUserAuthenticated}, dispatch)
- });
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators({ isUserAuthenticated }, dispatch)
+});
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Navbar));

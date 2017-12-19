@@ -10,9 +10,9 @@ export function login(credentials) {
           type: Actions.LOGIN_SUCCESS,
           meta: (action, state, res) => {
             if (res) {
-              setAuthToken(res)
+              setAuthToken(res);
             }
-          },
+          }
         },
         Actions.LOGIN_FAILURE
       ],
@@ -33,7 +33,7 @@ export function isUserAuthenticated() {
       method: 'GET',
       headers: { 'x-auth': token }
     }
-  }
+  };
 }
 
 export function signup(credentials) {
@@ -45,9 +45,9 @@ export function signup(credentials) {
           type: Actions.SIGNUP_SUCCESS,
           meta: (action, state, res) => {
             if (res) {
-              setAuthToken(res)
+              setAuthToken(res);
             }
-          },
+          }
         },
         Actions.SIGNUP_FAILURE
       ],
@@ -71,15 +71,15 @@ export function deleteUser() {
             if (res) {
               localStorage.removeItem('x-auth');
             }
-          },
+          }
         },
         Actions.DELETE_USER_FAILURE
       ],
       endpoint: '/users/me',
       method: 'DELETE',
-      headers: { 'x-auth': token },
+      headers: { 'x-auth': token }
     }
-  }
+  };
 }
 
 export function updateUser(body) {

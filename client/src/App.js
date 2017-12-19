@@ -22,15 +22,19 @@ class App extends Component {
           <Navbar />
           <div className="mt-app">
             <Switch>
-              <Route path='/login' exact component={Login} />
-              <Route path='/users/account/edit' exact component={AccountEdit} />
-              <Route path='/users/account/:username' exact component={UserPage} />
-              <Route path='/users/me' exact component={MyAccount} />
-              <Route path='/signup' exact component={SignUp} />
-              <Route path='/' exact component={HomePage} />
-              <Route path='*' component={NotFound} />
+              <Route path="/login" exact component={Login} />
+              <Route path="/users/account/edit" exact component={AccountEdit} />
+              <Route
+                path="/users/account/:username"
+                exact
+                component={UserPage}
+              />
+              <Route path="/users/me" exact component={MyAccount} />
+              <Route path="/signup" exact component={SignUp} />
+              <Route path="/" exact component={HomePage} />
+              <Route path="*" component={NotFound} />
             </Switch>
-            { this.props.appState.loggedIn ? <FloatingChowt /> : '' }
+            {this.props.appState.loggedIn ? <FloatingChowt /> : ''}
           </div>
         </div>
       </BrowserRouter>

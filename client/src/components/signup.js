@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -12,32 +12,39 @@ class SignUp extends Component {
     password: '',
     redirect: false,
     username: ''
-  }
+  };
 
-  handleChange = (e) => {
-    if (e.target.id === 'isAFoodTruck') return this.setState({ isAFoodTruck: !this.state.isAFoodTruck });
+  handleChange = e => {
+    if (e.target.id === 'isAFoodTruck')
+      return this.setState({ isAFoodTruck: !this.state.isAFoodTruck });
 
-    this.setState({ [e.target.id]: e.target.value })
-  }
+    this.setState({ [e.target.id]: e.target.value });
+  };
 
-  handleSubmit = async (e) => {
+  handleSubmit = async e => {
     e.preventDefault();
     try {
       const { isAFoodTruck, email, password, username } = this.state;
-      await this.props.actions.signup({ isAFoodTruck, email, password, username });
+      await this.props.actions.signup({
+        isAFoodTruck,
+        email,
+        password,
+        username
+      });
       alert('Signup successful!');
       this.setState({ redirect: true });
     } catch (err) {
       alert('Signup failed!');
       console.log(err);
     }
-  }
+  };
 
   render() {
-    if (this.state.redirect || this.props.appState.loggedIn) return <Redirect to='/users/me' />;
+    if (this.state.redirect || this.props.appState.loggedIn)
+      return <Redirect to="/users/me" />;
 
     return (
-      <div className='SignUp container my-1'>
+      <div className="SignUp container my-1">
         <div className="row">
           <div className="col-sm-6 mx-auto">
             <div className="card">
@@ -45,12 +52,30 @@ class SignUp extends Component {
                 <form onSubmit={this.handleSubmit}>
                   <div className="form-group">
                     <label htmlFor="email">Email Address</label>
-                    <input type="email" className="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email" onChange={this.handleChange} />
-                    <small id="emailHelp" className="form-text text-muted text-left">We'll never share your email with anyone else.</small>
+                    <input
+                      type="email"
+                      className="form-control"
+                      id="email"
+                      aria-describedby="emailHelp"
+                      placeholder="Enter email"
+                      onChange={this.handleChange}
+                    />
+                    <small
+                      id="emailHelp"
+                      className="form-text text-muted text-left">
+                      We'll never share your email with anyone else.
+                    </small>
                   </div>
                   <div className="form-group">
                     <label htmlFor="username">Username</label>
-                    <input type="text" className="form-control" id="username" placeholder="Create a username" aria-describedby="userHelp" onChange={this.handleChange}/>
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="username"
+                      placeholder="Create a username"
+                      aria-describedby="userHelp"
+                      onChange={this.handleChange}
+                    />
                     <div className="row" id="userHelp">
                       <div className="col-6 text-left">
                         <small className="form-text text-muted">Min: 4</small>
@@ -62,20 +87,36 @@ class SignUp extends Component {
                   </div>
                   <div className="form-group">
                     <label htmlFor="password">Password</label>
-                    <input type="password" className="form-control" id="password" placeholder="Password" aria-describedby="passHelp" onChange={this.handleChange} />
-                    <small className="form-text text-muted text-left">Min: 6</small>
+                    <input
+                      type="password"
+                      className="form-control"
+                      id="password"
+                      placeholder="Password"
+                      aria-describedby="passHelp"
+                      onChange={this.handleChange}
+                    />
+                    <small className="form-text text-muted text-left">
+                      Min: 6
+                    </small>
                   </div>
                   <div className="form-check">
                     <label className="form-check-label">
-                      <input type="checkbox" className="form-check-input" id='isAFoodTruck' onChange={this.handleChange} />
+                      <input
+                        type="checkbox"
+                        className="form-check-input"
+                        id="isAFoodTruck"
+                        onChange={this.handleChange}
+                      />
                       Is this a food truck account?
                     </label>
                   </div>
-                  <button type="submit" className="btn btn-primary btn-block">Submit</button>
+                  <button type="submit" className="btn btn-primary btn-block">
+                    Submit
+                  </button>
                 </form>
               </div>
               <div className="card-footer">
-                Already a user? <Link to='/login'>Login</Link>
+                Already a user? <Link to="/login">Login</Link>
               </div>
             </div>
           </div>
@@ -87,10 +128,10 @@ class SignUp extends Component {
 
 const mapStateToProps = state => ({
   appState: state.appState
- });
-
-const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators({signup}, dispatch)
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(SignUp)
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators({ signup }, dispatch)
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignUp);
