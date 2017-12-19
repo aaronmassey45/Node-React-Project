@@ -10,7 +10,7 @@ const bcrypt = require('bcryptjs');
 let { mongoose } = require('./db/mongoose');
 let { User } = require('./models/user');
 let { Post } = require('./models/post');
-const authenticate = require('./middleware/authenticate')
+const authenticate = require('./middleware/authenticate');
 
 const clientPath = path.join(__dirname, '../client/build');
 let app = express();
@@ -22,7 +22,11 @@ app.use(bodyParser.json());
 app.post('/chowt', authenticate, async (req, res) => {
   try {
     const body = _.pick(req.body, ['text']);
-    let post = new Post({ text: body.text, _creator: req.user._id, timeCreated: new Date().getTime() });
+    let post = new Post({
+      text: body.text,
+      _creator: req.user._id,
+      timeCreated: new Date().getTime()
+    });
     let doc = await post.save();
     res.send(doc);
   } catch (err) {
@@ -39,36 +43,16 @@ app.get('/posts', async (req, res) => {
   }
 });
 
-app.get('/posts/user/:id', async (req, res) => {
-  let { id } = req.params;
-  if (!ObjectID.isValid(id)) return res.status(404).send();
-
-  try {
-    let posts = await Post.find({ _creator: id });
-    res.send(posts);
-  } catch (err) {
-    res.status(400).send(err);
-  }
-});
-
-app.get('/post/:id', async (req, res) => {
-  let { id } = req.params;
-  if (!ObjectID.isValid(id)) return res.status(404).send();
-
-  try {
-    let post = await Post.findOne({ _id: id });
-    res.send(post);
-  } catch (err) {
-    res.status(400).send(err);
-  }
-});
-
 app.patch('/post/:id', authenticate, async (req, res) => {
   let { id } = req.params;
   if (!ObjectID.isValid(id)) return res.status(404).send();
 
   try {
-    let post = await Post.findOneAndUpdate({ _id: id }, { $inc: { likes: 1 } }, { new: true });
+    let post = await Post.findOneAndUpdate(
+      { _id: id },
+      { $inc: { likes: 1 } },
+      { new: true }
+    );
     if (!post) return res.status(404).send();
     res.send({ post });
   } catch (err) {
@@ -86,7 +70,7 @@ app.delete('/post/:id', authenticate, async (req, res) => {
       _creator: req.user._id
     });
     if (!post) return res.status(400).send();
-    res.send({ deleted: post })
+    res.send({ deleted: post });
   } catch (err) {
     res.status(400).send(err);
   }
@@ -102,7 +86,7 @@ app.get('/userlist', async (req, res) => {
   }
 });
 
-app.get('/users/me', authenticate, async (req,res) => {
+app.get('/users/me', authenticate, async (req, res) => {
   try {
     res.send(req.user);
   } catch (err) {
@@ -110,7 +94,7 @@ app.get('/users/me', authenticate, async (req,res) => {
   }
 });
 
-app.delete('/users/me', authenticate, async (req,res) => {
+app.delete('/users/me', authenticate, async (req, res) => {
   try {
     let user = await User.findOneAndRemove({ _id: req.user._id });
     if (!user) return res.status(400).send();
@@ -121,9 +105,17 @@ app.delete('/users/me', authenticate, async (req,res) => {
   }
 });
 
-app.patch('/users/me', authenticate, async (req,res) => {
+app.patch('/users/me', authenticate, async (req, res) => {
   try {
-    const body = _.pick(req.body, ['username', 'email', 'currentPassword', 'profileImg', 'newPassword', 'bio', 'location']);
+    const body = _.pick(req.body, [
+      'username',
+      'email',
+      'currentPassword',
+      'profileImg',
+      'newPassword',
+      'bio',
+      'location'
+    ]);
 
     if (body.newPassword) {
       bcrypt.genSalt(10, (err, salt) => {
@@ -133,25 +125,32 @@ app.patch('/users/me', authenticate, async (req,res) => {
       });
     }
 
-    const user = await User.findByCredentials(req.user.username, body.currentPassword);
+    const user = await User.findByCredentials(
+      req.user.username,
+      body.currentPassword
+    );
     const props = await user.getExtraProps();
-    const updatedUser = await User.findOneAndUpdate({ _id: req.user._id }, {
-      $set: {
-        bio: body.bio,
-        email: body.email,
-        profileImg: body.profileImg,
-        location: body.location,
-        password: body.newPassword || props.password,
-        username: body.username
-      }
-    }, { new: true });
+    const updatedUser = await User.findOneAndUpdate(
+      { _id: req.user._id },
+      {
+        $set: {
+          bio: body.bio,
+          email: body.email,
+          profileImg: body.profileImg,
+          location: body.location,
+          password: body.newPassword || props.password,
+          username: body.username
+        }
+      },
+      { new: true }
+    );
     res.send(updatedUser);
   } catch (err) {
     res.status(400).send();
   }
 });
 
-app.get('/users/account/:username', async (req,res) => {
+app.get('/users/account/:username', async (req, res) => {
   try {
     let { username } = req.params;
     let user = await User.findOne({ username });
@@ -162,9 +161,14 @@ app.get('/users/account/:username', async (req,res) => {
   }
 });
 
-app.post('/signup/newuser', async (req,res) => {
+app.post('/signup/newuser', async (req, res) => {
   try {
-    let body = _.pick(req.body, ['username', 'email', 'password', 'isAFoodTruck']);
+    let body = _.pick(req.body, [
+      'username',
+      'email',
+      'password',
+      'isAFoodTruck'
+    ]);
 
     let userInfo = {
       email: body.email,
@@ -182,7 +186,7 @@ app.post('/signup/newuser', async (req,res) => {
   }
 });
 
-app.post('/user/login', async (req,res) => {
+app.post('/user/login', async (req, res) => {
   try {
     const body = _.pick(req.body, ['username', 'password']);
     const user = await User.findByCredentials(body.username, body.password);
@@ -210,21 +214,26 @@ app.patch('/rate/user/:id', authenticate, async (req, res) => {
   try {
     let user = await User.findById(id);
     if (!user) return res.status(404).send();
-    if (!user.isAFoodTruck) return res.status(400).send('Not a food truck account');
+    if (!user.isAFoodTruck)
+      return res.status(400).send('Not a food truck account');
 
     const totalRating = user.rating.totalRating + body.rating;
     const numberOfRatings = user.rating.numberOfRatings + 1;
     const average = (totalRating / numberOfRatings).toFixed(1);
 
-    let updatedUser = await User.findOneAndUpdate({ _id: id}, {
-      $set: {
-        rating: {
-          average,
-          numberOfRatings,
-          totalRating
+    let updatedUser = await User.findOneAndUpdate(
+      { _id: id },
+      {
+        $set: {
+          rating: {
+            average,
+            numberOfRatings,
+            totalRating
+          }
         }
-      }
-    }, { new: true } );
+      },
+      { new: true }
+    );
     res.send({ updatedUser });
   } catch (err) {
     res.status(400).send(err);
@@ -232,7 +241,7 @@ app.patch('/rate/user/:id', authenticate, async (req, res) => {
 });
 
 //404 route
-app.get('*', (req,res) => {
+app.get('*', (req, res) => {
   res.sendFile(clientPath);
 });
 
