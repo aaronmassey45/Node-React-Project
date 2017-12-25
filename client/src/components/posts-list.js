@@ -46,10 +46,9 @@ class PostList extends Component {
       <div className="list-group list-group-flush">
         {this.props.type === 'user'
           ? this.props.posts
-              .reverse()
               .filter(post => post._creator === this.props.id)
               .map(this.renderPost)
-          : this.props.posts.reverse().map(this.renderPost)}
+          : this.props.posts.map(this.renderPost)}
       </div>
     );
   }

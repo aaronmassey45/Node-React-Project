@@ -3,7 +3,7 @@ import { FETCH_POSTS_SUCCESS } from '../actions/actionTypes';
 const posts = (state = [], action) => {
   switch (action.type) {
     case FETCH_POSTS_SUCCESS:
-      return action.payload;
+      return action.payload.reverse();
     default:
       return state;
   }
