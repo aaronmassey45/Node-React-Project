@@ -2,6 +2,7 @@ import * as Actions from '../actions/actionTypes';
 
 const INITIAL_STATE = {
   loggedIn: false,
+  isFetching: false,
   user: {
     _id: '',
     bio: '',
@@ -16,6 +17,11 @@ const INITIAL_STATE = {
 
 const appState = (state = INITIAL_STATE, action) => {
   switch (action.type) {
+    case Actions.REQUEST:
+      return {
+        ...state,
+        isFetching: true
+      };
     case Actions.LOGIN_SUCCESS:
     case Actions.SIGNUP_SUCCESS:
     case Actions.AUTH_SUCCESS:
@@ -23,6 +29,7 @@ const appState = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         loggedIn: true,
+        isFetching: false,
         user: {
           ...state.user,
           _id: action.payload._id,
@@ -38,6 +45,7 @@ const appState = (state = INITIAL_STATE, action) => {
     case Actions.DELETE_USER_SUCCESS:
       return {
         loggedIn: false,
+        isFetching: false,
         user: {
           _id: '',
           bio: '',
@@ -50,7 +58,9 @@ const appState = (state = INITIAL_STATE, action) => {
         }
       };
     case Actions.LOGIN_FAILURE:
-      throw new Error('Login failed');
+      return { ...state, isFetching: false };
+    case Actions.AUTH_FAILURE:
+      return { ...state, isFetching: false };
     case Actions.SIGNUP_FAILURE:
       throw new Error('Could not sign you up');
     case Actions.DELETE_USER_FAILURE:
