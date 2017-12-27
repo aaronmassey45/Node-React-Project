@@ -60,7 +60,7 @@ const appState = (state = INITIAL_STATE, action) => {
     case Actions.LOGIN_FAILURE:
       return { ...state, isFetching: false };
     case Actions.AUTH_FAILURE:
-      return { ...state, isFetching: false };
+      return { ...state, loggedIn: false, isFetching: false };
     case Actions.SIGNUP_FAILURE:
       throw new Error('Could not sign you up');
     case Actions.DELETE_USER_FAILURE:
