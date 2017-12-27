@@ -7,21 +7,25 @@ import { bindActionCreators } from 'redux';
 import { isUserAuthenticated } from '../store/actions/userActions';
 
 class Navbar extends Component {
-  async componentDidMount() {
+  checkAuth = async () => {
     try {
-      await this.props.actions.isUserAuthenticated();
-      this.forceUpdate();
+      await this.props.isUserAuthenticated();
     } catch (err) {
       console.log(err);
     }
+  };
+
+  componentDidMount() {
+    this.checkAuth();
   }
 
   handleLogout = async () => {
     try {
       const token = localStorage.getItem('x-auth');
       await axios.delete('/logout', { headers: { 'x-auth': token } });
-      localStorage.setItem('x-auth', null);
-      window.location.href = '/';
+      localStorage.removeItem('x-auth');
+      this.props.history.push('/');
+      this.checkAuth();
     } catch (err) {
       alert("You aren't logged in");
       console.log(err);
@@ -38,16 +42,13 @@ class Navbar extends Component {
         );
         if (!foundUser)
           return alert(`No user found: ${this.refs.userSearch.value}`);
-        window.location.href = `/users/account/${foundUser.username}`;
+        this.props.history.push(`/users/account/${foundUser.username}`);
+        this.refs.userSearch.value = '';
       } catch (err) {
         console.log(err);
       }
     }
   };
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return nextProps.location !== this.props.location;
-  }
 
   render() {
     return (
@@ -173,8 +174,8 @@ const mapStateToProps = state => ({
   appState: state.appState
 });
 
-const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators({ isUserAuthenticated }, dispatch)
-});
+const mapDispatchToProps = dispatch => {
+  return bindActionCreators({ isUserAuthenticated }, dispatch);
+};
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Navbar));
