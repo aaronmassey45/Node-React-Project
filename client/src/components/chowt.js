@@ -64,7 +64,10 @@ class Chowt extends Component {
             value={this.state.chowt}
           />
           <span className="input-group-btn">
-            <button className="btn btn-secondary" type="submit">
+            <button
+              className="btn btn-secondary"
+              type="submit"
+              disabled={this.props.appState.isFetching}>
               <i className="fa fa-paper-plane" /> Send
             </button>
           </span>
