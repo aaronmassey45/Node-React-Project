@@ -72,6 +72,7 @@ export default class UserPage extends Component {
     if (redirect)
       return <Redirect to={`/404/${this.props.match.params.username}`} />;
     if (!username) return <div />;
+    if (this.props.match.params.username !== username) this.getUser();
 
     return (
       <div className="UserPage mt-3">
