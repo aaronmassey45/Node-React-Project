@@ -8,6 +8,7 @@ import { fetchPosts } from '../store/actions/postActions';
 class Chowt extends Component {
   state = {
     chowt: '',
+    hasError: false,
     sendLocation: false
   };
 
@@ -19,6 +20,7 @@ class Chowt extends Component {
 
   submitChowt = async e => {
     e.preventDefault();
+    this.setState({ hasError: false });
 
     try {
       const token = localStorage.getItem('x-auth');
@@ -47,7 +49,7 @@ class Chowt extends Component {
       }
       this.props.fetchPosts();
     } catch (err) {
-      alert('Post failed');
+      this.setState({ hasError: true });
     }
   };
 
@@ -84,6 +86,13 @@ class Chowt extends Component {
               />
               Send Location
             </label>
+          </div>
+        ) : (
+          ''
+        )}
+        {this.state.hasError ? (
+          <div className="alert alert-danger" role="alert">
+            Post failed. Try again!
           </div>
         ) : (
           ''
