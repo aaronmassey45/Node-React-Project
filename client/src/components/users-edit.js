@@ -44,29 +44,25 @@ class AccountEdit extends Component {
     }
   };
 
-  checkUrl = async (url, timeoutT) => {
-    try {
-      return new Promise((resolve, reject) => {
-        let timeout = timeoutT || 2500;
-        let timer,
-          img = new Image();
-        img.onerror = img.onabort = function() {
-          clearTimeout(timer);
-          reject('error');
-        };
-        img.onload = function() {
-          clearTimeout(timer);
-          resolve('success');
-        };
-        timer = setTimeout(function() {
-          img.src = '//!!!!/test.jpg';
-          reject('timeout');
-        }, timeout);
-        img.src = url;
-      });
-    } catch (err) {
-      console.log(err);
-    }
+  checkUrl = (url, timeoutT) => {
+    return new Promise((resolve, reject) => {
+      let timeout = timeoutT || 2500;
+      let timer,
+        img = new Image();
+      img.onerror = img.onabort = function() {
+        clearTimeout(timer);
+        reject('error');
+      };
+      img.onload = function() {
+        clearTimeout(timer);
+        resolve('success');
+      };
+      timer = setTimeout(function() {
+        img.src = '//!!!!/test.jpg';
+        reject('timeout');
+      }, timeout);
+      img.src = url;
+    });
   };
 
   handleChange = e => {
