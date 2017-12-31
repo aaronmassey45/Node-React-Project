@@ -9,6 +9,7 @@ class SignUp extends Component {
   state = {
     isAFoodTruck: false,
     email: '',
+    errmsg: '',
     password: '',
     signupFailed: false,
     username: ''
@@ -23,14 +24,24 @@ class SignUp extends Component {
 
   handleSubmit = async e => {
     e.preventDefault();
+    this.setState({ signupFailed: false });
     try {
       const { isAFoodTruck, email, password, username } = this.state;
-      await this.props.signup({
+      let res = await this.props.signup({
         isAFoodTruck,
         email,
         password,
         username
       });
+      if (res.error) {
+        let error = 'Signup failed!';
+        if (res.payload.response.code === 11000) {
+          let match = res.payload.response.errmsg.match(/"(.*?)"/)[1];
+          error = `${match} already in use!`;
+        }
+        this.setState({ errmsg: error });
+        throw new Error(error);
+      }
     } catch (err) {
       this.setState({ signupFailed: true });
       console.log(err);
@@ -44,6 +55,7 @@ class SignUp extends Component {
     const {
       isAFoodTruck,
       email,
+      errmsg,
       password,
       signupFailed,
       username
@@ -133,7 +145,7 @@ class SignUp extends Component {
               </div>
               {signupFailed ? (
                 <div className="alert alert-danger" role="alert">
-                  Signup failed! Try again.
+                  {errmsg}
                 </div>
               ) : (
                 ''
