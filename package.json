@@ -21,8 +21,6 @@
     "lodash": "^4.17.4",
     "mongodb": "^2.2.33",
     "mongoose": "^4.13.5",
-    "react-rater": "^0.4.8",
-    "redux-form": "^7.2.0",
     "validator": "^9.1.2"
   }
 }
