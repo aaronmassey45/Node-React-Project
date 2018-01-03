@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { Redirect } from 'react-router-dom';
 import Rater from 'react-rater';
 
 import PostList from './posts-list';
@@ -13,7 +12,6 @@ export default class UserPage extends Component {
     isAFoodTruck: false,
     location: '',
     rating: 0,
-    redirect: false,
     username: ''
   };
 
@@ -36,7 +34,7 @@ export default class UserPage extends Component {
         username: res.data.username
       });
     } catch (err) {
-      this.setState({ redirect: true });
+      this.props.history.push(`/404/${this.props.match.params.username}`);
     }
   };
 
@@ -65,12 +63,9 @@ export default class UserPage extends Component {
       location,
       profileImg,
       rating,
-      redirect,
       username
     } = this.state;
 
-    if (redirect)
-      return <Redirect to={`/404/${this.props.match.params.username}`} />;
     if (!username) return <div />;
     if (this.props.match.params.username !== username) this.getUser();
 
