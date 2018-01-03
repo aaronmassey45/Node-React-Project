@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import { deleteUser, updateUser } from '../store/actions/userActions';
+import Alert from './alert';
 
 class AccountEdit extends Component {
   constructor(props) {
@@ -11,13 +11,24 @@ class AccountEdit extends Component {
 
     const { user } = props.appState;
     this.state = {
+      alert: {
+        bg: '',
+        msg: ''
+      },
       bio: user.bio,
       currentPassword: '',
       email: user.email,
+      errors: {
+        bio: '',
+        email: '',
+        location: '',
+        profileImg: '',
+        username: ''
+      },
       location: user.location,
       newPassword: '',
       profileImg: user.profileImg,
-      redirect: false,
+      showAlert: false,
       username: user.username
     };
   }
@@ -37,16 +48,21 @@ class AccountEdit extends Component {
   deleteAccount = async () => {
     try {
       await this.props.deleteUser();
-      this.setState({ redirect: true });
+      this.props.history.push('/');
     } catch (err) {
-      alert("Couldn't delete account");
+      this.setState({
+        alert: {
+          bg: 'danger',
+          msg: 'Could not delete account. Try again later.'
+        },
+        showAlert: true
+      });
       console.log(err);
     }
   };
 
-  checkUrl = (url, timeoutT) => {
+  checkUrl = url => {
     return new Promise((resolve, reject) => {
-      let timeout = timeoutT || 2500;
       let timer,
         img = new Image();
       img.onerror = img.onabort = function() {
@@ -60,7 +76,7 @@ class AccountEdit extends Component {
       timer = setTimeout(function() {
         img.src = '//!!!!/test.jpg';
         reject('timeout');
-      }, timeout);
+      }, 2500);
       img.src = url;
     });
   };
@@ -79,37 +95,118 @@ class AccountEdit extends Component {
       profileImg,
       username
     } = this.state;
-    if (!currentPassword) return alert('You must enter your current password');
-    if (!bio || !email || !location || !profileImg || !username) {
-      return alert("You can't have any empty fields");
+    let urlPassed;
+    if (!currentPassword)
+      return this.setState({
+        alert: {
+          bg: 'warning',
+          msg: 'You must enter your current password!'
+        },
+        showAlert: true
+      });
+    let errors = this.validate({ bio, email, location, profileImg, username });
+    if (Object.keys(errors).length) {
+      return this.setState({
+        ...this.state,
+        errors
+      });
     }
-    let urlPassed = await this.checkUrl(profileImg);
-    if (urlPassed === 'success') {
-      try {
-        await this.props.updateUser({
-          bio,
-          currentPassword,
-          email,
-          location,
-          newPassword,
-          profileImg,
-          username
-        });
-        alert('Your account was updated!');
-      } catch (err) {
-        alert(err);
+    try {
+      urlPassed = await this.checkUrl(profileImg);
+      if (urlPassed === 'success') {
+        try {
+          await this.props.updateUser({
+            bio,
+            currentPassword,
+            email,
+            location,
+            newPassword,
+            profileImg,
+            username
+          });
+          return this.setState({
+            alert: {
+              bg: 'success',
+              msg: 'Account updated!'
+            },
+            currentPassword: '',
+            showAlert: true
+          });
+        } catch (err) {
+          return this.setState({
+            alert: {
+              bg: 'danger',
+              msg: 'There was an error. Please try again later.'
+            },
+            showAlert: true
+          });
+        }
       }
-    } else {
-      return alert('You profile image link is invalid');
+    } catch (err) {
+      this.setState({
+        errors: {
+          profileImg: 'Image link is invalid'
+        }
+      });
     }
   };
 
+  validate = values => {
+    let errors = {};
+
+    if (!values.bio) {
+      errors.bio = 'Enter your bio';
+    }
+
+    if (!values.email) {
+      errors.email = 'Enter your email';
+    }
+
+    if (!values.location) {
+      errors.location = 'Enter your location';
+    }
+
+    if (!values.profileImg) {
+      errors.profileImg = 'Enter your image link';
+    }
+
+    if (!values.username) {
+      errors.username = 'Enter your username';
+    }
+
+    return errors;
+  };
+
+  closeModal = () => {
+    this.setState({
+      alert: {
+        bg: '',
+        msg: ''
+      },
+      showAlert: false
+    });
+  };
+
   render() {
-    let { bio, email, location, profileImg, redirect, username } = this.state;
-    if (redirect) return <Redirect to="/" />;
+    let {
+      alert,
+      bio,
+      email,
+      errors,
+      location,
+      profileImg,
+      showAlert,
+      username
+    } = this.state;
 
     return (
       <div className="AccountEdit text-left container my-1">
+        {showAlert ? (
+          <Alert closeModal={this.closeModal} msg={alert.msg} bg={alert.bg} />
+        ) : (
+          ''
+        )}
+
         <div className="card bg-secondary text-white mb-3">
           <div className="card-body p-2">
             <h4 className="card-title mb-0">Edit User Account</h4>
@@ -138,6 +235,7 @@ class AccountEdit extends Component {
                       onChange={this.handleChange}
                       value={profileImg}
                     />
+                    <small className="text-danger">{errors.profileImg}</small>
                   </div>
                 </div>
                 <div className="form-group row">
@@ -152,6 +250,7 @@ class AccountEdit extends Component {
                       onChange={this.handleChange}
                       value={username}
                     />
+                    <small className="text-danger">{errors.username}</small>
                   </div>
                 </div>
                 <div className="form-group row">
@@ -166,6 +265,7 @@ class AccountEdit extends Component {
                       onChange={this.handleChange}
                       value={email}
                     />
+                    <small className="text-danger">{errors.email}</small>
                   </div>
                 </div>
                 <div className="form-group row">
@@ -180,6 +280,7 @@ class AccountEdit extends Component {
                       onChange={this.handleChange}
                       value={location}
                     />
+                    <small className="text-danger">{errors.location}</small>
                   </div>
                 </div>
                 <div className="form-group row">
@@ -195,6 +296,7 @@ class AccountEdit extends Component {
                       onChange={this.handleChange}
                       value={bio}
                     />
+                    <small className="text-danger">{errors.bio}</small>
                   </div>
                 </div>
                 <div className="form-group row">
