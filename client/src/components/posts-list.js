@@ -41,14 +41,26 @@ class PostList extends Component {
   };
 
   render() {
-    if (this.props.posts.length === 0) return <div />;
+    let posts =
+      this.props.type === 'user'
+        ? this.props.posts.filter(post => post._creator === this.props.id)
+        : [];
+
     return (
       <div className="list-group list-group-flush">
-        {this.props.type === 'user'
-          ? this.props.posts
-              .filter(post => post._creator === this.props.id)
-              .map(this.renderPost)
-          : this.props.posts.map(this.renderPost)}
+        {this.props.type === 'user' ? (
+          posts.length !== 0 ? (
+            posts.map(this.renderPost)
+          ) : (
+            <div className="list-group list-group-flush">
+              <div className="list-group-item">
+                This user hasn't chowted yet!
+              </div>
+            </div>
+          )
+        ) : (
+          this.props.posts.map(this.renderPost)
+        )}
       </div>
     );
   }
