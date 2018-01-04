@@ -2,17 +2,34 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import moment from 'moment';
 
 import { modifyPost, fetchPosts } from '../store/actions/postActions';
+import Alert from './alert';
 
 class Post extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      liked: false
+      alert: {
+        bg: '',
+        msg: ''
+      },
+      liked: false,
+      showAlert: false
     };
   }
+
+  closeModal = () => {
+    this.setState({
+      alert: {
+        bg: '',
+        msg: ''
+      },
+      showAlert: false
+    });
+  };
 
   likePost = async () => {
     if (this.props.loggedIn) {
@@ -21,8 +38,13 @@ class Post extends Component {
         await this.props.fetchPosts();
         this.setState({ liked: true });
       } catch (err) {
-        alert("Couldn't like post");
-        console.log(err);
+        this.setState({
+          alert: {
+            bg: 'danger',
+            msg: "Couldn't like post"
+          },
+          showAlert: true
+        });
       }
     }
   };
@@ -32,15 +54,36 @@ class Post extends Component {
       await this.props.modifyPost(this.props.id, 'DELETE');
       this.props.fetchPosts();
     } catch (err) {
-      console.log(err);
+      this.setState({
+        alert: {
+          bg: 'danger',
+          msg: "Couldn't delete post"
+        },
+        showAlert: true
+      });
     }
   };
 
   render() {
-    let heart = !this.state.liked ? '-o' : ' text-danger';
     const { post, profile, showDelete } = this.props;
+    const { alert, liked, showAlert } = this.state;
+
+    const heart = !liked ? '-o' : ' text-danger';
+    const now = moment(new Date().getTime());
+    const createdAt = moment(post.timeCreated);
+
+    const timeString =
+      now.diff(createdAt, 'days') >= 30
+        ? moment(post.timeCreated).format('MMM DD, YYYY')
+        : moment(post.timeCreated).fromNow();
+
     return (
       <div className="Post">
+        {showAlert ? (
+          <Alert closeModal={this.closeModal} msg={alert.msg} bg={alert.bg} />
+        ) : (
+          ''
+        )}
         <div className="row">
           <div className="col-3 my-auto">
             <img
@@ -49,7 +92,7 @@ class Post extends Component {
               className="rounded float-left img-fluid"
             />
           </div>
-          <div className="col-8 my-auto itim-font">
+          <div className="col-9 my-auto itim-font">
             <div className="text-left row">
               <span className="col-10">
                 <Link to={`/users/account/${profile.username}`}>
@@ -72,12 +115,15 @@ class Post extends Component {
                 className="col-12 mt-1"
                 dangerouslySetInnerHTML={{ __html: post.text }}
               />
-              <div className="col-12 mt-1">
+              <div className="col-6 mt-1">
                 <i
                   className={`fa fa-heart${heart} fa-sm fake-link`}
                   onClick={this.likePost}
                 />
                 <span className="text-gray ml-2">{post.likes}</span>
+              </div>
+              <div className="col-6 mt-1 text-right">
+                <small className="text-gray">{timeString}</small>
               </div>
             </div>
           </div>
