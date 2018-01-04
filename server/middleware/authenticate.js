@@ -5,7 +5,7 @@ const authenticate = async (req, res, next) => {
 
   try {
     let user = await User.findByToken(token);
-    if (!user) return Promise.reject();
+    if (!user) throw new Error();
     req.user = user;
     req.token = token;
     next();
