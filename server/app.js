@@ -210,6 +210,7 @@ app.patch('/rate/user/:id', authenticate, async (req, res) => {
   let { id } = req.params;
   const body = _.pick(req.body, ['rating']);
   if (!ObjectID.isValid(id)) return res.status(404).send();
+  if (body.rating < 1) return res.status(400).send({ error: 'Rating too low' });
 
   try {
     let user = await User.findById(id);
