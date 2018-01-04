@@ -115,14 +115,14 @@ class Post extends Component {
                 className="col-12 mt-1"
                 dangerouslySetInnerHTML={{ __html: post.text }}
               />
-              <div className="col-6 mt-1">
+              <div className="col-4 mt-1">
                 <i
                   className={`fa fa-heart${heart} fa-sm fake-link`}
                   onClick={this.likePost}
                 />
                 <span className="text-gray ml-2">{post.likes}</span>
               </div>
-              <div className="col-6 mt-1 text-right">
+              <div className="col-8 mt-1 text-right">
                 <small className="text-gray">{timeString}</small>
               </div>
             </div>
