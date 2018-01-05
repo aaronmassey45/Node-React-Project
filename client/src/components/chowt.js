@@ -48,6 +48,7 @@ class Chowt extends Component {
         this.setState({ chowt: '' });
       }
       this.props.fetchPosts();
+      if (this.props.hide) this.props.hide();
     } catch (err) {
       this.setState({ hasError: true });
     }
