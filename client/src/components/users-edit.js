@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux';
 
 import { deleteUser, updateUser } from '../store/actions/userActions';
 import Alert from './alert';
+import addAlertProps from './HOCs/add-alert';
 
 class AccountEdit extends Component {
   constructor(props) {
@@ -11,10 +12,6 @@ class AccountEdit extends Component {
 
     const { user } = props.appState;
     this.state = {
-      alert: {
-        bg: '',
-        msg: ''
-      },
       bio: user.bio,
       currentPassword: '',
       email: user.email,
@@ -28,7 +25,6 @@ class AccountEdit extends Component {
       location: user.location,
       newPassword: '',
       profileImg: user.profileImg,
-      showAlert: false,
       username: user.username
     };
   }
@@ -50,13 +46,11 @@ class AccountEdit extends Component {
       await this.props.deleteUser();
       this.props.history.push('/');
     } catch (err) {
-      this.setState({
-        alert: {
-          bg: 'danger',
-          msg: 'Could not delete account. Try again later.'
-        },
-        showAlert: true
+      this.props.updateAlert({
+        bg: 'danger',
+        msg: 'Could not delete account. Try again later.'
       });
+      this.props.show();
       console.log(err);
     }
   };
@@ -96,14 +90,15 @@ class AccountEdit extends Component {
       username
     } = this.state;
     let urlPassed;
-    if (!currentPassword)
-      return this.setState({
-        alert: {
-          bg: 'warning',
-          msg: 'You must enter your current password!'
-        },
-        showAlert: true
+    if (!currentPassword) {
+      this.props.updateAlert({
+        bg: 'warning',
+        msg: 'You must enter your current password!'
       });
+      this.props.show();
+      return;
+    }
+
     let errors = this.validate({ bio, email, location, profileImg, username });
     if (Object.keys(errors).length) {
       return this.setState({
@@ -124,22 +119,19 @@ class AccountEdit extends Component {
             profileImg,
             username
           });
-          return this.setState({
-            alert: {
-              bg: 'success',
-              msg: 'Account updated!'
-            },
-            currentPassword: '',
-            showAlert: true
+          this.props.updateAlert({
+            bg: 'success',
+            msg: 'Account updated!'
           });
+          this.props.show();
+          return this.setState({ currentPassword: '' });
         } catch (err) {
-          return this.setState({
-            alert: {
-              bg: 'danger',
-              msg: 'There was an error. Please try again later.'
-            },
-            showAlert: true
-          });
+          this.props.updateAlert({
+            bg: 'danger',
+            msg: 'There was an error. Please try again later.'
+          })
+          this.props.show();
+          return;
         }
       }
     } catch (err) {
@@ -177,32 +169,25 @@ class AccountEdit extends Component {
     return errors;
   };
 
-  closeModal = () => {
-    this.setState({
-      alert: {
-        bg: '',
-        msg: ''
-      },
-      showAlert: false
-    });
-  };
-
   render() {
-    let {
-      alert,
+    const {
       bio,
       email,
       errors,
       location,
       profileImg,
-      showAlert,
       username
     } = this.state;
 
+    const { alert, showModal } = this.props;
+
     return (
       <div className="AccountEdit text-left container my-1">
-        {showAlert ? (
-          <Alert closeModal={this.closeModal} msg={alert.msg} bg={alert.bg} />
+        {showModal ? (
+          <Alert closeModal={() => {
+            this.props.clearAlert();
+            this.props.hide();
+          }} msg={alert.msg} bg={alert.bg} />
         ) : (
           ''
         )}
@@ -387,4 +372,6 @@ const mapDispatchToProps = dispatch => {
   return bindActionCreators({ deleteUser, updateUser }, dispatch);
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(AccountEdit);
+let AccountEditWithAlert = addAlertProps(AccountEdit);
+
+export default connect(mapStateToProps, mapDispatchToProps)(AccountEditWithAlert);
