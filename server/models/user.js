@@ -13,7 +13,7 @@ let UserSchema = new mongoose.Schema({
     type: String
   },
   email: {
-    maxlength: 40,
+    maxlength: 60,
     minlength: 1,
     required: true,
     trim: true,
@@ -31,8 +31,8 @@ let UserSchema = new mongoose.Schema({
   },
   location: {
     default: "Somewhere chowin' down",
-    maxlength: 30,
-    minlength: 1,
+    maxlength: 50,
+    minlength: 4,
     trim: true,
     type: String
   },
@@ -131,11 +131,6 @@ UserSchema.methods.removeToken = function(token) {
   });
 };
 
-UserSchema.methods.getExtraProps = function() {
-  let user = this;
-  return { password: user.password };
-};
-
 UserSchema.statics.findByToken = function(token) {
   let User = this;
   let decoded;
@@ -156,11 +151,11 @@ UserSchema.statics.findByToken = function(token) {
 UserSchema.statics.findByCredentials = function(username, password) {
   let User = this;
   return User.findOne({ username }).then(user => {
-    if (!user) return Promise.reject();
+    if (!user) return Promise.resolve('No user found');
 
     return new Promise((resolve, reject) => {
       bcrypt.compare(password, user.password, (err, res) => {
-        res ? resolve(user) : reject();
+        res ? resolve(user) : resolve('Incorrect password');
       });
     });
   });
