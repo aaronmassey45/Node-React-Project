@@ -64,7 +64,7 @@ const appState = (state = INITIAL_STATE, action) => {
     case Actions.DELETE_USER_FAILURE:
       throw new Error('Could not delete your account');
     case Actions.UPDATE_FAILURE:
-      throw new Error('Could not update your account');
+      return { ...state, isFetching: false };
     default:
       return state;
   }
