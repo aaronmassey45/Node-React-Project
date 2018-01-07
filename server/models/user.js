@@ -30,7 +30,7 @@ let UserSchema = new mongoose.Schema({
     type: Boolean
   },
   location: {
-    default: 'Somewhere chowin\' down',
+    default: "Somewhere chowin' down",
     maxlength: 30,
     minlength: 1,
     trim: true,
@@ -60,16 +60,18 @@ let UserSchema = new mongoose.Schema({
       type: Number
     }
   },
-  tokens: [{
-    access: {
-      required: true,
-      type: String
-    },
-    token: {
-      required: true,
-      type: String
+  tokens: [
+    {
+      access: {
+        required: true,
+        type: String
+      },
+      token: {
+        required: true,
+        type: String
+      }
     }
-  }],
+  ],
   username: {
     maxlength: 20,
     minlength: 3,
@@ -85,59 +87,73 @@ let UserSchema = new mongoose.Schema({
   }
 });
 
-UserSchema.methods.generateAuthToken = function () {
+UserSchema.methods.generateAuthToken = function() {
   let user = this;
   let access = 'auth';
-  let token = jwt.sign({
-    _id: user._id.toHexString(),
-    access
-  }, process.env.JWT_SECRET).toString();
+  let token = jwt
+    .sign(
+      {
+        _id: user._id.toHexString(),
+        access
+      },
+      process.env.JWT_SECRET
+    )
+    .toString();
 
-  user.tokens.push({access, token});
+  user.tokens.push({ access, token });
   return user.save().then(() => {
     return token;
   });
 };
 
-UserSchema.methods.toJSON = function () {
+UserSchema.methods.toJSON = function() {
   let user = this;
   let userObj = user.toObject();
 
-  return _.pick(userObj, ['_id', 'username', 'bio', 'location', 'isAFoodTruck', 'profileImg', 'email', 'rating']);
+  return _.pick(userObj, [
+    '_id',
+    'username',
+    'bio',
+    'location',
+    'isAFoodTruck',
+    'profileImg',
+    'email',
+    'rating'
+  ]);
 };
 
-UserSchema.methods.removeToken = function (token) {
+UserSchema.methods.removeToken = function(token) {
   let user = this;
   return user.update({
     $pull: {
       tokens: { token }
     }
-  })
-}
+  });
+};
 
-UserSchema.methods.getExtraProps = function () {
+UserSchema.methods.getExtraProps = function() {
   let user = this;
-  return { password: user.password, email: user.email }
-}
+  return { password: user.password };
+};
 
-UserSchema.statics.findByToken = function (token) {
+UserSchema.statics.findByToken = function(token) {
   let User = this;
   let decoded;
 
   try {
-    decoded = jwt.verify(token, process.env.JWT_SECRET)
+    decoded = jwt.verify(token, process.env.JWT_SECRET);
   } catch (err) {
     return Promise.reject();
   }
 
   return User.findOne({
-    '_id': decoded._id,
+    _id: decoded._id,
     'tokens.token': token,
     'tokens.access': 'auth'
   });
 };
 
-UserSchema.statics.findByCredentials = function (username, password) {
+UserSchema.statics.findByCredentials = function(username, password) {
   let User = this;
   return User.findOne({ username }).then(user => {
     if (!user) return Promise.reject();
@@ -150,7 +166,7 @@ UserSchema.statics.findByCredentials = function (username, password) {
   });
 };
 
-UserSchema.pre('save', function (next) {
+UserSchema.pre('save', function(next) {
   let user = this;
 
   if (user.isModified('password')) {
@@ -167,4 +183,4 @@ UserSchema.pre('save', function (next) {
 
 let User = mongoose.model('user', UserSchema);
 
-module.exports = {User};
+module.exports = { User };
