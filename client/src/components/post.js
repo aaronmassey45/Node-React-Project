@@ -111,10 +111,24 @@ class Post extends Component {
               )}
             </div>
             <div className="row text-left">
-              <div
-                className="col-12 mt-1"
-                dangerouslySetInnerHTML={{ __html: post.text }}
-              />
+              <div className="col-12 mt-1">
+                {post.text}
+                {post.location ? (
+                  <p className="mb-0">
+                    <small>
+                      <a
+                        href={`https://www.google.com/maps?q=${
+                          post.location.lat
+                        },${post.location.lng}`}
+                        target="_blank">
+                        My Location
+                      </a>
+                    </small>
+                  </p>
+                ) : (
+                  ''
+                )}
+              </div>
               <div className="col-4 mt-1">
                 <i
                   className={`fa fa-heart${heart} fa-sm fake-link`}
