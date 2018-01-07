@@ -9,6 +9,14 @@ let Post = mongoose.model('Post', {
     type: Number,
     default: 0
   },
+  location: {
+    lat: {
+      type: Number,
+    },
+    lng: {
+      type: Number,
+    }
+  },
   text: {
     type: String,
     required: true,
