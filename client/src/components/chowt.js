@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import { fetchPosts } from '../store/actions/postActions';
+import Alert from './alert';
+import handleModal from './HOCs/handle-modal';
 
 class Chowt extends Component {
   state = {
@@ -25,30 +27,38 @@ class Chowt extends Component {
     try {
       const token = localStorage.getItem('x-auth');
       const headers = { 'x-auth': token };
+
       if (this.state.sendLocation && this.props.appState.user.isAFoodTruck) {
         if (!navigator.geolocation) {
           this.setState({ sendLocation: false });
-          return alert('Geoloction not supported by your browser');
+          this.props.show();
+          return;
         }
 
         navigator.geolocation.getCurrentPosition(async position => {
-          const URL = `https://www.google.com/maps?q=${
-            position.coords.latitude
-          },${position.coords.longitude}`;
-          const locationMessage = `<p class='mb-0'><small><a href='${URL}' target="_blank">My Location</a></small></p>`;
           await axios.post(
             '/chowt',
-            { text: this.state.chowt + locationMessage },
+            {
+              text: this.state.chowt,
+              location: {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+              }
+            },
             { headers }
           );
-          this.setState({ chowt: '', sendLocation: false });
+          this.setState({ chowt: '', sendLocation: false }, async () => {
+            await this.props.fetchPosts();
+          });
         });
       } else {
         await axios.post('/chowt', { text: this.state.chowt }, { headers });
-        this.setState({ chowt: '' });
+        this.setState({ chowt: '' }, async () => {
+          await this.props.fetchPosts();
+        });
       }
-      this.props.fetchPosts();
-      if (this.props.hide) this.props.hide();
+
+      if (this.props.hideAfterSubmit) this.props.hideAfterSubmit();
     } catch (err) {
       this.setState({ hasError: true });
     }
@@ -57,6 +67,17 @@ class Chowt extends Component {
   render() {
     return (
       <form onSubmit={this.submitChowt}>
+        {this.props.showModal ? (
+          <Alert
+            closeModal={() => {
+              this.props.hide();
+            }}
+            msg="Geolocation not supported by your browser"
+            bg="light"
+          />
+        ) : (
+          ''
+        )}
         <div className="input-group">
           <input
             className="form-control"
@@ -111,4 +132,6 @@ const mapDispatchToProps = dispatch => {
   return bindActionCreators({ fetchPosts }, dispatch);
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Chowt);
+let HandledChowt = handleModal(Chowt);
+
+export default connect(mapStateToProps, mapDispatchToProps)(HandledChowt);
