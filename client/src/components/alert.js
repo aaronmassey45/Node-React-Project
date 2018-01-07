@@ -17,7 +17,9 @@ const Alert = props => (
           </button>
         </div>
         <div className="modal-body">
-          <div>{props.msg}</div>
+          <div>
+            <b>{props.msg}</b>
+          </div>
         </div>
       </div>
     </div>
