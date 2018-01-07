@@ -21,10 +21,11 @@ app.use(bodyParser.json());
 //Routes for posts
 app.post('/chowt', authenticate, async (req, res) => {
   try {
-    const body = _.pick(req.body, ['text']);
+    const body = _.pick(req.body, ['text', 'location']);
     let post = new Post({
-      text: body.text,
       _creator: req.user._id,
+      location: body.location,
+      text: body.text,
       timeCreated: new Date().getTime()
     });
     let doc = await post.save();
