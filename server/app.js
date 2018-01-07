@@ -147,7 +147,7 @@ app.patch('/users/me', authenticate, async (req, res) => {
     );
     res.send(updatedUser);
   } catch (err) {
-    res.status(400).send();
+    res.status(400).send(err);
   }
 });
 
