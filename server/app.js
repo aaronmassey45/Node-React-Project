@@ -118,6 +118,19 @@ app.patch('/users/me', authenticate, async (req, res) => {
       'location'
     ]);
 
+    if (!body.username || !body.email || !body.currentPassword || !body.profileImg || !body.bio || !body.location) {
+      return res.status(400).send({ error: 'Missing information' });
+    }
+
+    const user = await User.findByCredentials(
+      req.user.username,
+      body.currentPassword
+    );
+
+    if (user === 'Incorrect password' || user === 'No user found') {
+      return res.status(400).send({ error: user });
+    }
+
     if (body.newPassword) {
       bcrypt.genSalt(10, (err, salt) => {
         bcrypt.hash(body.newPassword, salt, (err, hash) => {
@@ -126,11 +139,6 @@ app.patch('/users/me', authenticate, async (req, res) => {
       });
     }
 
-    const user = await User.findByCredentials(
-      req.user.username,
-      body.currentPassword
-    );
-    const props = await user.getExtraProps();
     const updatedUser = await User.findOneAndUpdate(
       { _id: req.user._id },
       {
@@ -139,11 +147,11 @@ app.patch('/users/me', authenticate, async (req, res) => {
           email: body.email,
           profileImg: body.profileImg,
           location: body.location,
-          password: body.newPassword || props.password,
+          password: body.newPassword || user.password,
           username: body.username
         }
       },
-      { new: true }
+      { new: true, runValidators: true }
     );
     res.send(updatedUser);
   } catch (err) {
