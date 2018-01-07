@@ -110,7 +110,7 @@ class AccountEdit extends Component {
       urlPassed = await this.checkUrl(profileImg);
       if (urlPassed === 'success') {
         try {
-          await this.props.updateUser({
+          let res = await this.props.updateUser({
             bio,
             currentPassword,
             email,
@@ -119,6 +119,26 @@ class AccountEdit extends Component {
             profileImg,
             username
           });
+
+          if (res.error) {
+            let error = 'Update failed, please try again later!';
+            if (res.payload.response && res.payload.response.code === 11000) {
+              let match = res.payload.response.errmsg.match(/"(.*?)"/)[1];
+              error = `${match} already in use!`;
+            } else if (res.payload.response.error) {
+              error = res.payload.response.error
+            } else if (res.payload.response.errors) {
+              error = res.payload.response.errors.message
+            }
+
+            this.props.updateAlert({
+              bg: 'danger',
+              msg: error
+            });
+            this.props.show();
+            throw new Error(error);
+          }
+
           this.props.updateAlert({
             bg: 'success',
             msg: 'Account updated!'
@@ -126,11 +146,7 @@ class AccountEdit extends Component {
           this.props.show();
           return this.setState({ currentPassword: '' });
         } catch (err) {
-          this.props.updateAlert({
-            bg: 'danger',
-            msg: 'There was an error. Please try again later.'
-          })
-          this.props.show();
+          console.log(err);
           return;
         }
       }
