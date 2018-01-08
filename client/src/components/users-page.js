@@ -71,7 +71,7 @@ export default class UserPage extends Component {
 
     return (
       <div className="UserPage mt-3">
-        <div className="row p-3">
+        <div className="row p-3 m-0">
           <div className="col-xs-12 col-sm-4">
             <div className="card">
               <img src={profileImg} alt="header" className="card-img-top" />
