@@ -15,6 +15,7 @@ class AccountEdit extends Component {
       bio: user.bio,
       currentPassword: '',
       email: user.email,
+      isAFoodTruck: user.isAFoodTruck,
       errors: {
         bio: '',
         email: '',
@@ -35,6 +36,7 @@ class AccountEdit extends Component {
     this.setState({
       bio: user.bio,
       email: user.email,
+      isAFoodTruck: user.isAFoodTruck,
       location: user.location,
       profileImg: user.profileImg,
       username: user.username
@@ -76,6 +78,9 @@ class AccountEdit extends Component {
   };
 
   handleChange = e => {
+    if (e.target.id === 'isAFoodTruck')
+      return this.setState({ isAFoodTruck: !this.state.isAFoodTruck });
+
     this.setState({ [e.target.id]: e.target.value });
   };
 
@@ -84,6 +89,7 @@ class AccountEdit extends Component {
       bio,
       currentPassword,
       email,
+      isAFoodTruck,
       location,
       newPassword,
       profileImg,
@@ -114,6 +120,7 @@ class AccountEdit extends Component {
             bio,
             currentPassword,
             email,
+            isAFoodTruck,
             location,
             newPassword,
             profileImg,
@@ -190,6 +197,7 @@ class AccountEdit extends Component {
       bio,
       email,
       errors,
+      isAFoodTruck,
       location,
       profileImg,
       username
@@ -253,6 +261,18 @@ class AccountEdit extends Component {
                     />
                     <small className="text-danger">{errors.username}</small>
                   </div>
+                </div>
+                <div className="form-check">
+                  <label className="form-check-label pl-0">
+                    Food truck account?
+                    <input
+                      type="checkbox"
+                      className="form-check-input ml-2"
+                      id="isAFoodTruck"
+                      onChange={this.handleChange}
+                      checked={isAFoodTruck}
+                    />
+                  </label>
                 </div>
                 <div className="form-group row">
                   <label htmlFor="email" className="col-sm-2 col-form-label">

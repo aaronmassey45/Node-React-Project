@@ -109,13 +109,14 @@ app.delete('/users/me', authenticate, async (req, res) => {
 app.patch('/users/me', authenticate, async (req, res) => {
   try {
     const body = _.pick(req.body, [
-      'username',
-      'email',
-      'currentPassword',
-      'profileImg',
-      'newPassword',
       'bio',
-      'location'
+      'currentPassword',
+      'email',
+      'isAFoodTruck',
+      'location',
+      'newPassword',
+      'profileImg',
+      'username'
     ]);
 
     if (!body.username || !body.email || !body.currentPassword || !body.profileImg || !body.bio || !body.location) {
@@ -145,9 +146,10 @@ app.patch('/users/me', authenticate, async (req, res) => {
         $set: {
           bio: body.bio,
           email: body.email,
-          profileImg: body.profileImg,
+          isAFoodTruck: body.isAFoodTruck || false,
           location: body.location,
           password: body.newPassword || user.password,
+          profileImg: body.profileImg,
           username: body.username
         }
       },
