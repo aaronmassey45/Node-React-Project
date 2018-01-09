@@ -1,6 +1,12 @@
 import { CALL_API } from 'redux-api-middleware';
 
-import { POST_REQUEST, POST_SUCCESS, POST_FAILURE, FETCH_POSTS_SUCCESS, FETCH_POSTS_FAILURE } from './actionTypes';
+import {
+  POST_REQUEST,
+  POST_SUCCESS,
+  POST_FAILURE,
+  FETCH_POSTS_SUCCESS,
+  FETCH_POSTS_FAILURE
+} from './actionTypes';
 
 export function modifyPost(id, method) {
   const token = localStorage.getItem('x-auth');
