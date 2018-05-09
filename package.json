@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "engines": {
-    "node": "8.7.0"
+    "node": "^8.7.0"
   },
   "scripts": {
     "client": "npm run start --prefix client",
@@ -19,8 +19,7 @@
     "express": "^4.16.2",
     "jsonwebtoken": "^8.1.0",
     "lodash": "^4.17.4",
-    "mongodb": "^2.2.33",
-    "mongoose": "^4.13.5",
-    "validator": "^9.1.2"
+    "mongoose": "^5.0.17",
+    "validator": "^10.1.0"
   }
 }
