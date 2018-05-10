@@ -12,15 +12,15 @@ export function login(credentials) {
             if (res) {
               setAuthToken(res);
             }
-          }
+          },
         },
-        Actions.LOGIN_FAILURE
+        Actions.LOGIN_FAILURE,
       ],
       endpoint: '/user/login',
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(credentials)
-    }
+      body: JSON.stringify(credentials),
+    },
   };
 }
 
@@ -31,8 +31,8 @@ export function isUserAuthenticated() {
       types: [Actions.REQUEST, Actions.AUTH_SUCCESS, Actions.AUTH_FAILURE],
       endpoint: '/users/me',
       method: 'GET',
-      headers: { 'x-auth': token }
-    }
+      headers: { 'x-auth': token },
+    },
   };
 }
 
@@ -47,15 +47,15 @@ export function signup(credentials) {
             if (res) {
               setAuthToken(res);
             }
-          }
+          },
         },
-        Actions.SIGNUP_FAILURE
+        Actions.SIGNUP_FAILURE,
       ],
       endpoint: '/signup/newuser',
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(credentials)
-    }
+      body: JSON.stringify(credentials),
+    },
   };
 }
 
@@ -71,14 +71,14 @@ export function deleteUser() {
             if (res) {
               localStorage.removeItem('x-auth');
             }
-          }
+          },
         },
-        Actions.DELETE_USER_FAILURE
+        Actions.DELETE_USER_FAILURE,
       ],
       endpoint: '/users/me',
       method: 'DELETE',
-      headers: { 'x-auth': token }
-    }
+      headers: { 'x-auth': token },
+    },
   };
 }
 
@@ -90,8 +90,8 @@ export function updateUser(body) {
       endpoint: '/users/me',
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json', 'x-auth': token },
-      body: JSON.stringify(body)
-    }
+      body: JSON.stringify(body),
+    },
   };
 }
 

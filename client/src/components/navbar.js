@@ -61,17 +61,20 @@ class Navbar extends Component {
           data-target="#navbarNav"
           aria-controls="navbarNav"
           aria-expanded="false"
-          aria-label="Toggle navigation">
+          aria-label="Toggle navigation"
+        >
           <span className="navbar-toggler-icon" />
         </button>
         <div
           className="navbar-collapse collapse justify-content-between"
-          id="navbarNav">
+          id="navbarNav"
+        >
           <ul className="navbar-nav mb-0 p-0">
             <li
               className="nav-item"
               data-toggle="collapse"
-              data-target=".navbar-collapse.show">
+              data-target=".navbar-collapse.show"
+            >
               <NavLink to="/" exact className="nav-link">
                 <i className="fa fa-home fa-fw" />
                 Home
@@ -85,16 +88,19 @@ class Navbar extends Component {
                   role="button"
                   data-toggle="dropdown"
                   aria-haspopup="true"
-                  aria-expanded="false">
+                  aria-expanded="false"
+                >
                   {this.props.appState.user.username}
                 </a>
                 <div
                   className="dropdown-menu bg-dark dropdown-menu-right"
-                  aria-labelledby="navbarDropdown">
+                  aria-labelledby="navbarDropdown"
+                >
                   <div
                     className="dropdown-item"
                     data-toggle="collapse"
-                    data-target=".navbar-collapse.show">
+                    data-target=".navbar-collapse.show"
+                  >
                     <NavLink to="/users/me" exact className="nav-link">
                       <i className="fa fa-user fa-fw" />
                       Profile
@@ -103,11 +109,13 @@ class Navbar extends Component {
                   <div
                     className="dropdown-item"
                     data-toggle="collapse"
-                    data-target=".navbar-collapse.show">
+                    data-target=".navbar-collapse.show"
+                  >
                     <NavLink
                       to="/users/account/edit"
                       exact
-                      className="nav-link">
+                      className="nav-link"
+                    >
                       <i className="fa fa-pencil fa-fw" />
                       Account
                     </NavLink>
@@ -116,10 +124,12 @@ class Navbar extends Component {
                   <div
                     className="dropdown-item"
                     data-toggle="collapse"
-                    data-target=".navbar-collapse.show">
+                    data-target=".navbar-collapse.show"
+                  >
                     <span
                       className="nav-link fake-link"
-                      onClick={this.handleLogout}>
+                      onClick={this.handleLogout}
+                    >
                       <i className="fa fa-sign-out fa-fw" />
                       Logout
                     </span>
@@ -131,7 +141,8 @@ class Navbar extends Component {
                 <li
                   className="nav-item"
                   data-toggle="collapse"
-                  data-target=".navbar-collapse.show">
+                  data-target=".navbar-collapse.show"
+                >
                   <NavLink to="/login" exact className="nav-link">
                     <i className="fa fa-sign-in fa-fw" />
                     Login
@@ -140,7 +151,8 @@ class Navbar extends Component {
                 <li
                   className="nav-item"
                   data-toggle="collapse"
-                  data-target=".navbar-collapse.show">
+                  data-target=".navbar-collapse.show"
+                >
                   <NavLink to="/signup" exact className="nav-link">
                     <i className="fa fa-user-plus fa-fw" />
                     Sign Up
@@ -151,7 +163,8 @@ class Navbar extends Component {
           </ul>
           <form
             className="form-inline justify-content-end"
-            onSubmit={this.searchUser}>
+            onSubmit={this.searchUser}
+          >
             <input
               type="search"
               placeholder="Search username"
@@ -160,7 +173,8 @@ class Navbar extends Component {
             />
             <button
               className="btn btn-outline-light my-sm-0 my-2 mx-auto"
-              type="submit">
+              type="submit"
+            >
               Search
             </button>
           </form>
@@ -171,7 +185,7 @@ class Navbar extends Component {
 }
 
 const mapStateToProps = state => ({
-  appState: state.appState
+  appState: state.appState,
 });
 
 const mapDispatchToProps = dispatch => {

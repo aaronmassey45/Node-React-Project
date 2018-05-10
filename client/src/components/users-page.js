@@ -12,7 +12,7 @@ export default class UserPage extends Component {
     isAFoodTruck: false,
     location: '',
     rating: 0,
-    username: ''
+    username: '',
   };
 
   componentWillMount() {
@@ -31,7 +31,7 @@ export default class UserPage extends Component {
         location: res.data.location,
         profileImg: res.data.profileImg,
         rating: parseFloat(res.data.rating.average),
-        username: res.data.username
+        username: res.data.username,
       });
     } catch (err) {
       this.props.history.push(`/404/${this.props.match.params.username}`);
@@ -63,7 +63,7 @@ export default class UserPage extends Component {
       location,
       profileImg,
       rating,
-      username
+      username,
     } = this.state;
 
     if (!username) return <div />;

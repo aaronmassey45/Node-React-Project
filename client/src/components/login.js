@@ -10,12 +10,12 @@ class Login extends Component {
     errorClass: 'd-none',
     password: '',
     redirect: false,
-    username: ''
+    username: '',
   };
 
   handleChange = e => {
     this.setState({
-      [e.target.id]: e.target.value
+      [e.target.id]: e.target.value,
     });
   };
 
@@ -23,25 +23,25 @@ class Login extends Component {
     e.preventDefault();
     this.setState({
       ...this.state,
-      errorClass: 'd-none'
+      errorClass: 'd-none',
     });
     try {
       const { password, username } = this.state;
       const credentials = {
         password,
-        username
+        username,
       };
       let res = await this.props.login(credentials);
       if (res.payload.status === 400) throw new Error();
 
       this.setState({
         ...this.state,
-        redirect: true
+        redirect: true,
       });
     } catch (err) {
       this.setState({
         ...this.state,
-        errorClass: 'd-block'
+        errorClass: 'd-block',
       });
     }
   };
@@ -93,7 +93,8 @@ class Login extends Component {
                 )}
                 <div
                   className={`alert alert-danger mb-0 mt-2 ${errorClass}`}
-                  role="alert">
+                  role="alert"
+                >
                   <small>Username or password incorrect.</small>
                 </div>
               </div>
@@ -114,7 +115,7 @@ const mapStateToProps = state => ({ appState: state.appState });
 const mapDispatchToProps = dispatch => {
   return bindActionCreators(
     {
-      login
+      login,
     },
     dispatch
   );

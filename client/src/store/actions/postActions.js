@@ -5,7 +5,7 @@ import {
   POST_SUCCESS,
   POST_FAILURE,
   FETCH_POSTS_SUCCESS,
-  FETCH_POSTS_FAILURE
+  FETCH_POSTS_FAILURE,
 } from './actionTypes';
 
 export function modifyPost(id, method) {
@@ -15,8 +15,8 @@ export function modifyPost(id, method) {
       types: [POST_REQUEST, POST_SUCCESS, POST_FAILURE],
       endpoint: `/post/${id}`,
       method,
-      headers: { 'x-auth': token }
-    }
+      headers: { 'x-auth': token },
+    },
   };
 }
 
@@ -25,7 +25,7 @@ export function fetchPosts() {
     [CALL_API]: {
       types: [POST_REQUEST, FETCH_POSTS_SUCCESS, FETCH_POSTS_FAILURE],
       endpoint: '/posts',
-      method: 'GET'
-    }
+      method: 'GET',
+    },
   };
 }

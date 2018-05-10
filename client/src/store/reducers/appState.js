@@ -11,8 +11,8 @@ const INITIAL_STATE = {
     location: '',
     profileImg: '',
     rating: '',
-    username: ''
-  }
+    username: '',
+  },
 };
 
 const appState = (state = INITIAL_STATE, action) => {
@@ -20,7 +20,7 @@ const appState = (state = INITIAL_STATE, action) => {
     case Actions.REQUEST:
       return {
         ...state,
-        isFetching: true
+        isFetching: true,
       };
     case Actions.LOGIN_SUCCESS:
     case Actions.SIGNUP_SUCCESS:
@@ -39,8 +39,8 @@ const appState = (state = INITIAL_STATE, action) => {
           location: action.payload.location,
           profileImg: action.payload.profileImg,
           rating: action.payload.rating,
-          username: action.payload.username
-        }
+          username: action.payload.username,
+        },
       };
     case Actions.DELETE_USER_SUCCESS:
       return {
@@ -54,8 +54,8 @@ const appState = (state = INITIAL_STATE, action) => {
           location: '',
           profileImg: '',
           rating: '',
-          username: ''
-        }
+          username: '',
+        },
       };
     case Actions.LOGIN_FAILURE:
     case Actions.AUTH_FAILURE:

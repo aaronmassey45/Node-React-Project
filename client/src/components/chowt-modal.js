@@ -18,7 +18,8 @@ class FloatingChowt extends Component {
             className="modal fade show"
             tabIndex="-1"
             role="dialog"
-            style={{ display: showModal ? 'block' : 'none' }}>
+            style={{ display: showModal ? 'block' : 'none' }}
+          >
             <div className="modal-dialog" role="document">
               <div className="modal-content">
                 <div className="modal-header">

@@ -21,12 +21,12 @@ class AccountEdit extends Component {
         email: '',
         location: '',
         profileImg: '',
-        username: ''
+        username: '',
       },
       location: user.location,
       newPassword: '',
       profileImg: user.profileImg,
-      username: user.username
+      username: user.username,
     };
   }
 
@@ -39,7 +39,7 @@ class AccountEdit extends Component {
       isAFoodTruck: user.isAFoodTruck,
       location: user.location,
       profileImg: user.profileImg,
-      username: user.username
+      username: user.username,
     });
   }
 
@@ -50,7 +50,7 @@ class AccountEdit extends Component {
     } catch (err) {
       this.props.updateAlert({
         bg: 'danger',
-        msg: 'Could not delete account. Try again later.'
+        msg: 'Could not delete account. Try again later.',
       });
       this.props.show();
       console.log(err);
@@ -93,13 +93,13 @@ class AccountEdit extends Component {
       location,
       newPassword,
       profileImg,
-      username
+      username,
     } = this.state;
     let urlPassed;
     if (!currentPassword) {
       this.props.updateAlert({
         bg: 'warning',
-        msg: 'You must enter your current password!'
+        msg: 'You must enter your current password!',
       });
       this.props.show();
       return;
@@ -109,7 +109,7 @@ class AccountEdit extends Component {
     if (Object.keys(errors).length) {
       return this.setState({
         ...this.state,
-        errors
+        errors,
       });
     }
     try {
@@ -124,7 +124,7 @@ class AccountEdit extends Component {
             location,
             newPassword,
             profileImg,
-            username
+            username,
           });
 
           if (res.error) {
@@ -133,14 +133,14 @@ class AccountEdit extends Component {
               let match = res.payload.response.errmsg.match(/"(.*?)"/)[1];
               error = `${match} already in use!`;
             } else if (res.payload.response.error) {
-              error = res.payload.response.error
+              error = res.payload.response.error;
             } else if (res.payload.response.errors) {
-              error = res.payload.response.errors.message
+              error = res.payload.response.errors.message;
             }
 
             this.props.updateAlert({
               bg: 'danger',
-              msg: error
+              msg: error,
             });
             this.props.show();
             throw new Error(error);
@@ -148,7 +148,7 @@ class AccountEdit extends Component {
 
           this.props.updateAlert({
             bg: 'success',
-            msg: 'Account updated!'
+            msg: 'Account updated!',
           });
           this.props.show();
           return this.setState({ currentPassword: '' });
@@ -160,8 +160,8 @@ class AccountEdit extends Component {
     } catch (err) {
       this.setState({
         errors: {
-          profileImg: 'Image link is invalid'
-        }
+          profileImg: 'Image link is invalid',
+        },
       });
     }
   };
@@ -200,7 +200,7 @@ class AccountEdit extends Component {
       isAFoodTruck,
       location,
       profileImg,
-      username
+      username,
     } = this.state;
 
     const { alert, showModal } = this.props;
@@ -208,10 +208,14 @@ class AccountEdit extends Component {
     return (
       <div className="AccountEdit text-left container my-1">
         {showModal ? (
-          <Alert closeModal={() => {
-            this.props.clearAlert();
-            this.props.hide();
-          }} msg={alert.msg} bg={alert.bg} />
+          <Alert
+            closeModal={() => {
+              this.props.clearAlert();
+              this.props.hide();
+            }}
+            msg={alert.msg}
+            bg={alert.bg}
+          />
         ) : (
           ''
         )}
@@ -233,7 +237,8 @@ class AccountEdit extends Component {
                 <div className="form-group row">
                   <label
                     htmlFor="profileImg"
-                    className="col-sm-2 col-form-label">
+                    className="col-sm-2 col-form-label"
+                  >
                     Link for Profile Pic*
                   </label>
                   <div className="col-sm-10 my-auto">
@@ -351,7 +356,8 @@ class AccountEdit extends Component {
               <button
                 className="btn btn-danger text-white"
                 data-toggle="modal"
-                data-target="#deleteModal">
+                data-target="#deleteModal"
+              >
                 <i className="fa fa-ban" aria-hidden="true" /> Delete account
               </button>
             </div>
@@ -371,7 +377,8 @@ class AccountEdit extends Component {
                 <button
                   className="close"
                   data-dismiss="modal"
-                  aria-label="Close">
+                  aria-label="Close"
+                >
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
@@ -385,7 +392,8 @@ class AccountEdit extends Component {
                 <button
                   className="btn btn-danger"
                   onClick={this.deleteAccount}
-                  data-dismiss="modal">
+                  data-dismiss="modal"
+                >
                   Delete
                 </button>
                 <button className="btn btn-secondary" data-dismiss="modal">
@@ -401,7 +409,7 @@ class AccountEdit extends Component {
 }
 
 const mapStateToProps = state => ({
-  appState: state.appState
+  appState: state.appState,
 });
 
 const mapDispatchToProps = dispatch => {
@@ -410,4 +418,6 @@ const mapDispatchToProps = dispatch => {
 
 let AccountEditWithAlert = addAlertProps(AccountEdit);
 
-export default connect(mapStateToProps, mapDispatchToProps)(AccountEditWithAlert);
+export default connect(mapStateToProps, mapDispatchToProps)(
+  AccountEditWithAlert
+);

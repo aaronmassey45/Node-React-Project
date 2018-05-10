@@ -11,7 +11,7 @@ class PostList extends Component {
     super(props);
 
     this.state = {
-      users: []
+      users: [],
     };
   }
 
@@ -67,7 +67,7 @@ class PostList extends Component {
 }
 
 const mapStateToProps = state => ({
-  posts: state.posts
+  posts: state.posts,
 });
 
 const mapDispatchToProps = dispatch => {

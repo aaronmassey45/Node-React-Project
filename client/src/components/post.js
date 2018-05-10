@@ -14,10 +14,10 @@ class Post extends Component {
     this.state = {
       alert: {
         bg: '',
-        msg: ''
+        msg: '',
       },
       liked: false,
-      showAlert: false
+      showAlert: false,
     };
   }
 
@@ -25,9 +25,9 @@ class Post extends Component {
     this.setState({
       alert: {
         bg: '',
-        msg: ''
+        msg: '',
       },
-      showAlert: false
+      showAlert: false,
     });
   };
 
@@ -41,9 +41,9 @@ class Post extends Component {
         this.setState({
           alert: {
             bg: 'danger',
-            msg: "Couldn't like post"
+            msg: "Couldn't like post",
           },
-          showAlert: true
+          showAlert: true,
         });
       }
     }
@@ -57,9 +57,9 @@ class Post extends Component {
       this.setState({
         alert: {
           bg: 'danger',
-          msg: "Couldn't delete post"
+          msg: "Couldn't delete post",
         },
-        showAlert: true
+        showAlert: true,
       });
     }
   };
@@ -120,7 +120,8 @@ class Post extends Component {
                         href={`https://www.google.com/maps?q=${
                           post.location.lat
                         },${post.location.lng}`}
-                        target="_blank">
+                        target="_blank"
+                      >
                         My Location
                       </a>
                     </small>
@@ -148,7 +149,7 @@ class Post extends Component {
 }
 
 const mapStateToProps = state => ({
-  loggedIn: state.appState.loggedIn
+  loggedIn: state.appState.loggedIn,
 });
 
 const mapDispatchToProps = dispatch => {

@@ -12,7 +12,7 @@ class SignUp extends Component {
     errmsg: '',
     password: '',
     signupFailed: false,
-    username: ''
+    username: '',
   };
 
   handleChange = e => {
@@ -31,7 +31,7 @@ class SignUp extends Component {
         isAFoodTruck,
         email,
         password,
-        username
+        username,
       });
       if (res.error) {
         let error = 'Signup failed!';
@@ -58,7 +58,7 @@ class SignUp extends Component {
       errmsg,
       password,
       signupFailed,
-      username
+      username,
     } = this.state;
 
     return (
@@ -84,7 +84,8 @@ class SignUp extends Component {
                       />
                       <small
                         id="emailHelp"
-                        className="form-text text-muted text-left">
+                        className="form-text text-muted text-left"
+                      >
                         We'll never share your email with anyone else.
                       </small>
                     </div>
@@ -162,7 +163,7 @@ class SignUp extends Component {
 }
 
 const mapStateToProps = state => ({
-  appState: state.appState
+  appState: state.appState,
 });
 
 const mapDispatchToProps = dispatch => {
