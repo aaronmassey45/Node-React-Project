@@ -1,13 +1,13 @@
-let mongoose = require('mongoose');
+const mongoose = require('mongoose');
 
-let Post = mongoose.model('Post', {
+const PostSchema = {
   _creator: {
     required: true,
-    type: mongoose.Schema.Types.ObjectId
+    type: mongoose.Schema.Types.ObjectId,
   },
   likes: {
     type: Number,
-    default: 0
+    default: 0,
   },
   location: {
     lat: {
@@ -15,19 +15,19 @@ let Post = mongoose.model('Post', {
     },
     lng: {
       type: Number,
-    }
+    },
   },
   text: {
     type: String,
     required: true,
     maxlength: 300,
     minlength: 1,
-    trim: true
+    trim: true,
   },
   timeCreated: {
     type: Number,
-    default: null
-  }
-});
+    default: null,
+  },
+};
 
-module.exports = {Post};
+mongoose.model('post', PostSchema);

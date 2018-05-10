@@ -5,7 +5,7 @@ import posts from './posts_reducer';
 
 let rootReducer = combineReducers({
   appState,
-  posts
+  posts,
 });
 
 export default rootReducer;

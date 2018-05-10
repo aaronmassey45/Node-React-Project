@@ -11,7 +11,7 @@ class Chowt extends Component {
   state = {
     chowt: '',
     hasError: false,
-    sendLocation: false
+    sendLocation: false,
   };
 
   handleChange = e => {
@@ -42,8 +42,8 @@ class Chowt extends Component {
               text: this.state.chowt,
               location: {
                 lat: position.coords.latitude,
-                lng: position.coords.longitude
-              }
+                lng: position.coords.longitude,
+              },
             },
             { headers }
           );
@@ -91,7 +91,8 @@ class Chowt extends Component {
             <button
               className="btn btn-secondary"
               type="submit"
-              disabled={this.props.appState.isFetching}>
+              disabled={this.props.appState.isFetching}
+            >
               <i className="fa fa-paper-plane" /> Send
             </button>
           </span>
@@ -125,7 +126,7 @@ class Chowt extends Component {
 }
 
 const mapStateToProps = state => ({
-  appState: state.appState
+  appState: state.appState,
 });
 
 const mapDispatchToProps = dispatch => {

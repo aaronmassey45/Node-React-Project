@@ -1,16 +1,15 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
 const jwt = require('jsonwebtoken');
-const _ = require('lodash');
 const bcrypt = require('bcryptjs');
 
-let UserSchema = new mongoose.Schema({
+const UserSchema = new mongoose.Schema({
   bio: {
     default: 'Chowster n00b',
     maxlength: 240,
     minlength: 1,
     trim: true,
-    type: String
+    type: String,
   },
   email: {
     maxlength: 60,
@@ -21,56 +20,56 @@ let UserSchema = new mongoose.Schema({
     validate: {
       isAsync: false,
       validator: validator.isEmail,
-      message: '{VALUE} is not a valid email'
+      message: '{VALUE} is not a valid email',
     },
-    unique: true
+    unique: true,
   },
   isAFoodTruck: {
     required: true,
-    type: Boolean
+    type: Boolean,
   },
   location: {
     default: "Somewhere chowin' down",
     maxlength: 50,
     minlength: 4,
     trim: true,
-    type: String
+    type: String,
   },
   password: {
     minlength: 6,
     required: true,
-    type: String
+    type: String,
   },
   profileImg: {
     default: 'https://dummyimage.com/600x400/000/fff&text=Dummy+Img',
     minlength: 1,
-    type: String
+    type: String,
   },
   rating: {
     average: {
       default: 0,
-      type: String
+      type: String,
     },
     numberOfRatings: {
       default: 0,
-      type: Number
+      type: Number,
     },
     totalRating: {
       default: 0,
-      type: Number
-    }
+      type: Number,
+    },
   },
   tokens: [
     {
       access: {
         required: true,
-        type: String
+        type: String,
       },
       token: {
         required: true,
-        type: String
-      }
-    }
+        type: String,
+      },
+    },
   ],
   username: {
     maxlength: 20,
@@ -81,20 +80,20 @@ let UserSchema = new mongoose.Schema({
     validate: {
       isAsync: false,
       validator: validator.isAlphanumeric,
-      message: '{VALUE} is not alphanumeric'
+      message: '{VALUE} is not alphanumeric',
     },
-    unique: true
-  }
+    unique: true,
+  },
 });
 
 UserSchema.methods.generateAuthToken = function() {
-  let user = this;
-  let access = 'auth';
-  let token = jwt
+  const user = this;
+  const access = 'auth';
+  const token = jwt
     .sign(
       {
         _id: user._id.toHexString(),
-        access
+        access,
       },
       process.env.JWT_SECRET
     )
@@ -107,32 +106,43 @@ UserSchema.methods.generateAuthToken = function() {
 };
 
 UserSchema.methods.toJSON = function() {
-  let user = this;
-  let userObj = user.toObject();
+  const user = this;
+  const userObj = user.toObject();
 
-  return _.pick(userObj, [
-    '_id',
-    'username',
-    'bio',
-    'location',
-    'isAFoodTruck',
-    'profileImg',
-    'email',
-    'rating'
-  ]);
+  const {
+    _id,
+    username,
+    bio,
+    location,
+    isAFoodTruck,
+    profileImg,
+    email,
+    rating,
+  } = userObj;
+
+  return {
+    _id,
+    username,
+    bio,
+    location,
+    isAFoodTruck,
+    profileImg,
+    email,
+    rating,
+  };
 };
 
 UserSchema.methods.removeToken = function(token) {
-  let user = this;
+  const user = this;
   return user.update({
     $pull: {
-      tokens: { token }
-    }
+      tokens: { token },
+    },
   });
 };
 
 UserSchema.statics.findByToken = function(token) {
-  let User = this;
+  const User = this;
   let decoded;
 
   try {
@@ -144,12 +154,12 @@ UserSchema.statics.findByToken = function(token) {
   return User.findOne({
     _id: decoded._id,
     'tokens.token': token,
-    'tokens.access': 'auth'
+    'tokens.access': 'auth',
   });
 };
 
 UserSchema.statics.findByCredentials = function(username, password) {
-  let User = this;
+  const User = this;
   return User.findOne({ username }).then(user => {
     if (!user) return Promise.resolve('No user found');
 
@@ -162,7 +172,7 @@ UserSchema.statics.findByCredentials = function(username, password) {
 };
 
 UserSchema.pre('save', function(next) {
-  let user = this;
+  const user = this;
 
   if (user.isModified('password')) {
     bcrypt.genSalt(10, (err, salt) => {
@@ -176,6 +186,4 @@ UserSchema.pre('save', function(next) {
   }
 });
 
-let User = mongoose.model('user', UserSchema);
-
-module.exports = { User };
+mongoose.model('user', UserSchema);

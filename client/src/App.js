@@ -43,7 +43,7 @@ class App extends Component {
 }
 
 const mapStateToProps = state => ({
-  appState: state.appState
+  appState: state.appState,
 });
 
 export default connect(mapStateToProps)(App);
