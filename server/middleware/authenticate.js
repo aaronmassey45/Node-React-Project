@@ -1,4 +1,6 @@
-const { User } = require('../models/user');
+const mongoose = require('mongoose');
+
+const User = mongoose.model('user');
 
 const authenticate = async (req, res, next) => {
   let token = req.header('x-auth');
