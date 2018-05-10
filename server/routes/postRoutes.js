@@ -1,17 +1,20 @@
 const mongoose = require('mongoose');
-const Post = mongoose.model('post');
 const authenticate = require('../middleware/authenticate');
 
+const Post = mongoose.model('post');
+const ObjectId = mongoose.Types.ObjectId;
+
 module.exports = app => {
-  app.post('/chowt', authenticate, async (req, res) => {
+  app.post('/api/chowt', authenticate, async (req, res) => {
+    const { text, location } = req.body;
+    const post = new Post({
+      location,
+      text,
+      timeCreated: new Date().getTime(),
+      _creator: req.user._id,
+    });
+
     try {
-      const body = _.pick(req.body, ['text', 'location']);
-      const post = new Post({
-        _creator: req.user._id,
-        location: body.location,
-        text: body.text,
-        timeCreated: new Date().getTime(),
-      });
       const doc = await post.save();
       res.send(doc);
     } catch (err) {
@@ -19,7 +22,7 @@ module.exports = app => {
     }
   });
 
-  app.get('/posts', async (req, res) => {
+  app.get('/api/posts', async (req, res) => {
     try {
       const posts = await Post.find({});
       res.send(posts);
@@ -28,9 +31,9 @@ module.exports = app => {
     }
   });
 
-  app.patch('/post/:id', authenticate, async (req, res) => {
+  app.patch('/api/post/:id', authenticate, async (req, res) => {
     const { id } = req.params;
-    if (!ObjectID.isValid(id)) return res.status(404).send();
+    if (!ObjectId.isValid(id)) return res.status(404).send();
 
     try {
       const post = await Post.findOneAndUpdate(
@@ -45,9 +48,9 @@ module.exports = app => {
     }
   });
 
-  app.delete('/post/:id', authenticate, async (req, res) => {
+  app.delete('/api/post/:id', authenticate, async (req, res) => {
     const { id } = req.params;
-    if (!ObjectID.isValid(id)) return res.status(404).send();
+    if (!ObjectId.isValid(id)) return res.status(404).send();
 
     try {
       const post = await Post.findOneAndRemove({
