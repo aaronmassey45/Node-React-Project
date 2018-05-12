@@ -95,7 +95,7 @@ class AccountEdit extends Component {
       profileImg,
       username,
     } = this.state;
-    let urlPassed;
+
     if (!currentPassword) {
       this.props.updateAlert({
         bg: 'warning',
@@ -105,7 +105,13 @@ class AccountEdit extends Component {
       return;
     }
 
-    let errors = this.validate({ bio, email, location, profileImg, username });
+    const errors = this.validate({
+      bio,
+      email,
+      location,
+      profileImg,
+      username,
+    });
     if (Object.keys(errors).length) {
       return this.setState({
         ...this.state,
@@ -113,10 +119,10 @@ class AccountEdit extends Component {
       });
     }
     try {
-      urlPassed = await this.checkUrl(profileImg);
+      const urlPassed = await this.checkUrl(profileImg);
       if (urlPassed === 'success') {
         try {
-          let res = await this.props.updateUser({
+          const res = await this.props.updateUser({
             bio,
             currentPassword,
             email,
@@ -130,7 +136,7 @@ class AccountEdit extends Component {
           if (res.error) {
             let error = 'Update failed, please try again later!';
             if (res.payload.response && res.payload.response.code === 11000) {
-              let match = res.payload.response.errmsg.match(/"(.*?)"/)[1];
+              const match = res.payload.response.errmsg.match(/"(.*?)"/)[1];
               error = `${match} already in use!`;
             } else if (res.payload.response.error) {
               error = res.payload.response.error;
@@ -167,7 +173,7 @@ class AccountEdit extends Component {
   };
 
   validate = values => {
-    let errors = {};
+    const errors = {};
 
     if (!values.bio) {
       errors.bio = 'Enter your bio';
@@ -203,15 +209,15 @@ class AccountEdit extends Component {
       username,
     } = this.state;
 
-    const { alert, showModal } = this.props;
+    const { alert, showModal, clearAlert, hide, appState } = this.props;
 
     return (
       <div className="AccountEdit text-left container my-1">
         {showModal ? (
           <Alert
             closeModal={() => {
-              this.props.clearAlert();
-              this.props.hide();
+              clearAlert();
+              hide();
             }}
             msg={alert.msg}
             bg={alert.bg}
@@ -227,7 +233,7 @@ class AccountEdit extends Component {
         </div>
         <div className="card bg-light">
           <div className="card-header">Basic Information</div>
-          {this.props.appState.isFetching ? (
+          {appState.isFetching ? (
             <div className="card-body text-center">
               <i className="fa fa-spinner fa-pulse fa-3x fa-fw" />
             </div>
@@ -416,7 +422,7 @@ const mapDispatchToProps = dispatch => {
   return bindActionCreators({ deleteUser, updateUser }, dispatch);
 };
 
-let AccountEditWithAlert = addAlertProps(AccountEdit);
+const AccountEditWithAlert = addAlertProps(AccountEdit);
 
 export default connect(mapStateToProps, mapDispatchToProps)(
   AccountEditWithAlert

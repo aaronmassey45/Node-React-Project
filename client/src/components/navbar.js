@@ -4,7 +4,7 @@ import { NavLink, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { isUserAuthenticated } from '../store/actions/userActions';
+import { isUserAuthenticated, logout } from '../store/actions/userActions';
 
 class Navbar extends Component {
   checkAuth = async () => {
@@ -21,10 +21,7 @@ class Navbar extends Component {
 
   handleLogout = async () => {
     try {
-      const token = localStorage.getItem('x-auth');
-      await axios.delete('/logout', { headers: { 'x-auth': token } });
-      localStorage.removeItem('x-auth');
-      this.props.history.push('/');
+      await this.props.logout(this.props.history);
       this.checkAuth();
     } catch (err) {
       alert("You aren't logged in");
@@ -36,7 +33,7 @@ class Navbar extends Component {
     e.preventDefault();
     if (this.refs.userSearch.value) {
       try {
-        const users = await axios.get('/userlist');
+        const users = await axios.get('/api/userlist');
         const foundUser = users.data.find(
           user => user.username === this.refs.userSearch.value
         );
@@ -189,7 +186,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => {
-  return bindActionCreators({ isUserAuthenticated }, dispatch);
+  return bindActionCreators({ isUserAuthenticated, logout }, dispatch);
 };
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Navbar));

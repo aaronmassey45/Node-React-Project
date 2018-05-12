@@ -28,7 +28,7 @@ class Chowt extends Component {
       const token = localStorage.getItem('x-auth');
       const headers = { 'x-auth': token };
 
-      if (this.state.sendLocation && this.props.appState.user.isAFoodTruck) {
+      if (this.state.sendLocation && this.props.user.isAFoodTruck) {
         if (!navigator.geolocation) {
           this.setState({ sendLocation: false });
           this.props.show();
@@ -37,7 +37,7 @@ class Chowt extends Component {
 
         navigator.geolocation.getCurrentPosition(async position => {
           await axios.post(
-            '/chowt',
+            '/api/chowt',
             {
               text: this.state.chowt,
               location: {
@@ -52,7 +52,7 @@ class Chowt extends Component {
           });
         });
       } else {
-        await axios.post('/chowt', { text: this.state.chowt }, { headers });
+        await axios.post('/api/chowt', { text: this.state.chowt }, { headers });
         this.setState({ chowt: '' }, async () => {
           await this.props.fetchPosts();
         });
@@ -65,12 +65,13 @@ class Chowt extends Component {
   };
 
   render() {
+    const { showModal, hide, isFetching, user } = this.props;
     return (
       <form onSubmit={this.submitChowt}>
-        {this.props.showModal ? (
+        {showModal ? (
           <Alert
             closeModal={() => {
-              this.props.hide();
+              hide();
             }}
             msg="Geolocation not supported by your browser"
             bg="light"
@@ -91,13 +92,13 @@ class Chowt extends Component {
             <button
               className="btn btn-secondary"
               type="submit"
-              disabled={this.props.appState.isFetching}
+              disabled={isFetching}
             >
               <i className="fa fa-paper-plane" /> Send
             </button>
           </span>
         </div>
-        {this.props.appState.user.isAFoodTruck ? (
+        {user.isAFoodTruck ? (
           <div className="form-check text-right mb-0 mt-1">
             <label className="form-check-label">
               <input
@@ -126,7 +127,8 @@ class Chowt extends Component {
 }
 
 const mapStateToProps = state => ({
-  appState: state.appState,
+  isFetching: state.appState.isFetching,
+  user: state.appState.user,
 });
 
 const mapDispatchToProps = dispatch => {
