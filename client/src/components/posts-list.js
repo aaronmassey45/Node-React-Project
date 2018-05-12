@@ -18,7 +18,7 @@ class PostList extends Component {
   async componentDidMount() {
     try {
       this.props.fetchPosts();
-      let users = await axios.get('/userlist');
+      let users = await axios.get('/api/userlist');
       this.setState({ users });
     } catch (err) {
       console.log(err);

@@ -21,8 +21,8 @@ export default class UserPage extends Component {
 
   getUser = async () => {
     try {
-      let res = await axios.get(
-        `/users/account/${this.props.match.params.username}`
+      const res = await axios.get(
+        `/api/users/account/${this.props.match.params.username}`
       );
       this.setState({
         bio: res.data.bio,
@@ -44,7 +44,7 @@ export default class UserPage extends Component {
         const token = localStorage.getItem('x-auth');
         const headers = { 'x-auth': token };
         await axios.patch(
-          `/rate/user/${this.state.id}`,
+          `/api/rate/user/${this.state.id}`,
           { rating: rate.rating },
           { headers }
         );

@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const authenticate = require('../middleware/authenticate');
 
 const User = mongoose.model('user');
+const ObjectId = mongoose.Types.ObjectId;
 
 module.exports = app => {
   app.get('/api/userlist', async (req, res) => {
@@ -34,41 +35,43 @@ module.exports = app => {
 
   app.patch('/api/users/me', authenticate, async (req, res) => {
     try {
-      const body = _.pick(req.body, [
-        'bio',
-        'currentPassword',
-        'email',
-        'isAFoodTruck',
-        'location',
-        'newPassword',
-        'profileImg',
-        'username',
-      ]);
+      const {
+        bio,
+        currentPassword,
+        email,
+        isAFoodTruck,
+        location,
+        newPassword,
+        profileImg,
+        username,
+      } = req.body;
 
       if (
-        !body.username ||
-        !body.email ||
-        !body.currentPassword ||
-        !body.profileImg ||
-        !body.bio ||
-        !body.location
+        !username ||
+        !email ||
+        !currentPassword ||
+        !profileImg ||
+        !bio ||
+        !location
       ) {
         return res.status(400).send({ error: 'Missing information' });
       }
 
       const user = await User.findByCredentials(
         req.user.username,
-        body.currentPassword
+        currentPassword
       );
 
       if (user === 'Incorrect password' || user === 'No user found') {
         return res.status(400).send({ error: user });
       }
 
-      if (body.newPassword) {
+      console.log(user);
+
+      if (newPassword) {
         bcrypt.genSalt(10, (err, salt) => {
-          bcrypt.hash(body.newPassword, salt, (err, hash) => {
-            body.newPassword = hash;
+          bcrypt.hash(newPassword, salt, (err, hash) => {
+            newPassword = hash;
           });
         });
       }
@@ -77,13 +80,13 @@ module.exports = app => {
         { _id: req.user._id },
         {
           $set: {
-            bio: body.bio,
-            email: body.email,
-            isAFoodTruck: body.isAFoodTruck || false,
-            location: body.location,
-            password: body.newPassword || user.password,
-            profileImg: body.profileImg,
-            username: body.username,
+            bio,
+            email,
+            location,
+            profileImg,
+            username,
+            isAFoodTruck: isAFoodTruck || false,
+            password: newPassword || user.password,
           },
         },
         { new: true, runValidators: true }
@@ -107,21 +110,9 @@ module.exports = app => {
 
   app.post('/api/signup/newuser', async (req, res) => {
     try {
-      const body = _.pick(req.body, [
-        'username',
-        'email',
-        'password',
-        'isAFoodTruck',
-      ]);
+      const { username, email, password, isAFoodTruck } = req.body;
 
-      const userInfo = {
-        email: body.email,
-        isAFoodTruck: body.isAFoodTruck,
-        password: body.password,
-        username: body.username,
-      };
-
-      const user = new User(userInfo);
+      const user = new User({ username, email, password, isAFoodTruck });
       await user.save();
       const token = await user.generateAuthToken();
       res.header('x-auth', token).send(user);
@@ -151,11 +142,12 @@ module.exports = app => {
   });
 
   app.patch('/api/rate/user/:id', authenticate, async (req, res) => {
-    const { id } = req.params;
-    const body = _.pick(req.body, ['rating']);
-    if (!ObjectID.isValid(id)) return res.status(404).send();
-    if (body.rating < 1)
-      return res.status(400).send({ error: 'Rating too low' });
+    const {
+      params: { id },
+      body: { rating },
+    } = req;
+    if (!ObjectId.isValid(id)) return res.status(404).send();
+    if (rating < 1) return res.status(400).send({ error: 'Rating too low' });
 
     try {
       const user = await User.findById(id);
@@ -163,7 +155,7 @@ module.exports = app => {
       if (!user.isAFoodTruck)
         return res.status(400).send('Not a food truck account');
 
-      const totalRating = user.rating.totalRating + body.rating;
+      const totalRating = user.rating.totalRating + rating;
       const numberOfRatings = user.rating.numberOfRatings + 1;
       const average = (totalRating / numberOfRatings).toFixed(1);
 
