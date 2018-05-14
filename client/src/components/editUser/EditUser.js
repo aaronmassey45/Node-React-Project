@@ -6,7 +6,7 @@ import { deleteUser, updateUser } from '../../store/actions/userActions';
 import Alert from '../alert';
 import addAlertProps from '../HOCs/add-alert';
 import InputField from './InputField';
-import DeleteAccount from '../DeleteAccount';
+import DeleteAccount from './DeleteAccount';
 
 const FIELDS = [
   {
