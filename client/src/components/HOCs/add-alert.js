@@ -20,12 +20,9 @@ const addAlertProps = WrappedComponent => {
       });
     };
 
-    updateAlert = alert => {
+    updateAlert = ({ bg, msg }) => {
       this.setState({
-        alert: {
-          bg: alert.bg,
-          msg: alert.msg,
-        },
+        alert: { bg, msg },
       });
     };
 
