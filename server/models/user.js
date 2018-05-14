@@ -3,7 +3,9 @@ const validator = require('validator');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 
-const UserSchema = new mongoose.Schema({
+const Schema = mongoose.Schema;
+
+const UserSchema = new Schema({
   bio: {
     default: 'Chowster n00b',
     maxlength: 240,
@@ -28,6 +30,7 @@ const UserSchema = new mongoose.Schema({
     required: true,
     type: Boolean,
   },
+  likedPosts: [{ type: Schema.Types.ObjectId }],
   location: {
     default: "Somewhere chowin' down",
     maxlength: 50,
@@ -160,13 +163,6 @@ UserSchema.statics.findByToken = function(token) {
 
 UserSchema.statics.findByCredentials = async function(username, password) {
   const User = this;
-
-  // const user = await User.findOne({ username });
-  // console.log({ user });
-  // if (!user) return;
-
-  // const res = await bcrypt.compare(password, user.password);
-  // console.log(res);
 
   return User.findOne({ username }).then(user => {
     if (!user) return Promise.resolve('No user found');
