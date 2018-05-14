@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 const PostSchema = new Schema({
   _creator: { required: true, type: Schema.Types.ObjectId },
-  likedBy: [{ type: Schema.Types.ObjectId }],
+  likedBy: [{ type: Schema.Types.ObjectId, ref: 'User' }],
   location: { lat: { type: Number }, lng: { type: Number } },
   text: {
     type: String,

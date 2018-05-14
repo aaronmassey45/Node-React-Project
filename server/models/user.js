@@ -30,7 +30,7 @@ const UserSchema = new Schema({
     required: true,
     type: Boolean,
   },
-  likedPosts: [{ type: Schema.Types.ObjectId }],
+  likedPosts: [{ type: Schema.Types.ObjectId, ref: 'Post' }],
   location: {
     default: "Somewhere chowin' down",
     maxlength: 50,
