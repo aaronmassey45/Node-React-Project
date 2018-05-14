@@ -35,64 +35,51 @@ module.exports = app => {
 
   app.patch('/api/users/me', authenticate, async (req, res) => {
     try {
-      const {
-        bio,
-        currentPassword,
-        email,
-        isAFoodTruck,
-        location,
-        newPassword,
-        profileImg,
-        username,
-      } = req.body;
+      const values = (body => ({
+        bio: body.bio,
+        currentPassword: body.currentPassword,
+        email: body.email,
+        isAFoodTruck: body.isAFoodTruck,
+        location: body.location,
+        newPassword: body.newPassword,
+        profileImg: body.profileImg,
+        username: body.username,
+      }))(req.body);
 
       if (
-        !username ||
-        !email ||
-        !currentPassword ||
-        !profileImg ||
-        !bio ||
-        !location
+        !values.username ||
+        !values.email ||
+        !values.currentPassword ||
+        !values.profileImg ||
+        !values.bio ||
+        !values.location
       ) {
         return res.status(400).send({ error: 'Missing information' });
       }
 
       const user = await User.findByCredentials(
         req.user.username,
-        currentPassword
+        values.currentPassword
       );
 
       if (user === 'Incorrect password' || user === 'No user found') {
         return res.status(400).send({ error: user });
       }
 
-      console.log(user);
+      Object.keys(values).forEach(key => {
+        if (key === 'currentPassword') return;
+        if (key === 'newPassword' && values.newPassword) {
+          user.password = values.newPassword;
+          return;
+        }
+        user[key] = values[key];
+      });
 
-      if (newPassword) {
-        bcrypt.genSalt(10, (err, salt) => {
-          bcrypt.hash(newPassword, salt, (err, hash) => {
-            newPassword = hash;
-          });
-        });
-      }
+      await user.save();
 
-      const updatedUser = await User.findOneAndUpdate(
-        { _id: req.user._id },
-        {
-          $set: {
-            bio,
-            email,
-            location,
-            profileImg,
-            username,
-            isAFoodTruck: isAFoodTruck || false,
-            password: newPassword || user.password,
-          },
-        },
-        { new: true, runValidators: true }
-      );
-      res.send(updatedUser);
+      res.send(user);
     } catch (err) {
+      console.log(err);
       res.status(400).send(err);
     }
   });
