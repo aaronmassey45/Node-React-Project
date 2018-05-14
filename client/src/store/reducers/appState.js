@@ -43,26 +43,12 @@ const appState = (state = INITIAL_STATE, action) => {
         },
       };
     case Actions.DELETE_USER_SUCCESS:
-      return {
-        loggedIn: false,
-        isFetching: false,
-        user: {
-          _id: '',
-          bio: '',
-          email: '',
-          isAFoodTruck: false,
-          location: '',
-          profileImg: '',
-          rating: '',
-          username: '',
-        },
-      };
+      return INITIAL_STATE;
     case Actions.LOGIN_FAILURE:
     case Actions.AUTH_FAILURE:
     case Actions.SIGNUP_FAILURE:
       return { ...state, loggedIn: false, isFetching: false };
     case Actions.DELETE_USER_FAILURE:
-      throw new Error('Could not delete your account');
     case Actions.UPDATE_FAILURE:
       return { ...state, isFetching: false };
     default:

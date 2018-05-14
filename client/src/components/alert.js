@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Alert = props => (
+const Alert = ({ bg, closeModal, msg }) => (
   <div
     className="modal"
     tabIndex="-1"
@@ -8,19 +8,19 @@ const Alert = props => (
     style={{ display: 'block' }}
   >
     <div className="modal-dialog modal-sm" role="document">
-      <div className={`modal-content bg-${props.bg ? props.bg : 'light'}`}>
+      <div className={`modal-content bg-${bg ? bg : 'light'}`}>
         <div className="modal-header">
           <button
             type="button"
-            onClick={props.closeModal}
-            className={`close p-3 btn btn-${props.bg ? props.bg : 'light'}`}
+            onClick={closeModal}
+            className={`close p-3 btn btn-${bg ? bg : 'light'}`}
           >
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div className="modal-body">
           <div>
-            <b>{props.msg}</b>
+            <b>{msg}</b>
           </div>
         </div>
       </div>
