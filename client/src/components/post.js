@@ -135,7 +135,7 @@ class Post extends Component {
                   className={`fa fa-heart${heart} fa-sm fake-link`}
                   onClick={this.likePost}
                 />
-                <span className="text-gray ml-2">{post.likes}</span>
+                <span className="text-gray ml-2">{post.likedBy.length}</span>
               </div>
               <div className="col-8 mt-1 text-right">
                 <small className="text-gray">{timeString}</small>
