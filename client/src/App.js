@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import AccountEdit from './components/users-edit';
+import EditUser from './components/editUser/EditUser';
 import FloatingChowt from './components/chowt-modal';
 import HomePage from './components/homepage';
 import Login from './components/login';
@@ -21,7 +21,7 @@ class App extends Component {
           <div className="mt-app">
             <Switch>
               <Route path="/login" exact component={Login} />
-              <Route path="/users/account/edit" exact component={AccountEdit} />
+              <Route path="/users/account/edit" exact component={EditUser} />
               <Route
                 path="/users/account/:username"
                 exact
