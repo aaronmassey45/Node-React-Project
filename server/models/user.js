@@ -3,6 +3,8 @@ const validator = require('validator');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 
+const pick = require('../utils/pick');
+
 const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
@@ -112,27 +114,17 @@ UserSchema.methods.toJSON = function() {
   const user = this;
   const userObj = user.toObject();
 
-  const {
-    _id,
-    username,
-    bio,
-    location,
-    isAFoodTruck,
-    profileImg,
-    email,
-    rating,
-  } = userObj;
-
-  return {
-    _id,
-    username,
-    bio,
-    location,
-    isAFoodTruck,
-    profileImg,
-    email,
-    rating,
-  };
+  return pick(userObj, [
+    '_id',
+    'bio',
+    'email',
+    'isAFoodTruck',
+    'likedPosts',
+    'location',
+    'profileImg',
+    'rating',
+    'username',
+  ]);
 };
 
 UserSchema.methods.removeToken = function(token) {
