@@ -8,20 +8,19 @@ const INITIAL_STATE = {
     bio: '',
     email: '',
     isAFoodTruck: false,
+    likedPosts: [],
     location: '',
     profileImg: '',
     rating: '',
     username: '',
   },
+  users: [],
 };
 
 const appState = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case Actions.REQUEST:
-      return {
-        ...state,
-        isFetching: true,
-      };
+      return { ...state, isFetching: true };
     case Actions.LOGIN_SUCCESS:
     case Actions.SIGNUP_SUCCESS:
     case Actions.AUTH_SUCCESS:
@@ -36,6 +35,7 @@ const appState = (state = INITIAL_STATE, action) => {
           bio: action.payload.bio,
           email: action.payload.email,
           isAFoodTruck: action.payload.isAFoodTruck,
+          likedPosts: action.payload.likedPosts,
           location: action.payload.location,
           profileImg: action.payload.profileImg,
           rating: action.payload.rating,
@@ -50,7 +50,16 @@ const appState = (state = INITIAL_STATE, action) => {
       return { ...state, loggedIn: false, isFetching: false };
     case Actions.DELETE_USER_FAILURE:
     case Actions.UPDATE_FAILURE:
+    case Actions.FETCH_USER_FAILURE:
       return { ...state, isFetching: false };
+    case Actions.FETCH_USER_SUCCESS:
+      return { ...state, isFetching: false, users: action.payload };
+    case Actions.POST_SUCCESS:
+      return {
+        ...state,
+        isFetching: false,
+        user: { ...state.user, likedPosts: [...action.payload.likedPosts] },
+      };
     default:
       return state;
   }
