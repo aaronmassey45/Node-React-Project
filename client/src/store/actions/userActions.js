@@ -1,6 +1,20 @@
 import { CALL_API } from 'redux-api-middleware';
 import * as Actions from './actionTypes';
 
+export const fetchUsers = () => {
+  return {
+    [CALL_API]: {
+      endpoint: '/api/userlist',
+      types: [
+        Actions.REQUEST,
+        Actions.FETCH_USER_SUCCESS,
+        Actions.FETCH_USER_FAILURE,
+      ],
+      method: 'GET',
+    },
+  };
+};
+
 export const login = credentials => {
   return {
     [CALL_API]: {
