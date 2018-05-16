@@ -54,7 +54,7 @@ module.exports = app => {
 
       post.save();
       await req.user.save();
-      res.send(post);
+      res.send({ post, likedPosts: req.user.likedPosts });
     } catch (err) {
       res.status(400).send(err);
     }
