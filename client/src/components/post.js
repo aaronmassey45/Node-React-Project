@@ -43,7 +43,7 @@ class Post extends Component {
 
   render() {
     const { alert, hide, post, profile, showModal, user } = this.props;
-    const timeString = this.getTimeDifference(post.createdAt);
+    const timeString = this.getTimeDifference(post.timeCreated);
 
     return (
       <Fragment>
