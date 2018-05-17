@@ -1,159 +1,128 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import moment from 'moment';
 
-import { modifyPost, fetchPosts } from '../store/actions/postActions';
+import { modifyPost, fetchPosts, fetchUsers } from '../store/actions';
 import Alert from './alert';
+import addAlertProps from './HOCs/add-alert';
 
 class Post extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      alert: {
-        bg: '',
-        msg: '',
-      },
-      liked: false,
-      showAlert: false,
-    };
-  }
-
-  closeModal = () => {
-    this.setState({
-      alert: {
-        bg: '',
-        msg: '',
-      },
-      showAlert: false,
-    });
-  };
-
-  likePost = async () => {
-    if (this.props.loggedIn) {
+  handlePostAction = async actionType => {
+    const {
+      fetchPosts,
+      id,
+      loggedIn,
+      modifyPost,
+      show,
+      updateAlert,
+    } = this.props;
+    if (loggedIn) {
       try {
-        await this.props.modifyPost(this.props.id, 'PATCH');
-        await this.props.fetchPosts();
-        this.setState({ liked: true });
+        modifyPost(id, actionType);
+        await fetchPosts();
       } catch (err) {
-        this.setState({
-          alert: {
-            bg: 'danger',
-            msg: "Couldn't like post",
-          },
-          showAlert: true,
+        updateAlert({
+          bg: 'danger',
+          msg: `Couldn't ${actionType === 'PATCH' ? 'like' : 'delete'} post`,
         });
+        show();
       }
     }
   };
 
-  deletePost = async () => {
-    try {
-      await this.props.modifyPost(this.props.id, 'DELETE');
-      this.props.fetchPosts();
-    } catch (err) {
-      this.setState({
-        alert: {
-          bg: 'danger',
-          msg: "Couldn't delete post",
-        },
-        showAlert: true,
-      });
-    }
+  getTimeDifference = time => {
+    const now = moment(new Date().getTime());
+    const createdAt = moment(time);
+
+    return now.diff(createdAt, 'days') >= 30
+      ? moment(time).format('MMM DD, YYYY')
+      : moment(time).fromNow();
   };
 
   render() {
-    const { post, profile, showDelete } = this.props;
-    const { alert, liked, showAlert } = this.state;
-
-    const heart = !liked ? '-o' : ' text-danger';
-    const now = moment(new Date().getTime());
-    const createdAt = moment(post.timeCreated);
-
-    const timeString =
-      now.diff(createdAt, 'days') >= 30
-        ? moment(post.timeCreated).format('MMM DD, YYYY')
-        : moment(post.timeCreated).fromNow();
+    const { alert, hide, post, profile, showModal, user } = this.props;
+    const timeString = this.getTimeDifference(post.timeCreated);
 
     return (
-      <div className="Post">
-        {showAlert ? (
-          <Alert closeModal={this.closeModal} msg={alert.msg} bg={alert.bg} />
-        ) : (
-          ''
-        )}
-        <div className="row">
-          <div className="col-3 my-auto">
-            <img
-              src={profile.profileImg}
-              alt=""
-              className="rounded float-left img-fluid"
-            />
-          </div>
-          <div className="col-9 my-auto itim-font">
-            <div className="text-left row">
-              <span className="col-10">
-                <Link to={`/users/account/${profile.username}`}>
-                  @{profile.username}
-                </Link>
-              </span>
-              {showDelete ? (
-                <span className="col-2 text-right">
-                  <i
-                    className="fa fa-trash fake-link"
-                    onClick={this.deletePost}
-                  />
-                </span>
-              ) : (
-                ''
-              )}
+      <Fragment>
+        {showModal && <Alert closeModal={hide} msg={alert.msg} bg={alert.bg} />}
+        <div className="Post">
+          <div className="row">
+            <div className="col-3 my-auto">
+              <img
+                src={profile.profileImg}
+                alt="user"
+                className="rounded float-left img-fluid"
+              />
             </div>
-            <div className="row text-left">
-              <div className="col-12 mt-1">
-                {post.text}
-                {post.location ? (
-                  <p className="mb-0">
-                    <small>
-                      <a
-                        href={`https://www.google.com/maps?q=${
-                          post.location.lat
-                        },${post.location.lng}`}
-                        target="_blank"
-                      >
-                        My Location
-                      </a>
-                    </small>
-                  </p>
-                ) : (
-                  ''
+            <div className="col-9 my-auto itim-font">
+              <div className="text-left row">
+                <span className="col-10">
+                  <Link to={`/users/account/${profile.username}`}>
+                    @{profile.username}
+                  </Link>
+                </span>
+                {profile._id === user.id && (
+                  <span className="col-2 text-right">
+                    <i
+                      className="fa fa-trash fake-link"
+                      onClick={() => this.handlePostAction('DELETE')}
+                    />
+                  </span>
                 )}
               </div>
-              <div className="col-4 mt-1">
-                <i
-                  className={`fa fa-heart${heart} fa-sm fake-link`}
-                  onClick={this.likePost}
-                />
-                <span className="text-gray ml-2">{post.likes}</span>
-              </div>
-              <div className="col-8 mt-1 text-right">
-                <small className="text-gray">{timeString}</small>
+              <div className="row text-left">
+                <div className="col-12 mt-1">
+                  {post.text}
+                  {post.location && (
+                    <p className="mb-0">
+                      <small>
+                        <a
+                          href={`https://www.google.com/maps?q=${
+                            post.location.lat
+                          },${post.location.lng}`}
+                          target="_blank"
+                        >
+                          My Location
+                        </a>
+                      </small>
+                    </p>
+                  )}
+                </div>
+                <div className="col-4 mt-1">
+                  <i
+                    className={`fa ${
+                      user.likedPosts.includes(post._id)
+                        ? 'fa-heart text-danger'
+                        : 'fa-heart-o'
+                    } fa-sm fake-link`}
+                    onClick={() => this.handlePostAction('PATCH')}
+                  />
+                  <span className="text-gray ml-2">{post.likedBy.length}</span>
+                </div>
+                <div className="col-8 mt-1 text-right">
+                  <small className="text-gray">{timeString}</small>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      </Fragment>
     );
   }
 }
 
-const mapStateToProps = state => ({
-  loggedIn: state.appState.loggedIn,
+const mapStateToProps = ({ appState }) => ({
+  loggedIn: appState.loggedIn,
+  user: { id: appState.user._id, likedPosts: appState.user.likedPosts },
 });
 
 const mapDispatchToProps = dispatch => {
-  return bindActionCreators({ modifyPost, fetchPosts }, dispatch);
+  return bindActionCreators({ modifyPost, fetchPosts, fetchUsers }, dispatch);
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Post);
+export default connect(mapStateToProps, mapDispatchToProps)(
+  addAlertProps(Post)
+);

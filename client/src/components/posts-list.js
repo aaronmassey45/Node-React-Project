@@ -7,18 +7,14 @@ import { fetchPosts } from '../store/actions/postActions';
 import Post from './post';
 
 class PostList extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      users: [],
-    };
-  }
+  state = {
+    users: [],
+  };
 
   async componentDidMount() {
     try {
       this.props.fetchPosts();
-      let users = await axios.get('/api/userlist');
+      const users = await axios.get('/api/userlist');
       this.setState({ users });
     } catch (err) {
       console.log(err);
@@ -30,25 +26,22 @@ class PostList extends Component {
     let profile = this.state.users.data.find(x => x._id === postData._creator);
     return (
       <div key={postData._id} className="list-group-item">
-        <Post
-          post={postData}
-          profile={profile}
-          id={postData._id}
-          showDelete={this.props.showDelete}
-        />
+        <Post post={postData} profile={profile} id={postData._id} />
       </div>
     );
   };
 
   render() {
-    let posts =
-      this.props.type === 'user'
-        ? this.props.posts.filter(post => post._creator === this.props.id)
+    const { id, type } = this.props;
+
+    const posts =
+      type === 'user'
+        ? this.props.posts.filter(post => post._creator === id)
         : [];
 
     return (
       <div className="list-group list-group-flush">
-        {this.props.type === 'user' ? (
+        {type === 'user' ? (
           posts.length !== 0 ? (
             posts.map(this.renderPost)
           ) : (

@@ -36,13 +36,25 @@ module.exports = app => {
     if (!ObjectId.isValid(id)) return res.status(404).send();
 
     try {
-      const post = await Post.findOneAndUpdate(
-        { _id: id },
-        { $inc: { likes: 1 } },
-        { new: true }
-      );
-      if (!post) return res.status(404).send();
-      res.send({ post });
+      const post = await Post.findById(id);
+      if (!post) return res.status(404).send('No post found');
+
+      const exists = post.likedBy.some(user => user.equals(req.user._id));
+      if (exists) {
+        post.likedBy = post.likedBy.filter(
+          user => (user.equals(req.user._id) ? false : true)
+        );
+        req.user.likedPosts = req.user.likedPosts.filter(
+          post => (post.equals(id) ? false : true)
+        );
+      } else {
+        post.likedBy.push(req.user._id);
+        req.user.likedPosts.push(id);
+      }
+
+      post.save();
+      await req.user.save();
+      res.send({ post, likedPosts: req.user.likedPosts });
     } catch (err) {
       res.status(400).send(err);
     }
