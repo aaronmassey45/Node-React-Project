@@ -20,7 +20,7 @@ class Post extends Component {
     } = this.props;
     if (loggedIn) {
       try {
-        modifyPost(id, actionType);
+        await modifyPost(id, actionType);
         await fetchPosts();
       } catch (err) {
         updateAlert({

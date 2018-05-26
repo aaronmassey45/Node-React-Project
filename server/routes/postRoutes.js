@@ -52,7 +52,7 @@ module.exports = app => {
         req.user.likedPosts.push(id);
       }
 
-      post.save();
+      await post.save();
       await req.user.save();
       res.send({ post, likedPosts: req.user.likedPosts });
     } catch (err) {
