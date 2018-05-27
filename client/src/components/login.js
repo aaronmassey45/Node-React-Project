@@ -7,7 +7,7 @@ import { login } from '../store/actions/userActions';
 
 class Login extends Component {
   state = {
-    errorClass: 'd-none',
+    hasErr: false,
     password: '',
     redirect: false,
     username: '',
@@ -21,10 +21,8 @@ class Login extends Component {
 
   handleSubmit = async e => {
     e.preventDefault();
-    this.setState({
-      ...this.state,
-      errorClass: 'd-none',
-    });
+    this.setState({ ...this.state, hasErr: false });
+
     try {
       const { password, username } = this.state;
       const credentials = {
@@ -34,20 +32,14 @@ class Login extends Component {
       let res = await this.props.login(credentials);
       if (res.payload.status === 400) throw new Error();
 
-      this.setState({
-        ...this.state,
-        redirect: true,
-      });
+      this.setState({ ...this.state, redirect: true });
     } catch (err) {
-      this.setState({
-        ...this.state,
-        errorClass: 'd-block',
-      });
+      this.setState({ ...this.state, hasErr: true });
     }
   };
 
   render() {
-    const { errorClass, password, redirect, username } = this.state;
+    const { hasErr, password, redirect, username } = this.state;
     const { isFetching, loggedIn } = this.props.appState;
 
     if (redirect || loggedIn) return <Redirect to="/users/me" />;
@@ -94,12 +86,11 @@ class Login extends Component {
                     </button>
                   </form>
                 )}
-                <div
-                  className={`alert alert-danger mb-0 mt-2 ${errorClass}`}
-                  role="alert"
-                >
-                  <small>Username or password incorrect.</small>
-                </div>
+                {hasErr && (
+                  <div className="alert alert-danger mb-0 mt-2" role="alert">
+                    <small>Username or password incorrect.</small>
+                  </div>
+                )}
               </div>
               <div className="card-footer">
                 Not yet a user? <Link to="/signup">Sign Up!</Link>
