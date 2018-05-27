@@ -60,6 +60,8 @@ const appState = (state = INITIAL_STATE, action) => {
         isFetching: false,
         user: { ...state.user, likedPosts: [...action.payload.likedPosts] },
       };
+    case Actions.LOGOUT_SUCCESS:
+      return { ...INITIAL_STATE };
     default:
       return state;
   }
