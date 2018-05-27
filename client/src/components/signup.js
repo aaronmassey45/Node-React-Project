@@ -64,7 +64,7 @@ class SignUp extends Component {
     return (
       <div className="SignUp container my-1">
         <div className="row">
-          <div className="col-sm-6 mx-auto">
+          <div className="col-10 col-lg-6 mx-auto">
             <div className="card">
               <div className="card-header">
                 <h3>Sign Up</h3>
@@ -131,7 +131,7 @@ class SignUp extends Component {
                         Min: 6
                       </small>
                     </div>
-                    <div className="form-check">
+                    <div className="form-check my-2">
                       <label className="form-check-label">
                         <input
                           checked={isAFoodTruck}
