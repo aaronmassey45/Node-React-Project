@@ -54,6 +54,7 @@ class Login extends Component {
                     <div className="form-group">
                       <label htmlFor="username">Username</label>
                       <input
+                        autoComplete="username"
                         className="form-control"
                         id="username"
                         onChange={this.handleChange}
@@ -66,6 +67,7 @@ class Login extends Component {
                     <div className="form-group">
                       <label htmlFor="password">Password</label>
                       <input
+                        autoComplete="password"
                         className="form-control"
                         id="password"
                         onChange={this.handleChange}
