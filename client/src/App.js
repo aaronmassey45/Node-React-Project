@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 
+import requireAuth from './components/HOCs/requireAuth';
 import EditUser from './components/editUser/EditUser';
 import FloatingChowt from './components/chowt-modal';
 import HomePage from './components/homepage';
@@ -21,13 +22,21 @@ class App extends Component {
           <div className="mt-app">
             <Switch>
               <Route path="/login" exact component={Login} />
-              <Route path="/users/account/edit" exact component={EditUser} />
+              <Route
+                path="/users/account/edit"
+                exact
+                component={requireAuth(EditUser)}
+              />
               <Route
                 path="/users/account/:username"
                 exact
                 component={UserPage}
               />
-              <Route path="/users/me" exact component={MyAccount} />
+              <Route
+                path="/users/me"
+                exact
+                component={requireAuth(MyAccount)}
+              />
               <Route path="/signup" exact component={SignUp} />
               <Route path="/" exact component={HomePage} />
               <Route path="*" component={NotFound} />
