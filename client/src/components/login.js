@@ -57,6 +57,9 @@ class Login extends Component {
         <div className="row">
           <div className="col-sm-6 mx-auto mt-5 ">
             <div className="card">
+              <div className="card-header">
+                <h3>Login</h3>
+              </div>
               <div className="card-body">
                 {isFetching ? (
                   <i className="fa fa-spinner fa-pulse fa-3x fa-fw" />
@@ -87,7 +90,7 @@ class Login extends Component {
                       />
                     </div>
                     <button type="submit" className="btn btn-primary btn-block">
-                      Submit
+                      Login!
                     </button>
                   </form>
                 )}
