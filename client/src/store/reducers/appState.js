@@ -1,8 +1,8 @@
 import * as Actions from '../actions/actionTypes';
 
 const INITIAL_STATE = {
-  loggedIn: false,
-  isFetching: false,
+  loggedIn: null,
+  isFetching: null,
   user: {
     _id: '',
     bio: '',

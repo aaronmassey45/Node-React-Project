@@ -8,10 +8,8 @@ import 'react-rater/lib/react-rater.css';
 
 class MyAccount extends Component {
   render() {
-    let { isFetching, loggedIn, user } = this.props.appState;
-
+    const { isFetching, user } = this.props.appState;
     if (isFetching) return <i className="fa fa-spinner fa-pulse fa-3x fa-fw" />;
-    if (!loggedIn) return <div>Unauthorized user</div>;
 
     return (
       <div className="MyAccount">
