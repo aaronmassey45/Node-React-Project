@@ -14,9 +14,7 @@ class Login extends Component {
   };
 
   handleChange = e => {
-    this.setState({
-      [e.target.id]: e.target.value,
-    });
+    this.setState({ [e.target.id]: e.target.value });
   };
 
   handleSubmit = async e => {
@@ -25,11 +23,7 @@ class Login extends Component {
 
     try {
       const { password, username } = this.state;
-      const credentials = {
-        password,
-        username,
-      };
-      let res = await this.props.login(credentials);
+      const res = await this.props.login({ password, username });
       if (res.payload.status === 400) throw new Error();
 
       this.setState({ ...this.state, redirect: true });
@@ -103,7 +97,7 @@ class Login extends Component {
   }
 }
 
-const mapStateToProps = state => ({ appState: state.appState });
+const mapStateToProps = ({ appState }) => ({ appState });
 
 const mapDispatchToProps = dispatch => {
   return bindActionCreators({ login }, dispatch);
