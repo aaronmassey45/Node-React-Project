@@ -33,8 +33,9 @@ class Navbar extends Component {
 
   renderButtons = () => {
     const { loading, loggedIn, username } = this.props;
+    console.log({ loading, loggedIn, username });
     if (!loading) {
-      return !loggedIn ? (
+      return loggedIn ? (
         <AuthedButtons username={username} logout={this.handleLogout} />
       ) : (
         <UnauthedButtons />
