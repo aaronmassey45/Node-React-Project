@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 import { NavLink, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -7,6 +6,7 @@ import { bindActionCreators } from 'redux';
 import { isUserAuthenticated, logout } from '../../store/actions/userActions';
 import AuthedButtons from './AuthedButtons';
 import UnauthedButtons from './UnauthedButtons';
+import UserSearch from './UserSearch';
 
 class Navbar extends Component {
   checkAuth = async () => {
@@ -44,24 +44,6 @@ class Navbar extends Component {
     }
   };
 
-  searchUser = async e => {
-    e.preventDefault();
-    if (this.refs.userSearch.value) {
-      try {
-        const users = await axios.get('/api/userlist');
-        const foundUser = users.data.find(
-          user => user.username === this.refs.userSearch.value
-        );
-        if (!foundUser)
-          return alert(`No user found: ${this.refs.userSearch.value}`);
-        this.props.history.push(`/users/account/${foundUser.username}`);
-        this.refs.userSearch.value = '';
-      } catch (err) {
-        console.log(err);
-      }
-    }
-  };
-
   render() {
     return (
       <nav className="navbar fixed-top navbar-expand-md navbar-dark bg-dark">
@@ -94,23 +76,7 @@ class Navbar extends Component {
             </li>
             {this.renderButtons()}
           </ul>
-          <form
-            className="form-inline justify-content-end"
-            onSubmit={this.searchUser}
-          >
-            <input
-              type="search"
-              placeholder="Search username"
-              className="form-control mr-sm-2"
-              ref="userSearch"
-            />
-            <button
-              className="btn btn-outline-light my-sm-0 my-2 mx-auto"
-              type="submit"
-            >
-              Search
-            </button>
-          </form>
+          <UserSearch history={this.props.history} />
         </div>
       </nav>
     );
