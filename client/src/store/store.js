@@ -3,6 +3,11 @@ import { apiMiddleware } from 'redux-api-middleware';
 
 import rootReducer from './reducers';
 
-let store = createStore(rootReducer, {}, applyMiddleware(apiMiddleware));
+const middlewares = [apiMiddleware];
 
-export default store;
+if (process.env.NODE_ENV === 'development') {
+  const { logger } = require('redux-logger');
+  middlewares.push(logger);
+}
+
+export default createStore(rootReducer, {}, applyMiddleware(...middlewares));
