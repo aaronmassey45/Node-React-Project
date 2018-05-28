@@ -7,11 +7,10 @@ import EditUser from './components/editUser/EditUser';
 import FloatingChowt from './components/chowt-modal';
 import HomePage from './components/homepage';
 import Login from './components/login';
-import MyAccount from './components/users-me';
 import Navbar from './components/navbar/Navbar';
 import NotFound from './components/notfound';
 import SignUp from './components/signup';
-import UserPage from './components/users-page';
+import User from './components/User';
 
 class App extends Component {
   render() {
@@ -27,16 +26,7 @@ class App extends Component {
                 exact
                 component={requireAuth(EditUser)}
               />
-              <Route
-                path="/users/account/:username"
-                exact
-                component={UserPage}
-              />
-              <Route
-                path="/users/me"
-                exact
-                component={requireAuth(MyAccount)}
-              />
+              <Route path="/users/account/:username" exact component={User} />
               <Route path="/signup" exact component={SignUp} />
               <Route path="/" exact component={HomePage} />
               <Route path="*" component={NotFound} />
