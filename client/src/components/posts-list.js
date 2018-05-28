@@ -15,15 +15,15 @@ class PostList extends Component {
     try {
       this.props.fetchPosts();
       const users = await axios.get('/api/userlist');
-      this.setState({ users });
+      this.setState({ users: users.data });
     } catch (err) {
       console.log(err);
     }
   }
 
   renderPost = postData => {
-    if (!this.state.users.data) return;
-    let profile = this.state.users.data.find(x => x._id === postData._creator);
+    if (!this.state.users) return null;
+    const profile = this.state.users.find(x => x._id === postData._creator);
     return (
       <div key={postData._id} className="list-group-item">
         <Post post={postData} profile={profile} id={postData._id} />
