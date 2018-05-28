@@ -24,6 +24,7 @@ class PostList extends Component {
   renderPost = postData => {
     if (!this.state.users) return null;
     const profile = this.state.users.find(x => x._id === postData._creator);
+    if (!profile) return null;
     return (
       <div key={postData._id} className="list-group-item">
         <Post post={postData} profile={profile} id={postData._id} />
