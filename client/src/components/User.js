@@ -52,7 +52,8 @@ class User extends Component {
   }
 
   render() {
-    if (!this.state.user) return <div />;
+    if (!this.state.user)
+      return <i className="fa fa-spinner fa-pulse fa-3x fa-fw" />;
     const {
       isAuthed,
       user: { bio, _id, isAFoodTruck, location, profileImg, rating, username },
