@@ -19,8 +19,6 @@ const INITIAL_STATE = {
 
 const appState = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case Actions.REQUEST:
-      return { ...state, isFetching: true };
     case Actions.LOGIN_SUCCESS:
     case Actions.SIGNUP_SUCCESS:
     case Actions.AUTH_SUCCESS:
