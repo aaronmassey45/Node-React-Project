@@ -1,10 +1,14 @@
 import { combineReducers } from 'redux';
 
 import appState from './appState';
+import foundUser from './foundUser';
+import loading from './loading';
 import posts from './posts_reducer';
 
-let rootReducer = combineReducers({
+const rootReducer = combineReducers({
   appState,
+  foundUser,
+  loading,
   posts,
 });
 
