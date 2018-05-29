@@ -12,6 +12,7 @@ class Chowt extends Component {
     chowt: '',
     hasError: false,
     sendLocation: false,
+    errMsg: '',
   };
 
   handleChange = e => {
@@ -20,14 +21,17 @@ class Chowt extends Component {
     this.setState({ chowt: e.target.value });
   };
 
+  getPosition = () => {
+    return new Promise((res, rej) => {
+      navigator.geolocation.getCurrentPosition(res, rej);
+    });
+  };
+
   submitChowt = async e => {
     e.preventDefault();
-    this.setState({ hasError: false });
+    const body = { text: this.state.chowt };
 
     try {
-      const token = localStorage.getItem('x-auth');
-      const headers = { 'x-auth': token };
-
       if (this.state.sendLocation && this.props.user.isAFoodTruck) {
         if (!navigator.geolocation) {
           this.setState({ sendLocation: false });
@@ -35,32 +39,29 @@ class Chowt extends Component {
           return;
         }
 
-        navigator.geolocation.getCurrentPosition(async position => {
-          await axios.post(
-            '/api/chowt',
-            {
-              text: this.state.chowt,
-              location: {
-                lat: position.coords.latitude,
-                lng: position.coords.longitude,
-              },
-            },
-            { headers }
-          );
-          this.setState({ chowt: '', sendLocation: false }, async () => {
-            await this.props.fetchPosts();
-          });
-        });
-      } else {
-        await axios.post('/api/chowt', { text: this.state.chowt }, { headers });
-        this.setState({ chowt: '' }, async () => {
-          await this.props.fetchPosts();
+        await this.getPosition().then(res => {
+          body.location = {
+            lat: res.coords.latitude,
+            lng: res.coords.longitude,
+          };
         });
       }
 
+      const token = localStorage.getItem('x-auth');
+      const headers = { 'x-auth': token };
+
+      await axios.post('/api/chowt', { ...body }, { headers });
+      this.setState({ chowt: '', sendLocation: false, hasError: false }, () => {
+        this.props.fetchPosts();
+      });
+
       if (this.props.hideAfterSubmit) this.props.hideAfterSubmit();
     } catch (err) {
-      this.setState({ hasError: true });
+      this.setState(prevState => ({
+        ...prevState,
+        hasError: true,
+        errMsg: err.message,
+      }));
     }
   };
 
@@ -68,16 +69,12 @@ class Chowt extends Component {
     const { showModal, hide, isFetching, user } = this.props;
     return (
       <form onSubmit={this.submitChowt}>
-        {showModal ? (
+        {showModal && (
           <Alert
-            closeModal={() => {
-              hide();
-            }}
+            closeModal={() => hide()}
             msg="Geolocation not supported by your browser"
             bg="light"
           />
-        ) : (
-          ''
         )}
         <div className="input-group">
           <input
@@ -98,7 +95,7 @@ class Chowt extends Component {
             </button>
           </span>
         </div>
-        {user.isAFoodTruck ? (
+        {user.isAFoodTruck && (
           <div className="form-check text-right mb-0 mt-1">
             <label className="form-check-label">
               <input
@@ -111,15 +108,11 @@ class Chowt extends Component {
               Send Location
             </label>
           </div>
-        ) : (
-          ''
         )}
-        {this.state.hasError ? (
+        {this.state.hasError && (
           <div className="alert alert-danger" role="alert">
-            Post failed. Try again!
+            {this.state.errMsg ? this.state.errMsg : 'Post failed. Try again!'}
           </div>
-        ) : (
-          ''
         )}
       </form>
     );
