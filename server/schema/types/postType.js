@@ -7,7 +7,6 @@ const {
   GraphQLString,
   GraphQLID,
   GraphQLList,
-  GraphQLBoolean,
   GraphQLInt,
 } = graphql;
 
