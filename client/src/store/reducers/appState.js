@@ -19,8 +19,6 @@ const INITIAL_STATE = {
 
 const appState = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case Actions.REQUEST:
-      return { ...state, isFetching: true };
     case Actions.LOGIN_SUCCESS:
     case Actions.SIGNUP_SUCCESS:
     case Actions.AUTH_SUCCESS:
@@ -60,6 +58,8 @@ const appState = (state = INITIAL_STATE, action) => {
         isFetching: false,
         user: { ...state.user, likedPosts: [...action.payload.likedPosts] },
       };
+    case Actions.LOGOUT_SUCCESS:
+      return { ...INITIAL_STATE };
     default:
       return state;
   }

@@ -49,7 +49,7 @@ class SignUp extends Component {
   };
 
   render() {
-    const { isFetching, loggedIn } = this.props.appState;
+    const { isFetching, loggedIn } = this.props;
     if (loggedIn) return <Redirect to="/users/me" />;
 
     const {
@@ -64,8 +64,11 @@ class SignUp extends Component {
     return (
       <div className="SignUp container my-1">
         <div className="row">
-          <div className="col-sm-6 mx-auto">
+          <div className="col-10 col-lg-6 mx-auto">
             <div className="card">
+              <div className="card-header">
+                <h3>Sign Up</h3>
+              </div>
               <div className="card-body">
                 {isFetching ? (
                   <i className="fa fa-spinner fa-pulse fa-3x fa-fw" />
@@ -74,12 +77,12 @@ class SignUp extends Component {
                     <div className="form-group">
                       <label htmlFor="email">Email Address</label>
                       <input
-                        type="email"
+                        aria-describedby="emailHelp"
                         className="form-control"
                         id="email"
-                        aria-describedby="emailHelp"
-                        placeholder="Enter email"
                         onChange={this.handleChange}
+                        placeholder="Enter email"
+                        type="email"
                         value={email}
                       />
                       <small
@@ -92,12 +95,13 @@ class SignUp extends Component {
                     <div className="form-group">
                       <label htmlFor="username">Username</label>
                       <input
-                        type="text"
+                        autoComplete="username"
+                        aria-describedby="userHelp"
                         className="form-control"
                         id="username"
                         placeholder="Create a username"
-                        aria-describedby="userHelp"
                         onChange={this.handleChange}
+                        type="text"
                         value={username}
                       />
                       <div className="row" id="userHelp">
@@ -114,42 +118,41 @@ class SignUp extends Component {
                     <div className="form-group">
                       <label htmlFor="password">Password</label>
                       <input
-                        type="password"
+                        aria-describedby="passHelp"
+                        autoComplete="new-password"
                         className="form-control"
                         id="password"
-                        placeholder="Password"
-                        aria-describedby="passHelp"
                         onChange={this.handleChange}
+                        placeholder="Password"
+                        type="password"
                         value={password}
                       />
                       <small className="form-text text-muted text-left">
                         Min: 6
                       </small>
                     </div>
-                    <div className="form-check">
+                    <div className="form-check my-2">
                       <label className="form-check-label">
                         <input
-                          type="checkbox"
+                          checked={isAFoodTruck}
                           className="form-check-input"
                           id="isAFoodTruck"
                           onChange={this.handleChange}
-                          checked={isAFoodTruck}
+                          type="checkbox"
                         />
                         Is this a food truck account?
                       </label>
                     </div>
                     <button type="submit" className="btn btn-primary btn-block">
-                      Submit
+                      Create Account
                     </button>
                   </form>
                 )}
               </div>
-              {signupFailed ? (
+              {signupFailed && (
                 <div className="alert alert-danger" role="alert">
                   {errmsg}
                 </div>
-              ) : (
-                ''
               )}
               <div className="card-footer">
                 Already a user? <Link to="/login">Login</Link>
@@ -162,8 +165,9 @@ class SignUp extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  appState: state.appState,
+const mapStateToProps = ({ appState }) => ({
+  loading: appState.isFetching,
+  loggedIn: appState.loggedIn,
 });
 
 const mapDispatchToProps = dispatch => {
