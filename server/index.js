@@ -1,14 +1,14 @@
 require('./config/config');
 
-const _ = require('lodash');
 const bcrypt = require('bcryptjs');
 const bodyParser = require('body-parser');
 const express = require('express');
 const mongoose = require('mongoose');
+const expressGraphQL = require('express-graphql');
 const path = require('path');
-
 require('./models/user');
 require('./models/post');
+const schema = require('./schema/schema');
 
 mongoose.Promise = global.Promise;
 mongoose.connect(process.env.MONGO_URI);
@@ -16,6 +16,13 @@ mongoose.connect(process.env.MONGO_URI);
 const app = express();
 
 app.use(bodyParser.json());
+app.use(
+  '/graphql',
+  expressGraphQL({
+    schema,
+    graphiql: true,
+  })
+);
 
 require('./routes/postRoutes')(app);
 require('./routes/userRoutes')(app);
