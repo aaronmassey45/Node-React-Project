@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const graphql = require('graphql');
+const Post = mongoose.model('post');
 const {
   GraphQLObjectType,
   GraphQLString,
@@ -18,10 +19,13 @@ const UserType = new GraphQLObjectType({
     location: { type: GraphQLString },
     profileImg: { type: GraphQLString },
     username: { type: GraphQLString },
-    likedPosts: {
-      type: new GraphQLList(GraphQLID),
-    },
     isAFoodTruck: { type: GraphQLBoolean },
+    likedPosts: {
+      type: new GraphQLList(require('./postType')),
+      resolve(parentValue) {
+        return parentValue.likedPosts.map(post => Post.findById(post));
+      },
+    },
     rating: {
       type: new GraphQLObjectType({
         name: 'Rating',
