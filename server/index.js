@@ -14,13 +14,19 @@ mongoose.Promise = global.Promise;
 mongoose.connect(process.env.MONGO_URI);
 
 const app = express();
+const getToken = (req, res, next) => {
+  const token = req.header('x-auth') || null;
+  req.token = token;
+  next();
+};
 
 app.use(bodyParser.json());
+app.use(getToken);
 app.use(
   '/graphql',
   expressGraphQL({
     schema,
-    graphiql: true,
+    graphiql: process.env.NODE_ENV === 'development',
   })
 );
 
@@ -38,5 +44,7 @@ if (process.env.NODE_ENV === 'production') {
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
-  console.log(`App is listening on port ${PORT}.`);
+  console.log(
+    `App is listening on port ${PORT}. Mode: ${process.env.NODE_ENV}`
+  );
 });
