@@ -9,25 +9,25 @@ const path = require('path');
 require('./models/user');
 require('./models/post');
 const schema = require('./schema/schema');
+const authenticate = require('./middleware/authenticate');
 
 mongoose.Promise = global.Promise;
 mongoose.connect(process.env.MONGO_URI);
 
 const app = express();
-const getToken = (req, res, next) => {
-  const token = req.header('x-auth') || null;
-  req.token = token;
-  next();
-};
 
-app.use(bodyParser.json());
-app.use(getToken);
 app.use(
-  '/graphql',
-  expressGraphQL({
+  '/api',
+  bodyParser.json(),
+  authenticate,
+  expressGraphQL(req => ({
     schema,
+    context: {
+      user: req.user,
+      token: req.token,
+    },
     graphiql: process.env.NODE_ENV === 'development',
-  })
+  }))
 );
 
 require('./routes/postRoutes')(app);
