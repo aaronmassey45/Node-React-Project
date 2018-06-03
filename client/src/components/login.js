@@ -3,7 +3,7 @@ import { Link, Redirect } from 'react-router-dom';
 import { graphql } from 'react-apollo';
 
 import mutation from '../mutations/Login';
-import query from '../queries/CurrentUser';
+import { query, opts } from '../queries/CurrentUser';
 
 class Login extends Component {
   state = {
@@ -96,15 +96,5 @@ class Login extends Component {
     );
   }
 }
-
-const opts = {
-  options: {
-    context: {
-      headers: {
-        'x-auth': localStorage.getItem('x-auth'),
-      },
-    },
-  },
-};
 
 export default graphql(query, opts)(graphql(mutation)(Login));

@@ -1,6 +1,16 @@
 import gql from 'graphql-tag';
 
-export default gql`
+export const opts = {
+  options: {
+    context: {
+      headers: {
+        'x-auth': localStorage.getItem('x-auth'),
+      },
+    },
+  },
+};
+
+export const query = gql`
   {
     me {
       id
