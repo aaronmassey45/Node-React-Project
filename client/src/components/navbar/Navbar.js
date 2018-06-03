@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import { NavLink, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { graphql } from 'react-apollo';
 
+import { query, opts } from '../../queries/CurrentUser';
 import { isUserAuthenticated, logout } from '../../store/actions/userActions';
 import AuthedButtons from './AuthedButtons';
 import UnauthedButtons from './UnauthedButtons';
@@ -32,11 +34,12 @@ class Navbar extends Component {
   };
 
   renderButtons = () => {
-    const { loading, loggedIn, username } = this.props;
+    console.log(this.props.data);
+    const { loading, me } = this.props.data;
 
     if (!loading) {
-      return loggedIn ? (
-        <AuthedButtons username={username} logout={this.handleLogout} />
+      return me ? (
+        <AuthedButtons username={me.username} logout={this.handleLogout} />
       ) : (
         <UnauthedButtons />
       );
@@ -84,14 +87,10 @@ class Navbar extends Component {
   }
 }
 
-const mapStateToProps = ({ appState }) => ({
-  loading: appState.isFetching,
-  loggedIn: appState.loggedIn,
-  username: appState.user.username,
-});
-
 const mapDispatchToProps = dispatch => {
   return bindActionCreators({ isUserAuthenticated, logout }, dispatch);
 };
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Navbar));
+export default withRouter(
+  graphql(query, opts)(connect(null, mapDispatchToProps)(Navbar))
+);
