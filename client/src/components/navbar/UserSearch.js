@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import { withRouter } from 'react-router-dom';
 
-export default class extends Component {
+class UserSearch extends Component {
   state = { value: '' };
 
   searchUser = async e => {
@@ -42,3 +43,5 @@ export default class extends Component {
     );
   }
 }
+
+export default withRouter(UserSearch);
