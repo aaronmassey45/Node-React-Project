@@ -9,16 +9,22 @@ const PostType = require('./postType');
 const RootQuery = new GraphQLObjectType({
   name: 'RootQueryType',
   fields: () => ({
+    me: {
+      type: UserType,
+      resolve(_, args, context) {
+        return context.user;
+      },
+    },
     user: {
       type: UserType,
       args: { id: { type: new GraphQLNonNull(GraphQLID) } },
-      resolve(parentValue, { id }) {
+      resolve(_, { id }) {
         return User.findById(id);
       },
     },
     posts: {
       type: new GraphQLList(PostType),
-      resolve(parentValue) {
+      resolve() {
         return Post.find({});
       },
     },
