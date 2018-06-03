@@ -1,0 +1,28 @@
+const mongoose = require('mongoose');
+const User = mongoose.model('user');
+
+const login = async ({ password, username }) => {
+  return new Promise((resolve, reject) => {
+    return User.findByCredentials(username, password).then(user => {
+      if (!user || user === 'Invalid Credentials')
+        return reject('Invalid Credentials');
+      const token = user.generateAuthToken().then(token => resolve(token));
+    });
+  }).catch(err => {
+    console.log('Error', err);
+    return err;
+  });
+};
+
+// const signup = async ({email, password, username, isAFoodTruck}) => {
+// 	try {
+// 		const user = new User({ username, email, password, isAFoodTruck });
+// 		await user.save();
+// 		const token = await user.generateAuthToken();
+// 		res.header('x-auth', token).send(user);
+// 	} catch (e) {
+// 		res.status(400).send(e);
+// 	}
+// }
+
+module.exports = { login };
