@@ -1,36 +1,21 @@
 import React, { Component } from 'react';
-import { NavLink, withRouter } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import { NavLink } from 'react-router-dom';
 import { graphql } from 'react-apollo';
 
 import { query, opts } from '../../queries/CurrentUser';
-import { isUserAuthenticated, logout } from '../../store/actions/userActions';
+import mutation from '../../mutations/Logout';
 import AuthedButtons from './AuthedButtons';
 import UnauthedButtons from './UnauthedButtons';
 import UserSearch from './UserSearch';
 
 class Navbar extends Component {
-  checkAuth = async () => {
-    try {
-      await this.props.isUserAuthenticated();
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  componentDidMount() {
-    this.checkAuth();
-  }
-
-  handleLogout = async () => {
-    try {
-      await this.props.logout(this.props.history);
-      this.checkAuth();
-    } catch (err) {
-      alert("You aren't logged in");
-      console.log(err);
-    }
+  handleLogout = () => {
+    this.props
+      .mutate({
+        refetchQueries: [{ query }],
+      })
+      .then(() => localStorage.removeItem('x-auth'))
+      .catch(err => console.log(err));
   };
 
   renderButtons = () => {
@@ -80,17 +65,11 @@ class Navbar extends Component {
             </li>
             {this.renderButtons()}
           </ul>
-          <UserSearch history={this.props.history} />
+          <UserSearch />
         </div>
       </nav>
     );
   }
 }
 
-const mapDispatchToProps = dispatch => {
-  return bindActionCreators({ isUserAuthenticated, logout }, dispatch);
-};
-
-export default withRouter(
-  graphql(query, opts)(connect(null, mapDispatchToProps)(Navbar))
-);
+export default graphql(query, opts)(graphql(mutation, opts)(Navbar));
