@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
 import { Link, Redirect } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import { graphql } from 'react-apollo';
 
-import { login } from '../store/actions/userActions';
+import mutation from '../mutations/Login';
+import query from '../queries/CurrentUser';
 
 class Login extends Component {
   state = {
     hasErr: false,
     password: '',
-    redirect: false,
     username: '',
   };
 
@@ -19,24 +18,23 @@ class Login extends Component {
 
   handleSubmit = async e => {
     e.preventDefault();
-    this.setState({ ...this.state, hasErr: false });
+    const { password, username } = this.state;
 
-    try {
-      const { password, username } = this.state;
-      const res = await this.props.login({ password, username });
-      if (res.payload.status === 400) throw new Error();
-
-      this.setState({ ...this.state, redirect: true });
-    } catch (err) {
-      this.setState({ ...this.state, hasErr: true });
-    }
+    const token = await this.props
+      .mutate({
+        variables: { username, password },
+      })
+      .then(res => res.data.login);
+    console.log(token);
+    localStorage.setItem('x-auth', token);
+    await this.props.data.refetch(query);
   };
 
   render() {
-    const { hasErr, password, redirect, username } = this.state;
-    const { isFetching, loggedIn } = this.props.appState;
+    const { hasErr, password, username } = this.state;
+    const { me, loading } = this.props.data;
 
-    if (redirect || loggedIn) return <Redirect to="/users/me" />;
+    if (me) return <Redirect to={`/users/account/${me.username}`} />;
 
     return (
       <div className="Login container">
@@ -47,7 +45,7 @@ class Login extends Component {
                 <h3>Login</h3>
               </div>
               <div className="card-body">
-                {isFetching ? (
+                {loading ? (
                   <i className="fa fa-spinner fa-pulse fa-3x fa-fw" />
                 ) : (
                   <form onSubmit={this.handleSubmit}>
@@ -99,10 +97,14 @@ class Login extends Component {
   }
 }
 
-const mapStateToProps = ({ appState }) => ({ appState });
-
-const mapDispatchToProps = dispatch => {
-  return bindActionCreators({ login }, dispatch);
+const opts = {
+  options: {
+    context: {
+      headers: {
+        'x-auth': localStorage.getItem('x-auth'),
+      },
+    },
+  },
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default graphql(query, opts)(graphql(mutation)(Login));
