@@ -14,6 +14,17 @@ const login = async ({ password, username }) => {
   });
 };
 
+const logout = async (user, token) => {
+  try {
+    if (!user) throw new Error("You aren't logged in");
+    await user.removeToken(token);
+    return user;
+  } catch (err) {
+    console.log('Error', err);
+    return err;
+  }
+};
+
 // const signup = async ({email, password, username, isAFoodTruck}) => {
 // 	try {
 // 		const user = new User({ username, email, password, isAFoodTruck });
@@ -25,4 +36,4 @@ const login = async ({ password, username }) => {
 // 	}
 // }
 
-module.exports = { login };
+module.exports = { login, logout };
