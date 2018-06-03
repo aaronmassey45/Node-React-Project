@@ -6,7 +6,7 @@ import requireAuth from './components/HOCs/requireAuth';
 import EditUser from './components/editUser/EditUser';
 import FloatingChowt from './components/chowt-modal';
 import HomePage from './components/homepage';
-import Login from './components/login';
+import Login from './components/Login';
 import Navbar from './components/navbar/Navbar';
 import NotFound from './components/notfound';
 import SignUp from './components/signup';
