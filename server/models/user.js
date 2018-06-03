@@ -156,15 +156,19 @@ UserSchema.statics.findByToken = function(token) {
 UserSchema.statics.findByCredentials = async function(username, password) {
   const User = this;
 
-  return User.findOne({ username }).then(user => {
-    if (!user) return Promise.resolve('No user found');
+  return User.findOne({ username })
+    .then(user => {
+      if (!user) throw null;
 
-    return new Promise((resolve, reject) => {
-      bcrypt.compare(password, user.password, (err, res) => {
-        res ? resolve(user) : resolve('Incorrect password');
+      return new Promise((resolve, reject) => {
+        bcrypt.compare(password, user.password, (err, res) => {
+          res ? resolve(user) : reject('Invalid Credentials');
+        });
       });
+    })
+    .catch(err => {
+      return err;
     });
-  });
 };
 
 UserSchema.pre('save', function(next) {
