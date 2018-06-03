@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import { graphql } from 'react-apollo';
 
-import { query, opts } from '../../queries/CurrentUser';
+import query from '../../queries/CurrentUser';
 import mutation from '../../mutations/Logout';
 import AuthedButtons from './AuthedButtons';
 import UnauthedButtons from './UnauthedButtons';
@@ -19,7 +19,6 @@ class Navbar extends Component {
   };
 
   renderButtons = () => {
-    console.log(this.props.data);
     const { loading, me } = this.props.data;
 
     if (!loading) {
@@ -72,4 +71,4 @@ class Navbar extends Component {
   }
 }
 
-export default graphql(query, opts)(graphql(mutation, opts)(Navbar));
+export default graphql(query)(graphql(mutation)(Navbar));
