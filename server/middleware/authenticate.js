@@ -4,7 +4,7 @@ const User = mongoose.model('user');
 
 const authenticate = async (req, res, next) => {
   try {
-    const token = req.header('x-auth');
+    const token = req.headers['x-auth'];
     if (!token) throw new Error();
 
     const user = await User.findByToken(token);
