@@ -3,7 +3,7 @@ import { Link, Redirect } from 'react-router-dom';
 import { graphql } from 'react-apollo';
 
 import mutation from '../mutations/Login';
-import { query, opts } from '../queries/CurrentUser';
+import query from '../queries/CurrentUser';
 
 class Login extends Component {
   state = {
@@ -20,17 +20,17 @@ class Login extends Component {
     e.preventDefault();
     const { password, username } = this.state;
 
-    const token = await this.props
+    await this.props
       .mutate({
         variables: { username, password },
       })
-      .then(res => res.data.login);
-    console.log(token);
-    localStorage.setItem('x-auth', token);
-    await this.props.data.refetch(query);
+      .then(res => localStorage.setItem('x-auth', res.data.login))
+      .catch(err => console.log(err));
+    this.props.data.refetch();
   };
 
   render() {
+    console.log(graphql);
     const { hasErr, password, username } = this.state;
     const { me, loading } = this.props.data;
 
@@ -97,4 +97,4 @@ class Login extends Component {
   }
 }
 
-export default graphql(query, opts)(graphql(mutation)(Login));
+export default graphql(query)(graphql(mutation)(Login));
