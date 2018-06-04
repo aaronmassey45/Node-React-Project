@@ -12,31 +12,40 @@ const {
 
 const UserType = new GraphQLObjectType({
   name: 'User',
-  fields: () => ({
-    id: { type: GraphQLID },
-    bio: { type: GraphQLString },
-    email: { type: GraphQLString },
-    location: { type: GraphQLString },
-    profileImg: { type: GraphQLString },
-    username: { type: GraphQLString },
-    isAFoodTruck: { type: GraphQLBoolean },
-    likedPosts: {
-      type: new GraphQLList(require('./postType')),
-      resolve(parentValue) {
-        return parentValue.likedPosts.map(post => Post.findById(post));
+  fields: () => {
+    const PostType = require('./postType');
+    return {
+      id: { type: GraphQLID },
+      bio: { type: GraphQLString },
+      email: { type: GraphQLString },
+      location: { type: GraphQLString },
+      profileImg: { type: GraphQLString },
+      username: { type: GraphQLString },
+      isAFoodTruck: { type: GraphQLBoolean },
+      posts: {
+        type: new GraphQLList(PostType),
+        resolve(parentValue) {
+          return Post.find({ _creator: parentValue.id });
+        },
       },
-    },
-    rating: {
-      type: new GraphQLObjectType({
-        name: 'Rating',
-        fields: () => ({
-          average: { type: GraphQLString },
-          numberOfRatings: { type: GraphQLInt },
-          totalRating: { type: GraphQLInt },
+      likedPosts: {
+        type: new GraphQLList(PostType),
+        resolve(parentValue) {
+          return parentValue.likedPosts.map(post => Post.findById(post));
+        },
+      },
+      rating: {
+        type: new GraphQLObjectType({
+          name: 'Rating',
+          fields: () => ({
+            average: { type: GraphQLString },
+            numberOfRatings: { type: GraphQLInt },
+            totalRating: { type: GraphQLInt },
+          }),
         }),
-      }),
-    },
-  }),
+      },
+    };
+  },
 });
 
 module.exports = UserType;
