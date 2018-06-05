@@ -3,31 +3,15 @@ import axios from 'axios';
 import Rater from 'react-rater';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { graphql, compose } from 'react-apollo';
 
-import PostList from './posts-list';
+import Post from './post';
 import Chowt from './chowt';
-import { getUser, isUserAuthenticated, clearFoundUser } from '../store/actions';
+import { getUser, isUserAuthenticated } from '../store/actions';
+import FetchUser from '../queries/FetchUser';
+import CurrentUser from '../queries/CurrentUser';
 
 class User extends Component {
-  state = {
-    isAuthed: null,
-    user: null,
-  };
-
-  static getDerivedStateFromProps(props, state) {
-    const { authedUser, foundUser, getUser, match } = props;
-
-    if (!foundUser) {
-      getUser(match.params.username);
-      return null;
-    }
-
-    if (authedUser._id === foundUser._id)
-      return { isAuthed: true, user: { ...authedUser } };
-
-    return { isAuthed: false, user: { ...foundUser } };
-  }
-
   rateUser = async rate => {
     try {
       if (rate.type === 'click') {
@@ -47,41 +31,56 @@ class User extends Component {
     }
   };
 
-  componentWillUnmount() {
-    this.props.clearFoundUser();
-  }
+  renderPosts = () => {
+    const { posts, username, profileImg } = this.props.FetchUserQuery.user;
+    return posts.map(post => {
+      return (
+        <div key={post.id} className="list-group-item">
+          <Post post={post} profile={{ username, profileImg }} id={post.id} />
+        </div>
+      );
+    });
+  };
 
   render() {
-    if (!this.state.user)
+    const { CurrentUserQuery, FetchUserQuery } = this.props;
+
+    if (CurrentUserQuery.loading || FetchUserQuery.loading) {
       return <i className="fa fa-spinner fa-pulse fa-3x fa-fw" />;
-    const {
-      isAuthed,
-      user: { bio, _id, isAFoodTruck, location, profileImg, rating, username },
-    } = this.state;
+    }
+
+    const user = { ...FetchUserQuery.user };
+    const authenticated =
+      CurrentUserQuery.me && user.id === CurrentUserQuery.me.id;
+    const authorized = !!CurrentUserQuery.me;
 
     return (
       <div className="mt-3">
         <div className="row p-3 m-0">
           <div className="col-xs-12 col-sm-4">
             <div className="card">
-              <img src={profileImg} alt="header" className="card-img-top" />
+              <img
+                src={user.profileImg}
+                alt="header"
+                className="card-img-top"
+              />
               <div className="card-body">
                 <div>
-                  <b>{username}</b>
+                  <b>{user.username}</b>
                 </div>
-                <div>{bio}</div>
-                <div>{location}</div>
-                {isAFoodTruck && (
+                <div>{user.bio}</div>
+                <div>{user.location}</div>
+                {user.isAFoodTruck && (
                   <div>
                     <Rater
                       total={5}
                       onRate={this.rateUser}
-                      rating={parseFloat(rating.average)}
-                      interactive={isAFoodTruck && this.props.loggedIn}
+                      rating={parseFloat(user.rating.average)}
+                      interactive={user.isAFoodTruck && authorized}
                     />
                     <p>
                       <small>
-                        Rated <span>{rating.average}</span> out of 5!
+                        Rated <span>{user.rating.average}</span> out of 5!
                       </small>
                     </p>
                   </div>
@@ -91,12 +90,12 @@ class User extends Component {
           </div>
           <div className="col-xs-12 col-sm-8">
             <div className="card">
-              {isAuthed && (
+              {authenticated && (
                 <div className="card-body">
                   <Chowt />
                 </div>
               )}
-              <PostList type="user" id={_id} />
+              {this.renderPosts()}
             </div>
           </div>
         </div>
@@ -105,18 +104,19 @@ class User extends Component {
   }
 }
 
-const mapStateToProps = ({ appState, foundUser }) => ({
-  authedUser: appState.user,
-  loading: appState.isFetching,
-  loggedIn: appState.loggedIn,
-  foundUser,
-});
-
 const mapDispatchToProps = dispatch => {
-  return bindActionCreators(
-    { clearFoundUser, getUser, isUserAuthenticated },
-    dispatch
-  );
+  return bindActionCreators({ getUser, isUserAuthenticated }, dispatch);
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(User);
+export default compose(
+  connect(null, mapDispatchToProps),
+  graphql(FetchUser, {
+    name: 'FetchUserQuery',
+    options: props => ({
+      variables: { username: props.match.params.username },
+    }),
+  }),
+  graphql(CurrentUser, {
+    name: 'CurrentUserQuery',
+  })
+)(User);
