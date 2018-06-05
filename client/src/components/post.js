@@ -43,7 +43,6 @@ class Post extends Component {
 
   render() {
     const { alert, hide, post, profile, showModal, user } = this.props;
-    console.log();
     const timeString = this.getTimeDifference(
       new Date(Number(post.timeCreated))
     );
