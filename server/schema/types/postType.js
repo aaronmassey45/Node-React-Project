@@ -7,7 +7,7 @@ const {
   GraphQLString,
   GraphQLID,
   GraphQLList,
-  GraphQLInt,
+  GraphQLFloat,
 } = graphql;
 
 const PostType = new GraphQLObjectType({
@@ -32,8 +32,8 @@ const PostType = new GraphQLObjectType({
       type: new GraphQLObjectType({
         name: 'PostLocation',
         fields: () => ({
-          lat: { type: GraphQLInt },
-          lng: { type: GraphQLInt },
+          lat: { type: GraphQLFloat },
+          lng: { type: GraphQLFloat },
         }),
       }),
     },
