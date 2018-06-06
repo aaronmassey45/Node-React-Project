@@ -1,5 +1,12 @@
 const graphql = require('graphql');
-const { GraphQLObjectType, GraphQLString, GraphQLID, GraphQLBoolean } = graphql;
+const {
+  GraphQLObjectType,
+  GraphQLString,
+  GraphQLID,
+  GraphQLBoolean,
+  GraphQLFloat,
+  GraphQLInputObjectType,
+} = graphql;
 const mongoose = require('mongoose');
 const User = mongoose.model('user');
 const Post = mongoose.model('post');
@@ -7,6 +14,15 @@ const UserType = require('./types/userType');
 const PostType = require('./types/postType');
 
 const AuthService = require('../services/auth');
+const PostService = require('../services/post');
+
+const Location = new GraphQLInputObjectType({
+  name: 'Location',
+  fields: () => ({
+    lat: { type: GraphQLFloat },
+    lng: { type: GraphQLFloat },
+  }),
+});
 
 const mutations = new GraphQLObjectType({
   name: 'Mutation',
@@ -25,6 +41,16 @@ const mutations = new GraphQLObjectType({
       type: UserType,
       resolve(_, args, { user, token }) {
         return AuthService.logout(user, token);
+      },
+    },
+    chowt: {
+      type: PostType,
+      args: {
+        location: { type: Location },
+        text: { type: GraphQLString },
+      },
+      resolve(_, { text, location }, { user }) {
+        return PostService.chowt(text, location, user);
       },
     },
     // signup: {
