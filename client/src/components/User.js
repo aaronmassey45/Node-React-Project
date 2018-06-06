@@ -33,13 +33,16 @@ class User extends Component {
 
   renderPosts = () => {
     const { posts, username, profileImg } = this.props.FetchUserQuery.user;
-    return posts.map(post => {
-      return (
-        <div key={post.id} className="list-group-item">
-          <Post post={post} profile={{ username, profileImg }} id={post.id} />
-        </div>
-      );
-    });
+
+    return posts
+      .map(post => {
+        return (
+          <div key={post.id} className="list-group-item">
+            <Post post={post} profile={{ username, profileImg }} id={post.id} />
+          </div>
+        );
+      })
+      .reverse();
   };
 
   render() {
