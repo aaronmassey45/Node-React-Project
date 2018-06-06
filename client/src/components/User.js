@@ -33,7 +33,6 @@ class User extends Component {
 
   renderPosts = () => {
     const { posts, username, profileImg } = this.props.FetchUserQuery.user;
-
     return posts
       .map(post => {
         return (
