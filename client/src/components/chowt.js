@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import axios from 'axios';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import { graphql } from 'react-apollo';
 
-import { fetchPosts } from '../store/actions/postActions';
+import mutation from '../mutations/Chowt';
+import query from '../queries/FetchUser';
 import Alert from './alert';
 import handleModal from './HOCs/handle-modal';
 
@@ -47,13 +46,19 @@ class Chowt extends Component {
         });
       }
 
-      const token = localStorage.getItem('x-auth');
-      const headers = { 'x-auth': token };
-
-      await axios.post('/api/chowt', { ...body }, { headers });
-      this.setState({ chowt: '', sendLocation: false, hasError: false }, () => {
-        this.props.fetchPosts();
+      await this.props.mutate({
+        variables: { ...body },
+        refetchQueries: [
+          {
+            query,
+            variables: {
+              username: this.props.user.username,
+            },
+          },
+        ],
       });
+
+      this.setState({ chowt: '' });
 
       if (this.props.hideAfterSubmit) this.props.hideAfterSubmit();
     } catch (err) {
@@ -66,7 +71,7 @@ class Chowt extends Component {
   };
 
   render() {
-    const { showModal, hide, isFetching, user } = this.props;
+    const { showModal, hide, user } = this.props;
     return (
       <form onSubmit={this.submitChowt}>
         {showModal && (
@@ -86,11 +91,7 @@ class Chowt extends Component {
             value={this.state.chowt}
           />
           <span className="input-group-btn">
-            <button
-              className="btn btn-secondary"
-              type="submit"
-              disabled={isFetching}
-            >
+            <button className="btn btn-secondary" type="submit">
               <i className="fa fa-paper-plane" /> Send
             </button>
           </span>
@@ -119,15 +120,6 @@ class Chowt extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  isFetching: state.appState.isFetching,
-  user: state.appState.user,
-});
+const HandledChowt = handleModal(Chowt);
 
-const mapDispatchToProps = dispatch => {
-  return bindActionCreators({ fetchPosts }, dispatch);
-};
-
-let HandledChowt = handleModal(Chowt);
-
-export default connect(mapStateToProps, mapDispatchToProps)(HandledChowt);
+export default graphql(mutation)(HandledChowt);
