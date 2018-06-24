@@ -30,7 +30,6 @@ class Login extends Component {
   };
 
   render() {
-    console.log(graphql);
     const { hasErr, password, username } = this.state;
     const { me, loading } = this.props.data;
 
