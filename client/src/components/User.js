@@ -94,7 +94,7 @@ class User extends Component {
             <div className="card">
               {authenticated && (
                 <div className="card-body">
-                  <Chowt />
+                  <Chowt user={user} />
                 </div>
               )}
               {this.renderPosts()}
