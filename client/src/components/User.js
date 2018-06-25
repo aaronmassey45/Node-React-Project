@@ -32,12 +32,17 @@ class User extends Component {
   };
 
   renderPosts = () => {
-    const { posts, username, profileImg } = this.props.FetchUserQuery.user;
+    const { posts, username, profileImg, id } = this.props.FetchUserQuery.user;
     return posts
       .map(post => {
         return (
           <div key={post.id} className="list-group-item">
-            <Post post={post} profile={{ username, profileImg }} id={post.id} />
+            <Post
+              post={post}
+              profile={{ username, profileImg, id }}
+              id={post.id}
+              me={this.props.CurrentUserQuery.me}
+            />
           </div>
         );
       })
@@ -120,5 +125,8 @@ export default compose(
   }),
   graphql(CurrentUser, {
     name: 'CurrentUserQuery',
+    options: props => ({
+      variables: { withLikedPosts: true },
+    }),
   })
 )(User);

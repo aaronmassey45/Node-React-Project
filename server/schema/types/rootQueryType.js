@@ -5,6 +5,7 @@ const {
   GraphQLNonNull,
   GraphQLList,
   GraphQLString,
+  GraphQLBoolean,
 } = graphql;
 const mongoose = require('mongoose');
 const User = mongoose.model('user');
@@ -17,6 +18,11 @@ const RootQuery = new GraphQLObjectType({
   fields: () => ({
     me: {
       type: UserType,
+      args: {
+        withLikedPosts: {
+          type: GraphQLBoolean,
+        },
+      },
       resolve(_, args, context) {
         return context.user;
       },

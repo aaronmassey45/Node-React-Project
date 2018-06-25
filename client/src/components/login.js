@@ -96,4 +96,8 @@ class Login extends Component {
   }
 }
 
-export default graphql(query)(graphql(mutation)(Login));
+export default graphql(query, {
+  options: props => ({
+    variables: { withLikedPosts: false },
+  }),
+})(graphql(mutation)(Login));
