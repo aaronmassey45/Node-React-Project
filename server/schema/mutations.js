@@ -6,6 +6,7 @@ const {
   GraphQLBoolean,
   GraphQLFloat,
   GraphQLInputObjectType,
+  GraphQLNonNull,
 } = graphql;
 const mongoose = require('mongoose');
 const User = mongoose.model('user');
@@ -51,6 +52,17 @@ const mutations = new GraphQLObjectType({
       },
       resolve(_, { text, location }, { user }) {
         return PostService.chowt(text, location, user);
+      },
+    },
+    likeChowt: {
+      type: PostType,
+      args: {
+        id: {
+          type: new GraphQLNonNull(GraphQLID),
+        },
+      },
+      resolve(_, { id }, { user }) {
+        return PostService.likeChowt(id, user);
       },
     },
     // signup: {
