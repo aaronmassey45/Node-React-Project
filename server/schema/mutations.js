@@ -65,6 +65,17 @@ const mutations = new GraphQLObjectType({
         return PostService.likeChowt(id, user);
       },
     },
+    deleteChowt: {
+      type: PostType,
+      args: {
+        id: {
+          type: new GraphQLNonNull(GraphQLID),
+        },
+      },
+      resolve(_, { id }, { user }) {
+        return PostService.deleteChowt(id, user);
+      },
+    },
     // signup: {
     //   type: UserType,
     //   args: {

@@ -49,4 +49,22 @@ const likeChowt = async (id, currentUser) => {
   }
 };
 
-module.exports = { chowt, likeChowt };
+const deleteChowt = async (id, currentUser) => {
+  try {
+    if (!ObjectId.isValid(id)) throw new Error('Invalid post id.');
+
+    const post = await Post.findOneAndRemove({
+      _id: id,
+      _creator: currentUser._id,
+    });
+
+    if (!post) throw new Error('No post found');
+
+    return post;
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
+};
+
+module.exports = { chowt, likeChowt, deleteChowt };
