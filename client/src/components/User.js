@@ -1,13 +1,10 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import Rater from 'react-rater';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import { graphql, compose } from 'react-apollo';
 
 import Post from './post';
 import Chowt from './chowt';
-import { getUser, isUserAuthenticated } from '../store/actions';
 import FetchUser from '../queries/FetchUser';
 import CurrentUser from '../queries/CurrentUser';
 
@@ -33,6 +30,13 @@ class User extends Component {
 
   renderPosts = () => {
     const { posts, username, profileImg, id } = this.props.FetchUserQuery.user;
+
+    if (posts.length === 0) {
+      return (
+        <div className="list-group-item">This user has not chowted yet!</div>
+      );
+    }
+
     return posts
       .map(post => {
         return (
@@ -40,7 +44,6 @@ class User extends Component {
             <Post
               post={post}
               profile={{ username, profileImg, id }}
-              id={post.id}
               me={this.props.CurrentUserQuery.me}
             />
           </div>
@@ -57,6 +60,7 @@ class User extends Component {
     }
 
     const user = { ...FetchUserQuery.user };
+
     const authenticated =
       CurrentUserQuery.me && user.id === CurrentUserQuery.me.id;
     const authorized = !!CurrentUserQuery.me;
@@ -111,12 +115,7 @@ class User extends Component {
   }
 }
 
-const mapDispatchToProps = dispatch => {
-  return bindActionCreators({ getUser, isUserAuthenticated }, dispatch);
-};
-
 export default compose(
-  connect(null, mapDispatchToProps),
   graphql(FetchUser, {
     name: 'FetchUserQuery',
     options: props => ({
