@@ -60,6 +60,11 @@ const deleteChowt = async (id, currentUser) => {
 
     if (!post) throw new Error('No post found');
 
+    currentUser.likedPosts = currentUser.likedPosts.filter(
+      post => (post.equals(id) ? false : true)
+    );
+    await currentUser.save();
+
     return post;
   } catch (err) {
     console.log(err);
