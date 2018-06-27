@@ -24,9 +24,11 @@ class Login extends Component {
       .mutate({
         variables: { username, password },
       })
-      .then(res => localStorage.setItem('x-auth', res.data.login))
+      .then(res => {
+        localStorage.setItem('x-auth', res.data.login);
+        this.props.data.refetch();
+      })
       .catch(err => console.log(err));
-    this.props.data.refetch();
   };
 
   render() {

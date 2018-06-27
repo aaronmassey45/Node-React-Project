@@ -5,7 +5,7 @@ const login = async ({ password, username }) => {
   return new Promise((resolve, reject) => {
     return User.findByCredentials(username, password).then(user => {
       if (!user || user === 'Invalid Credentials')
-        return reject('Invalid Credentials');
+        return reject(new Error('Invalid Credentials'));
       const token = user.generateAuthToken().then(token => resolve(token));
     });
   }).catch(err => {
