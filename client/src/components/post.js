@@ -1,34 +1,58 @@
 import React, { Component, Fragment } from 'react';
 import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import moment from 'moment';
+import { graphql, compose } from 'react-apollo';
 
-import { modifyPost, fetchPosts, fetchUsers } from '../store/actions';
 import Alert from './alert';
 import addAlertProps from './HOCs/add-alert';
+import CurrentUser from '../queries/CurrentUser';
+import FetchUser from '../queries/FetchUser';
+import likeChowt from '../mutations/LikeChowt';
+import deleteChowt from '../mutations/DeleteChowt';
 
 class Post extends Component {
   handlePostAction = async actionType => {
     const {
-      fetchPosts,
-      id,
-      loggedIn,
-      modifyPost,
+      deleteChowtMutation,
+      likeChowtMutation,
       show,
       updateAlert,
+      profile,
+      post,
     } = this.props;
-    if (loggedIn) {
-      try {
-        await modifyPost(id, actionType);
-        await fetchPosts();
-      } catch (err) {
-        updateAlert({
-          bg: 'danger',
-          msg: `Couldn't ${actionType === 'PATCH' ? 'like' : 'delete'} post`,
+
+    switch (actionType) {
+      case 'like':
+        likeChowtMutation({
+          variables: { id: post.id },
+          refetchQueries: [
+            { query: CurrentUser, variables: { withLikedPosts: true } },
+            {
+              query: FetchUser,
+              variables: { username: profile.username },
+            },
+          ],
+        }).catch(err => {
+          updateAlert({ bg: 'danger', msg: "Couldn't like post." });
+          show();
         });
-        show();
-      }
+        break;
+      case 'delete':
+        deleteChowtMutation({
+          variables: { id: post.id },
+          refetchQueries: [
+            { query: FetchUser, variables: { username: profile.username } },
+          ],
+        }).catch(err => {
+          updateAlert({
+            bg: 'danger',
+            msg: "Couldn't delete post.",
+          });
+          show();
+        });
+        break;
+      default:
+        break;
     }
   };
 
@@ -42,7 +66,8 @@ class Post extends Component {
   };
 
   render() {
-    const { alert, hide, post, profile, showModal, user } = this.props;
+    const { alert, hide, post, profile, showModal, me } = this.props;
+
     const timeString = this.getTimeDifference(
       new Date(Number(post.timeCreated))
     );
@@ -66,11 +91,11 @@ class Post extends Component {
                     @{profile.username}
                   </Link>
                 </span>
-                {profile._id === user.id && (
+                {profile.id === me.id && (
                   <span className="col-2 text-right">
                     <i
                       className="fa fa-trash fake-link"
-                      onClick={() => this.handlePostAction('DELETE')}
+                      onClick={() => this.handlePostAction('delete')}
                     />
                   </span>
                 )}
@@ -96,11 +121,11 @@ class Post extends Component {
                 <div className="col-4 mt-1">
                   <i
                     className={`fa ${
-                      user.likedPosts.includes(post._id)
+                      me.likedPosts.find(postObj => postObj.id === post.id)
                         ? 'fa-heart text-danger'
                         : 'fa-heart-o'
                     } fa-sm fake-link`}
-                    onClick={() => this.handlePostAction('PATCH')}
+                    onClick={() => this.handlePostAction('like')}
                   />
                   <span className="text-gray ml-2">{post.likedBy.length}</span>
                 </div>
@@ -116,15 +141,11 @@ class Post extends Component {
   }
 }
 
-const mapStateToProps = ({ appState }) => ({
-  loggedIn: appState.loggedIn,
-  user: { id: appState.user._id, likedPosts: appState.user.likedPosts },
-});
-
-const mapDispatchToProps = dispatch => {
-  return bindActionCreators({ modifyPost, fetchPosts, fetchUsers }, dispatch);
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(
-  addAlertProps(Post)
-);
+export default compose(
+  graphql(deleteChowt, {
+    name: 'deleteChowtMutation',
+  }),
+  graphql(likeChowt, {
+    name: 'likeChowtMutation',
+  })
+)(addAlertProps(Post));
