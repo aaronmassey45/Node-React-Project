@@ -34,7 +34,7 @@ const mutations = new GraphQLObjectType({
         username: { type: GraphQLString },
         password: { type: GraphQLString },
       },
-      resolve(parentValue, { password, username }) {
+      resolve(_, { password, username }) {
         return AuthService.login({ password, username });
       },
     },
@@ -76,18 +76,18 @@ const mutations = new GraphQLObjectType({
         return PostService.deleteChowt(id, user);
       },
     },
-    // signup: {
-    //   type: UserType,
-    //   args: {
-    //     username: { type: GraphQLString },
-    //     email: { type: GraphQLString },
-    //     password: { type: GraphQLString },
-    //     isAFoodTruck: { type: GraphQLBoolean },
-    //   },
-    //   resolve(parentValue, args) {
-    //     return AuthService.signup({...args})
-    //   },
-    // },
+    signup: {
+      type: GraphQLString,
+      args: {
+        username: { type: new GraphQLNonNull(GraphQLString) },
+        email: { type: new GraphQLNonNull(GraphQLString) },
+        password: { type: new GraphQLNonNull(GraphQLString) },
+        isAFoodTruck: { type: new GraphQLNonNull(GraphQLBoolean) },
+      },
+      resolve(_, args) {
+        return AuthService.signup({ ...args });
+      },
+    },
   },
 });
 

@@ -25,15 +25,17 @@ const logout = async (user, token) => {
   }
 };
 
-// const signup = async ({email, password, username, isAFoodTruck}) => {
-// 	try {
-// 		const user = new User({ username, email, password, isAFoodTruck });
-// 		await user.save();
-// 		const token = await user.generateAuthToken();
-// 		res.header('x-auth', token).send(user);
-// 	} catch (e) {
-// 		res.status(400).send(e);
-// 	}
-// }
+const signup = async ({ email, password, username, isAFoodTruck }) => {
+  try {
+    const user = new User({ username, email, password, isAFoodTruck });
+    await user.save();
 
-module.exports = { login, logout };
+    const token = await user.generateAuthToken();
+    return token;
+  } catch (err) {
+    console.log('Error', err);
+    return err;
+  }
+};
+
+module.exports = { login, logout, signup };
