@@ -9,7 +9,7 @@ import HomePage from './components/homepage';
 import Login from './components/Login';
 import Navbar from './components/navbar/Navbar';
 import NotFound from './components/notfound';
-import SignUp from './components/signup';
+import SignUp from './components/Signup';
 import User from './components/User';
 
 class App extends Component {
