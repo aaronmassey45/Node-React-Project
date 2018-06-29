@@ -1,17 +1,16 @@
 import React, { Component } from 'react';
 import { Link, Redirect } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import { graphql, compose } from 'react-apollo';
 
-import { signup } from '../store/actions/userActions';
+import mutation from '../mutations/Signup';
+import query from '../queries/CurrentUser';
 
 class SignUp extends Component {
   state = {
     isAFoodTruck: false,
     email: '',
-    errmsg: '',
+    errors: null,
     password: '',
-    signupFailed: false,
     username: '',
   };
 
@@ -24,42 +23,28 @@ class SignUp extends Component {
 
   handleSubmit = async e => {
     e.preventDefault();
-    this.setState({ signupFailed: false });
-    try {
-      const { isAFoodTruck, email, password, username } = this.state;
-      let res = await this.props.signup({
-        isAFoodTruck,
-        email,
-        password,
-        username,
+
+    const { isAFoodTruck, email, password, username } = this.state;
+
+    this.props
+      .mutate({ variables: { username, password, email, isAFoodTruck } })
+      .then(res => {
+        localStorage.setItem('x-auth', res.data.signup);
+        this.props.data.refetch();
+      })
+      .catch(e => {
+        let errors = e.graphQLErrors.map(({ message }) => message);
+        if (errors.length === 1) errors = errors[0].split(',');
+        this.setState({ errors });
       });
-      if (res.error) {
-        let error = 'Signup failed!';
-        if (res.payload.response.code === 11000) {
-          let match = res.payload.response.errmsg.match(/"(.*?)"/)[1];
-          error = `${match} already in use!`;
-        }
-        this.setState({ errmsg: error });
-        throw new Error(error);
-      }
-    } catch (err) {
-      this.setState({ signupFailed: true });
-      console.log(err);
-    }
   };
 
   render() {
-    const { isFetching, loggedIn } = this.props;
-    if (loggedIn) return <Redirect to="/users/me" />;
+    const { isAFoodTruck, email, errors, password, username } = this.state;
 
-    const {
-      isAFoodTruck,
-      email,
-      errmsg,
-      password,
-      signupFailed,
-      username,
-    } = this.state;
+    const { me, loading } = this.props.data;
+
+    if (me) return <Redirect to={`/users/account/${me.username}`} />;
 
     return (
       <div className="SignUp container my-1">
@@ -70,7 +55,7 @@ class SignUp extends Component {
                 <h3>Sign Up</h3>
               </div>
               <div className="card-body">
-                {isFetching ? (
+                {loading ? (
                   <i className="fa fa-spinner fa-pulse fa-3x fa-fw" />
                 ) : (
                   <form onSubmit={this.handleSubmit}>
@@ -149,9 +134,9 @@ class SignUp extends Component {
                   </form>
                 )}
               </div>
-              {signupFailed && (
+              {errors && (
                 <div className="alert alert-danger" role="alert">
-                  {errmsg}
+                  {errors.map(err => <div key={err}>{err}</div>)}
                 </div>
               )}
               <div className="card-footer">
@@ -165,13 +150,11 @@ class SignUp extends Component {
   }
 }
 
-const mapStateToProps = ({ appState }) => ({
-  loading: appState.isFetching,
-  loggedIn: appState.loggedIn,
-});
-
-const mapDispatchToProps = dispatch => {
-  return bindActionCreators({ signup }, dispatch);
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(SignUp);
+export default compose(
+  graphql(mutation),
+  graphql(query, {
+    options: props => ({
+      variables: { withLikedPosts: false },
+    }),
+  })
+)(SignUp);
