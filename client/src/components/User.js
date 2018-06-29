@@ -53,13 +53,18 @@ class User extends Component {
   };
 
   render() {
-    const { CurrentUserQuery, FetchUserQuery } = this.props;
+    const { CurrentUserQuery, FetchUserQuery, history, match } = this.props;
 
     if (CurrentUserQuery.loading || FetchUserQuery.loading) {
       return <i className="fa fa-spinner fa-pulse fa-3x fa-fw" />;
     }
 
-    const user = { ...FetchUserQuery.user };
+    const { user } = FetchUserQuery;
+
+    if (!user) {
+      history.push(`/404/user/${match.params.username}`);
+      return null;
+    }
 
     const authenticated =
       CurrentUserQuery.me && user.id === CurrentUserQuery.me.id;
