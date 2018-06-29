@@ -33,7 +33,7 @@ export default ({ logout, username }) => {
           data-toggle="collapse"
           data-target=".navbar-collapse.show"
         >
-          <NavLink to="/users/account/edit" exact className="nav-link">
+          <NavLink to="/account/edit" exact className="nav-link">
             <i className="fa fa-pencil fa-fw" />
             Account
           </NavLink>

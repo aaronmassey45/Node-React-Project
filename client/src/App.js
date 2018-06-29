@@ -22,7 +22,7 @@ class App extends Component {
             <Switch>
               <Route path="/login" exact component={Login} />
               <Route
-                path="/users/account/edit"
+                path="/account/edit"
                 exact
                 component={requireAuth(EditUser)}
               />
