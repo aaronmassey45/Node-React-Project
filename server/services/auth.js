@@ -33,8 +33,11 @@ const signup = async ({ email, password, username, isAFoodTruck }) => {
     const token = await user.generateAuthToken();
     return token;
   } catch (err) {
-    console.log('Error', err);
-    return err;
+    const errors = [];
+    for (key in err.errors) {
+      errors.push(err.errors[key].message);
+    }
+    return Promise.reject(errors);
   }
 };
 
