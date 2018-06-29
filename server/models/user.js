@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const validator = require('validator');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
+const uniqueValidator = require('mongoose-unique-validator');
 
 const pick = require('../utils/pick');
 
@@ -18,7 +19,7 @@ const UserSchema = new Schema({
   email: {
     maxlength: 60,
     minlength: 1,
-    required: true,
+    required: [true, 'Email is required.'],
     trim: true,
     type: String,
     validate: {
@@ -41,12 +42,14 @@ const UserSchema = new Schema({
     type: String,
   },
   password: {
-    minlength: 6,
-    required: true,
+    minlength: [6, 'Your password must be at least 6 characters.'],
+    required: [true, 'Password is required.'],
     type: String,
   },
   profileImg: {
-    default: 'https://dummyimage.com/600x400/000/fff&text=Dummy+Img',
+    default: function() {
+      return `https://api.adorable.io/avatars/200/${this.username}.png`;
+    },
     minlength: 1,
     type: String,
   },
@@ -79,7 +82,7 @@ const UserSchema = new Schema({
   username: {
     maxlength: 20,
     minlength: 3,
-    required: true,
+    required: [true, 'Username is required.'],
     trim: true,
     type: String,
     validate: {
@@ -184,6 +187,10 @@ UserSchema.pre('save', function(next) {
   } else {
     next();
   }
+});
+
+UserSchema.plugin(uniqueValidator, {
+  message: 'That {PATH} is already taken!',
 });
 
 mongoose.model('user', UserSchema);
