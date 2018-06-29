@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import { graphql } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
+
+import query from '../../queries/CurrentUser';
 
 export default WrappedComponent => {
   class RequireAuth extends Component {
+    state = {};
     static getDerivedStateFromProps(props, state) {
-      if (props.loading !== null) {
+      if (props.data.loading !== null) {
         //loading is boolean
-        if (!props.loading && !props.user) {
+        if (!props.data.loading && !props.data.me) {
           props.history.push('/login');
         }
       }
@@ -19,10 +22,11 @@ export default WrappedComponent => {
     }
   }
 
-  const mapStateToProps = ({ appState }) => ({
-    user: appState.user._id,
-    loading: appState.isFetching,
-  });
-
-  return withRouter(connect(mapStateToProps)(RequireAuth));
+  return withRouter(
+    graphql(query, {
+      options: props => ({
+        variables: { withLikedPosts: false },
+      }),
+    })(RequireAuth)
+  );
 };
