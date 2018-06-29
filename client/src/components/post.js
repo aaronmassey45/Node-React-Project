@@ -91,14 +91,15 @@ class Post extends Component {
                     @{profile.username}
                   </Link>
                 </span>
-                {profile.id === me.id && (
-                  <span className="col-2 text-right">
-                    <i
-                      className="fa fa-trash fake-link"
-                      onClick={() => this.handlePostAction('delete')}
-                    />
-                  </span>
-                )}
+                {me &&
+                  profile.id === me.id && (
+                    <span className="col-2 text-right">
+                      <i
+                        className="fa fa-trash fake-link"
+                        onClick={() => this.handlePostAction('delete')}
+                      />
+                    </span>
+                  )}
               </div>
               <div className="row text-left">
                 <div className="col-12 mt-1">
@@ -121,6 +122,7 @@ class Post extends Component {
                 <div className="col-4 mt-1">
                   <i
                     className={`fa ${
+                      me &&
                       me.likedPosts.find(postObj => postObj.id === post.id)
                         ? 'fa-heart text-danger'
                         : 'fa-heart-o'
