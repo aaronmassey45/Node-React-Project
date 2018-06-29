@@ -34,8 +34,12 @@ const signup = async ({ email, password, username, isAFoodTruck }) => {
     return token;
   } catch (err) {
     const errors = [];
-    for (key in err.errors) {
-      errors.push(err.errors[key].message);
+    if (err.errors) {
+      for (key in err.errors) {
+        errors.push(err.errors[key].message);
+      }
+    } else {
+      errors.push(err);
     }
     return Promise.reject(errors);
   }
