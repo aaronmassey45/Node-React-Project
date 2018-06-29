@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const User = mongoose.model('user');
+const Post = mongoose.model('post');
 
 const login = async ({ password, username }) => {
   return new Promise((resolve, reject) => {
@@ -45,4 +46,15 @@ const signup = async ({ email, password, username, isAFoodTruck }) => {
   }
 };
 
-module.exports = { login, logout, signup };
+const deleteUser = async user => {
+  try {
+    await User.findOneAndRemove({ _id: user._id });
+    await Post.remove({ _creator: user._id });
+    return user._id;
+  } catch (err) {
+    console.log('Error', err);
+    return err;
+  }
+};
+
+module.exports = { login, logout, signup, deleteUser };

@@ -88,6 +88,12 @@ const mutations = new GraphQLObjectType({
         return AuthService.signup({ ...args });
       },
     },
+    deleteUser: {
+      type: GraphQLID,
+      resolve(_, args, { user }) {
+        return AuthService.deleteUser(user);
+      },
+    },
   },
 });
 
