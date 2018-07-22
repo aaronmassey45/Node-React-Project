@@ -5,9 +5,13 @@ const Post = mongoose.model('post');
 const login = async ({ password, username }) => {
   return new Promise((resolve, reject) => {
     return User.findByCredentials(username, password).then(user => {
-      if (!user || user === 'Invalid Credentials')
+      if (!user || user === 'Invalid Credentials') {
         return reject(new Error('Invalid Credentials'));
-      const token = user.generateAuthToken().then(token => resolve(token));
+      }
+      const token = user
+        .generateAuthToken()
+        .then(token => resolve(token))
+        .catch(err => new Error(err));
     });
   }).catch(err => {
     console.log('Error', err);
