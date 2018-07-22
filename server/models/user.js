@@ -92,6 +92,12 @@ const UserSchema = new Schema({
     },
     unique: true,
   },
+  username_lowercase: {
+    default: function() {
+      return this.username.toLowerCase();
+    },
+    type: String,
+  },
 });
 
 UserSchema.methods.generateAuthToken = function() {
@@ -159,7 +165,7 @@ UserSchema.statics.findByToken = function(token) {
 UserSchema.statics.findByCredentials = async function(username, password) {
   const User = this;
 
-  return User.findOne({ username })
+  return User.findOne({ username_lowercase: username.toLowerCase() })
     .then(user => {
       if (!user) throw null;
 
