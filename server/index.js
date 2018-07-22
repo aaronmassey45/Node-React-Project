@@ -30,7 +30,6 @@ app.use(
   }))
 );
 
-require('./routes/postRoutes')(app);
 require('./routes/userRoutes')(app);
 
 if (process.env.NODE_ENV === 'production') {
