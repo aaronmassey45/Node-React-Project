@@ -176,7 +176,7 @@ UserSchema.statics.findByCredentials = async function(username, password) {
       });
     })
     .catch(err => {
-      return err;
+      return { err };
     });
 };
 
