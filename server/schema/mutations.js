@@ -94,6 +94,22 @@ const mutations = new GraphQLObjectType({
         return AuthService.deleteUser(user);
       },
     },
+    updateUser: {
+      type: UserType,
+      args: {
+        bio: { type: new GraphQLNonNull(GraphQLString) },
+        currentPassword: { type: new GraphQLNonNull(GraphQLString) },
+        email: { type: new GraphQLNonNull(GraphQLString) },
+        isAFoodTruck: { type: new GraphQLNonNull(GraphQLBoolean) },
+        location: { type: new GraphQLNonNull(GraphQLString) },
+        newPassword: { type: GraphQLString },
+        profileImg: { type: new GraphQLNonNull(GraphQLString) },
+        username: { type: new GraphQLNonNull(GraphQLString) },
+      },
+      resolve(_, args, { user }) {
+        return AuthService.updateUser(args, user);
+      },
+    },
   },
 });
 
