@@ -91,15 +91,20 @@ const updateUser = async (args, me) => {
       args.currentPassword
     );
 
-    if (!user || user === 'Incorrect password') {
-      throw new Error('Invalid credentials');
+    if (!user || user.err) {
+      throw new Error(user.err);
     }
 
     Object.keys(values).forEach(key => {
-      if (key === 'newPassword') {
+      if (key === 'newPassword' && values.newPassword) {
         user.password = values.newPassword;
         return;
       }
+
+      if (user.username !== values.username) {
+        user.username_lowercase === values.username.toLowerCase();
+      }
+
       user[key] = values[key];
     });
 
