@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const User = mongoose.model('user');
 const Post = mongoose.model('post');
+const pick = require('../utils/pick');
 
 const login = async ({ password, username }) => {
   return new Promise((resolve, reject) => {
@@ -61,4 +62,54 @@ const deleteUser = async user => {
   }
 };
 
-module.exports = { login, logout, signup, deleteUser };
+const updateUser = async (args, me) => {
+  try {
+    const values = pick(args, [
+      'bio',
+      'email',
+      'isAFoodTruck',
+      'location',
+      'newPassword',
+      'profileImg',
+      'username',
+    ]);
+
+    if (!args.currentPassword) {
+      throw new Error('You must enter your password to update your account.');
+    } else if (
+      !values.username ||
+      !values.email ||
+      !values.profileImg ||
+      !values.bio ||
+      !values.location
+    ) {
+      throw new Error('Missing information');
+    }
+
+    const user = await User.findByCredentials(
+      me.username.toLowerCase(),
+      args.currentPassword
+    );
+
+    if (!user || user === 'Incorrect password') {
+      throw new Error('Invalid credentials');
+    }
+
+    Object.keys(values).forEach(key => {
+      if (key === 'newPassword') {
+        user.password = values.newPassword;
+        return;
+      }
+      user[key] = values[key];
+    });
+
+    await user.save();
+
+    return user;
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
+};
+
+module.exports = { login, logout, signup, deleteUser, updateUser };
