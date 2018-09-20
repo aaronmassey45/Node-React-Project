@@ -5,6 +5,7 @@ const {
   GraphQLID,
   GraphQLBoolean,
   GraphQLFloat,
+  GraphQLInt,
   GraphQLInputObjectType,
   GraphQLNonNull,
 } = graphql;
@@ -108,6 +109,16 @@ const mutations = new GraphQLObjectType({
       },
       resolve(_, args, { user }) {
         return AuthService.updateUser(args, user);
+      },
+    },
+    rateAccount: {
+      type: UserType,
+      args: {
+        id: { type: new GraphQLNonNull(GraphQLID) },
+        rating: { type: new GraphQLNonNull(GraphQLInt) },
+      },
+      resolve(_, { id, rating }) {
+        return AuthService.rateFoodTruck(id, rating);
       },
     },
   },
