@@ -117,4 +117,41 @@ const updateUser = async (args, me) => {
   }
 };
 
-module.exports = { login, logout, signup, deleteUser, updateUser };
+const rateFoodTruck = async (id, rating) => {
+  try {
+    if (!mongoose.Types.ObjectId.isValid(id)) throw new Error('Invalid id');
+    if (rating < 1 || rating > 5) {
+      throw new Error(
+        `Your rating must be between 1 and 5! You entered ${rating}.`
+      );
+    }
+
+    const user = await User.findById(id);
+
+    if (!user || !user.isAFoodTruck) {
+      throw new Error('This is not a food truck account');
+    }
+
+    const totalRating = user.rating.totalRating + rating;
+    const numberOfRatings = user.rating.numberOfRatings + 1;
+    const average = (totalRating / numberOfRatings).toFixed(1);
+
+    const updatedUser = await User.findOneAndUpdate(
+      { _id: id },
+      { $set: { rating: { average, numberOfRatings, totalRating } } },
+      { new: true }
+    );
+    return updatedUser;
+  } catch (err) {
+    return err;
+  }
+};
+
+module.exports = {
+  login,
+  logout,
+  signup,
+  deleteUser,
+  updateUser,
+  rateFoodTruck,
+};
