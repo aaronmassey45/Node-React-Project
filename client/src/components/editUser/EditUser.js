@@ -1,12 +1,12 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import React, { Component, Fragment } from 'react';
+import { graphql, compose } from 'react-apollo';
 
-import { deleteUser, updateUser } from '../../store/actions/userActions';
 import Alert from '../alert';
 import addAlertProps from '../HOCs/add-alert';
 import InputField from './InputField';
 import DeleteAccount from './DeleteAccount';
+import query from '../../queries/CurrentUser';
+import mutation from '../../mutations/UpdateUser';
 
 const FIELDS = [
   {
@@ -52,58 +52,43 @@ const FIELDS = [
 ];
 
 class AccountEdit extends Component {
-  constructor(props) {
-    super(props);
-
-    const { user } = props.appState;
-    this.state = {
-      bio: user.bio,
-      currentPassword: '',
-      email: user.email,
-      isAFoodTruck: user.isAFoodTruck,
-      errors: {
-        bio: '',
-        email: '',
-        location: '',
-        profileImg: '',
-        username: '',
-      },
-      location: user.location,
-      newPassword: '',
-      profileImg: user.profileImg,
-      username: user.username,
-    };
-  }
+  state = {
+    bio: '',
+    currentPassword: '',
+    email: '',
+    isAFoodTruck: false,
+    errors: {},
+    location: '',
+    newPassword: '',
+    profileImg: '',
+    username: '',
+  };
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.appState === nextProps.appState) return false;
-    const { user } = nextProps.appState;
+    if (this.props.data.me === nextProps.data.me) return false;
+
+    const {
+      bio,
+      email,
+      isAFoodTruck,
+      location,
+      profileImg,
+      username,
+    } = nextProps.data.me;
+
     this.setState({
-      bio: user.bio,
-      email: user.email,
-      isAFoodTruck: user.isAFoodTruck,
-      location: user.location,
-      profileImg: user.profileImg,
-      username: user.username,
+      bio,
+      email,
+      isAFoodTruck,
+      location,
+      profileImg,
+      username,
     });
   }
 
   updateAndShowAlert = ({ bg, msg }) => {
     this.props.updateAlert({ bg, msg });
     this.props.show();
-  };
-
-  deleteAccount = async () => {
-    try {
-      await this.props.deleteUser();
-      this.props.history.push('/');
-    } catch (err) {
-      this.updateAndShowAlert({
-        bg: 'danger',
-        msg: 'Could not delete account. Try again later.',
-      });
-      console.log(err);
-    }
   };
 
   checkUrl = url => {
@@ -136,20 +121,9 @@ class AccountEdit extends Component {
   handleSubmit = async () => {
     const {
       checkUrl,
-      setState,
       updateAndShowAlert,
       validate,
-      props: { updateUser },
-      state: {
-        bio,
-        currentPassword,
-        email,
-        isAFoodTruck,
-        location,
-        newPassword,
-        profileImg,
-        username,
-      },
+      state: { bio, currentPassword, email, location, profileImg, username },
     } = this;
 
     if (!currentPassword) {
@@ -168,16 +142,13 @@ class AccountEdit extends Component {
     });
 
     if (Object.keys(errors).length) {
-      return setState({
-        ...this.state,
-        errors,
-      });
+      return this.setState({ ...this.state, errors });
     }
 
     try {
       await checkUrl(profileImg);
     } catch (err) {
-      return setState({
+      return this.setState({
         errors: {
           profileImg: 'Image link is invalid',
         },
@@ -185,36 +156,16 @@ class AccountEdit extends Component {
     }
 
     try {
-      const res = await updateUser({
-        bio,
-        currentPassword,
-        email,
-        isAFoodTruck,
-        location,
-        newPassword,
-        profileImg,
-        username,
-      });
-
-      if (res.error) {
-        let error = 'Update failed, please try again later!';
-        if (res.payload.response && res.payload.response.code === 11000) {
-          const match = res.payload.response.errmsg.match(/"(.*?)"/)[1];
-          error = `${match} already in use!`;
-        } else if (res.payload.response.error) {
-          error = res.payload.response.error;
-        } else if (res.payload.response.errors) {
-          error = res.payload.response.errors.message;
-        }
-
-        updateAndShowAlert({ bg: 'danger', msg: error });
-        throw new Error(error);
-      }
-
+      await this.props.mutate({ variables: { ...this.state } });
       updateAndShowAlert({ bg: 'success', msg: 'Account updated!' });
-      return setState({ currentPassword: '', errors: {} });
+      return this.setState({
+        ...this.state,
+        currentPassword: '',
+        newPassword: '',
+        errors: {},
+      });
     } catch (err) {
-      return console.log(err);
+      console.log(err);
     }
   };
 
@@ -248,11 +199,11 @@ class AccountEdit extends Component {
   };
 
   render() {
-    const { alert, showModal, clearAlert, hide, appState } = this.props;
+    const { alert, showModal, clearAlert, hide, data } = this.props;
 
     return (
       <div className="AccountEdit text-left container my-1">
-        <DeleteAccount deleteUser={this.deleteAccount} />
+        <DeleteAccount />
         {showModal && (
           <Alert
             closeModal={() => {
@@ -271,24 +222,26 @@ class AccountEdit extends Component {
         </div>
         <div className="card bg-light">
           <div className="card-header">Basic Information</div>
-          {appState.isFetching ? (
-            <div className="card-body text-center">
-              <i className="fa fa-spinner fa-pulse fa-3x fa-fw" />
-            </div>
-          ) : (
-            <div className="card-body">
-              <form onSubmit={e => e.preventDefault()}>
-                {this.renderFields()}
-              </form>
-              <button
-                className="btn btn-danger text-white"
-                data-toggle="modal"
-                data-target="#deleteModal"
-              >
-                <i className="fa fa-ban" aria-hidden="true" /> Delete account
-              </button>
-            </div>
-          )}
+          <div className="card-body">
+            {data.loading ? (
+              <div className="text-center">
+                <i className="fa fa-spinner fa-pulse fa-3x fa-fw" />
+              </div>
+            ) : (
+              <Fragment>
+                <form onSubmit={e => e.preventDefault()}>
+                  {this.renderFields()}
+                </form>
+                <button
+                  className="btn btn-danger text-white"
+                  data-toggle="modal"
+                  data-target="#deleteModal"
+                >
+                  <i className="fa fa-ban" aria-hidden="true" /> Delete account
+                </button>
+              </Fragment>
+            )}
+          </div>
           <div className="card-footer text-right">
             <button className="btn btn-success" onClick={this.handleSubmit}>
               Update
@@ -300,16 +253,12 @@ class AccountEdit extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  appState: state.appState,
-});
-
-const mapDispatchToProps = dispatch => {
-  return bindActionCreators({ deleteUser, updateUser }, dispatch);
-};
-
-const AccountEditWithAlert = addAlertProps(AccountEdit);
-
-export default connect(mapStateToProps, mapDispatchToProps)(
-  AccountEditWithAlert
-);
+export default compose(
+  addAlertProps,
+  graphql(query, {
+    options: props => ({
+      variables: { withEditingData: true },
+    }),
+  }),
+  graphql(mutation)
+)(AccountEdit);
