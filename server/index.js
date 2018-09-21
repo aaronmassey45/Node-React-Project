@@ -5,7 +5,6 @@ const bodyParser = require('body-parser');
 const express = require('express');
 const mongoose = require('mongoose');
 const expressGraphQL = require('express-graphql');
-const path = require('path');
 require('./models/user');
 require('./models/post');
 const schema = require('./schema/schema');
