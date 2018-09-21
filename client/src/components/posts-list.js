@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
@@ -7,27 +6,10 @@ import { fetchPosts } from '../store/actions/postActions';
 import Post from './post';
 
 class PostList extends Component {
-  state = {
-    users: [],
-  };
-
-  async componentDidMount() {
-    try {
-      this.props.fetchPosts();
-      const users = await axios.get('/api/userlist');
-      this.setState({ users: users.data });
-    } catch (err) {
-      console.log(err);
-    }
-  }
-
   renderPost = postData => {
-    if (!this.state.users) return null;
-    const profile = this.state.users.find(x => x._id === postData._creator);
-    if (!profile) return null;
     return (
       <div key={postData._id} className="list-group-item">
-        <Post post={postData} profile={profile} id={postData._id} />
+        <Post post={postData} id={postData._id} />
       </div>
     );
   };
