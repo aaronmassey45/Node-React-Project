@@ -3,7 +3,7 @@ import axios from 'axios';
 import Rater from 'react-rater';
 import { graphql, compose } from 'react-apollo';
 
-import Post from './post';
+import Post from './Post';
 import Chowt from './chowt';
 import FetchUser from '../queries/FetchUser';
 import CurrentUser from '../queries/CurrentUser';

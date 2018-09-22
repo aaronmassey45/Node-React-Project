@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Query } from 'react-apollo';
 
-import Post from './post';
+import Post from './Post';
 import CurrentUser from '../queries/CurrentUser';
 import GetPosts from '../queries/GetPosts';
 
