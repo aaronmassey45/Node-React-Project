@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import requireAuth from './components/HOCs/requireAuth';
 import EditUser from './components/editUser/EditUser';
 import FloatingChowt from './components/chowt-modal';
-import HomePage from './components/homepage';
+import HomePage from './components/Homepage';
 import Login from './components/Login';
 import Navbar from './components/navbar/Navbar';
 import NotFound from './components/notfound';
