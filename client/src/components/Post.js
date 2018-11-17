@@ -1,45 +1,15 @@
 import React, { Component, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
-import { graphql } from 'react-apollo';
 
 import Alert from './alert';
 import addAlertProps from './HOCs/add-alert';
 import LikePostButton from './LikePostButton';
+import DeletePostButton from './DeletePostButton';
 import CurrentUser from '../queries/CurrentUser';
 import FetchUser from '../queries/FetchUser';
-import deleteChowt from '../mutations/DeleteChowt';
 
 class Post extends Component {
-  handlePostAction = async actionType => {
-    const {
-      deleteChowtMutation,
-      show,
-      updateAlert,
-      profile,
-      post,
-    } = this.props;
-
-    switch (actionType) {
-      case 'delete':
-        deleteChowtMutation({
-          variables: { id: post.id },
-          refetchQueries: [
-            { query: FetchUser, variables: { username: profile.username } },
-          ],
-        }).catch(err => {
-          updateAlert({
-            bg: 'danger',
-            msg: "Couldn't delete post.",
-          });
-          show();
-        });
-        break;
-      default:
-        break;
-    }
-  };
-
   getTimeDifference = time => {
     const now = moment(new Date().getTime());
     const createdAt = moment(time);
@@ -80,9 +50,10 @@ class Post extends Component {
                 {me &&
                   profile.id === me.id && (
                     <span className="col-2 text-right">
-                      <i
-                        className="fa fa-trash fake-link"
-                        onClick={() => this.handlePostAction('delete')}
+                      <DeletePostButton
+                        FetchUser={FetchUser}
+                        username={profile.username}
+                        id={post.id}
                       />
                     </span>
                   )}
@@ -128,6 +99,4 @@ class Post extends Component {
   }
 }
 
-export default graphql(deleteChowt, {
-  name: 'deleteChowtMutation',
-})(addAlertProps(Post));
+export default addAlertProps(Post);
