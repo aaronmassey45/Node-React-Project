@@ -1,21 +1,19 @@
 import React, { Component, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
-import { graphql, Mutation } from 'react-apollo';
-import classNames from 'classnames';
+import { graphql } from 'react-apollo';
 
 import Alert from './alert';
 import addAlertProps from './HOCs/add-alert';
+import LikePostButton from './LikePostButton';
 import CurrentUser from '../queries/CurrentUser';
 import FetchUser from '../queries/FetchUser';
-import LIKE_CHOWT from '../mutations/LikeChowt';
 import deleteChowt from '../mutations/DeleteChowt';
 
 class Post extends Component {
   handlePostAction = async actionType => {
     const {
       deleteChowtMutation,
-      likeChowtMutation,
       show,
       updateAlert,
       profile,
@@ -23,21 +21,6 @@ class Post extends Component {
     } = this.props;
 
     switch (actionType) {
-      case 'like':
-        likeChowtMutation({
-          variables: { id: post.id },
-          refetchQueries: [
-            { query: CurrentUser, variables: { withLikedPosts: true } },
-            {
-              query: FetchUser,
-              variables: { username: profile.username },
-            },
-          ],
-        }).catch(err => {
-          updateAlert({ bg: 'danger', msg: "Couldn't like post." });
-          show();
-        });
-        break;
       case 'delete':
         deleteChowtMutation({
           variables: { id: post.id },
@@ -124,31 +107,13 @@ class Post extends Component {
                     )}
                 </div>
                 <div className="col-4 mt-1">
-                  <Mutation mutation={LIKE_CHOWT}>
-                    {likeChowt => (
-                      <i
-                        className={classNames('fa fa-sm fake-link', {
-                          'fa-heart text-danger': iLiked,
-                          'fa-heart-o': !iLiked,
-                        })}
-                        onClick={() =>
-                          likeChowt({
-                            variables: { id: post.id },
-                            refetchQueries: [
-                              {
-                                query: CurrentUser,
-                                variables: { withLikedPosts: true },
-                              },
-                              {
-                                query: FetchUser,
-                                variables: { username: profile.username },
-                              },
-                            ],
-                          })
-                        }
-                      />
-                    )}
-                  </Mutation>
+                  <LikePostButton
+                    CurrentUser={CurrentUser}
+                    FetchUser={FetchUser}
+                    id={post.id}
+                    liked={iLiked}
+                    username={profile.username}
+                  />
                   <span className="text-gray ml-2">{post.likedBy.length}</span>
                 </div>
                 <div className="col-8 mt-1 text-right">
