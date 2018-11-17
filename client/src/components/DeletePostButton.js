@@ -2,8 +2,9 @@ import React from 'react';
 import { Mutation } from 'react-apollo';
 
 import DELETE_CHOWT from '../mutations/DeleteChowt';
+import FETCH_USER_QUERY from '../queries/FetchUser';
 
-const DeletePostButton = ({ id, username, FetchUser }) => {
+const DeletePostButton = ({ id, username }) => {
   return (
     <Mutation mutation={DELETE_CHOWT}>
       {deleteChowt => (
@@ -12,7 +13,9 @@ const DeletePostButton = ({ id, username, FetchUser }) => {
           onClick={() =>
             deleteChowt({
               variables: { id },
-              refetchQueries: [{ query: FetchUser, variables: { username } }],
+              refetchQueries: [
+                { query: FETCH_USER_QUERY, variables: { username } },
+              ],
             })
           }
         />

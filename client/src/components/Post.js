@@ -6,8 +6,6 @@ import Alert from './alert';
 import addAlertProps from './HOCs/add-alert';
 import LikePostButton from './LikePostButton';
 import DeletePostButton from './DeletePostButton';
-import CurrentUser from '../queries/CurrentUser';
-import FetchUser from '../queries/FetchUser';
 
 class Post extends Component {
   getTimeDifference = time => {
@@ -51,7 +49,6 @@ class Post extends Component {
                   profile.id === me.id && (
                     <span className="col-2 text-right">
                       <DeletePostButton
-                        FetchUser={FetchUser}
                         username={profile.username}
                         id={post.id}
                       />
@@ -79,8 +76,6 @@ class Post extends Component {
                 </div>
                 <div className="col-4 mt-1">
                   <LikePostButton
-                    CurrentUser={CurrentUser}
-                    FetchUser={FetchUser}
                     id={post.id}
                     liked={iLiked}
                     username={profile.username}

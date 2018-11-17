@@ -3,8 +3,10 @@ import { Mutation } from 'react-apollo';
 import classNames from 'classnames';
 
 import LIKE_CHOWT from '../mutations/LikeChowt';
+import CURRENT_USER_QUERY from '../queries/CurrentUser';
+import FETCH_USER_QUERY from '../queries/FetchUser';
 
-const LikePostButton = ({ liked, id, CurrentUser, FetchUser, username }) => {
+const LikePostButton = ({ liked, id, username }) => {
   return (
     <Mutation mutation={LIKE_CHOWT}>
       {likeChowt => (
@@ -18,11 +20,11 @@ const LikePostButton = ({ liked, id, CurrentUser, FetchUser, username }) => {
               variables: { id },
               refetchQueries: [
                 {
-                  query: CurrentUser,
+                  query: CURRENT_USER_QUERY,
                   variables: { withLikedPosts: true },
                 },
                 {
-                  query: FetchUser,
+                  query: FETCH_USER_QUERY,
                   variables: { username },
                 },
               ],
