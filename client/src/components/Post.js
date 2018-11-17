@@ -1,14 +1,14 @@
 import React, { Component, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
-import { graphql, compose } from 'react-apollo';
+import { graphql, Mutation } from 'react-apollo';
 import classNames from 'classnames';
 
 import Alert from './alert';
 import addAlertProps from './HOCs/add-alert';
 import CurrentUser from '../queries/CurrentUser';
 import FetchUser from '../queries/FetchUser';
-import likeChowt from '../mutations/LikeChowt';
+import LIKE_CHOWT from '../mutations/LikeChowt';
 import deleteChowt from '../mutations/DeleteChowt';
 
 class Post extends Component {
@@ -124,13 +124,31 @@ class Post extends Component {
                     )}
                 </div>
                 <div className="col-4 mt-1">
-                  <i
-                    className={classNames('fa fa-sm fake-link', {
-                      'fa-heart text-danger': iLiked,
-                      'fa-heart-o': !iLiked,
-                    })}
-                    onClick={() => this.handlePostAction('like')}
-                  />
+                  <Mutation mutation={LIKE_CHOWT}>
+                    {likeChowt => (
+                      <i
+                        className={classNames('fa fa-sm fake-link', {
+                          'fa-heart text-danger': iLiked,
+                          'fa-heart-o': !iLiked,
+                        })}
+                        onClick={() =>
+                          likeChowt({
+                            variables: { id: post.id },
+                            refetchQueries: [
+                              {
+                                query: CurrentUser,
+                                variables: { withLikedPosts: true },
+                              },
+                              {
+                                query: FetchUser,
+                                variables: { username: profile.username },
+                              },
+                            ],
+                          })
+                        }
+                      />
+                    )}
+                  </Mutation>
                   <span className="text-gray ml-2">{post.likedBy.length}</span>
                 </div>
                 <div className="col-8 mt-1 text-right">
@@ -145,11 +163,6 @@ class Post extends Component {
   }
 }
 
-export default compose(
-  graphql(deleteChowt, {
-    name: 'deleteChowtMutation',
-  }),
-  graphql(likeChowt, {
-    name: 'likeChowtMutation',
-  })
-)(addAlertProps(Post));
+export default graphql(deleteChowt, {
+  name: 'deleteChowtMutation',
+})(addAlertProps(Post));
