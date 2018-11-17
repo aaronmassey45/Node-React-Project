@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
 import { graphql, compose } from 'react-apollo';
+import classNames from 'classnames';
 
 import Alert from './alert';
 import addAlertProps from './HOCs/add-alert';
@@ -72,6 +73,8 @@ class Post extends Component {
       new Date(Number(post.timeCreated))
     );
 
+    const iLiked = me && me.likedPosts.find(postObj => postObj.id === post.id);
+
     return (
       <Fragment>
         {showModal && <Alert closeModal={hide} msg={alert.msg} bg={alert.bg} />}
@@ -122,12 +125,10 @@ class Post extends Component {
                 </div>
                 <div className="col-4 mt-1">
                   <i
-                    className={`fa ${
-                      me &&
-                      me.likedPosts.find(postObj => postObj.id === post.id)
-                        ? 'fa-heart text-danger'
-                        : 'fa-heart-o'
-                    } fa-sm fake-link`}
+                    className={classNames('fa fa-sm fake-link', {
+                      'fa-heart text-danger': iLiked,
+                      'fa-heart-o': !iLiked,
+                    })}
                     onClick={() => this.handlePostAction('like')}
                   />
                   <span className="text-gray ml-2">{post.likedBy.length}</span>
