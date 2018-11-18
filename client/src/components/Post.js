@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
 
-import Alert from './alert';
+import Alert from './Alert';
 import addAlertProps from './HOCs/add-alert';
 import LikePostButton from './LikePostButton';
 import DeletePostButton from './DeletePostButton';

@@ -3,7 +3,7 @@ import { graphql } from 'react-apollo';
 
 import mutation from '../mutations/Chowt';
 import query from '../queries/FetchUser';
-import Alert from './alert';
+import Alert from './Alert';
 import handleModal from './HOCs/handle-modal';
 
 class Chowt extends Component {

@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { graphql, compose } from 'react-apollo';
 
-import Alert from '../alert';
+import Alert from '../Alert';
 import addAlertProps from '../HOCs/add-alert';
 import InputField from './InputField';
 import DeleteAccount from './DeleteAccount';
