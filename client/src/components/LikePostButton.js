@@ -6,9 +6,15 @@ import LIKE_CHOWT from '../mutations/LikeChowt';
 import CURRENT_USER_QUERY from '../queries/CurrentUser';
 import FETCH_USER_QUERY from '../queries/FetchUser';
 
-const LikePostButton = ({ liked, id, username }) => {
+const LikePostButton = ({ liked, id, username, updateAlert, show }) => {
   return (
-    <Mutation mutation={LIKE_CHOWT}>
+    <Mutation
+      mutation={LIKE_CHOWT}
+      onError={err => {
+        updateAlert({ bg: 'danger', msg: err.graphQLErrors });
+        show();
+      }}
+    >
       {likeChowt => (
         <i
           className={classNames('fa fa-sm fake-link', {

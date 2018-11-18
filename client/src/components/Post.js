@@ -18,7 +18,16 @@ class Post extends Component {
   };
 
   render() {
-    const { alert, hide, post, profile, showModal, me } = this.props;
+    const {
+      alert: { msg, bg },
+      hide,
+      me,
+      post,
+      profile,
+      show,
+      showModal,
+      updateAlert,
+    } = this.props;
 
     const timeString = this.getTimeDifference(
       new Date(Number(post.timeCreated))
@@ -28,7 +37,7 @@ class Post extends Component {
 
     return (
       <Fragment>
-        {showModal && <Alert closeModal={hide} msg={alert.msg} bg={alert.bg} />}
+        {showModal && <Alert closeModal={hide} msg={msg} bg={bg} />}
         <div className="Post">
           <div className="row">
             <div className="col-3 my-auto">
@@ -49,8 +58,10 @@ class Post extends Component {
                   profile.id === me.id && (
                     <span className="col-2 text-right">
                       <DeletePostButton
-                        username={profile.username}
                         id={post.id}
+                        show={show}
+                        updateAlert={updateAlert}
+                        username={profile.username}
                       />
                     </span>
                   )}
@@ -78,6 +89,8 @@ class Post extends Component {
                   <LikePostButton
                     id={post.id}
                     liked={iLiked}
+                    show={show}
+                    updateAlert={updateAlert}
                     username={profile.username}
                   />
                   <span className="text-gray ml-2">{post.likedBy.length}</span>
