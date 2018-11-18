@@ -8,7 +8,7 @@ import FloatingChowt from './components/ChowtModal';
 import HomePage from './components/Homepage';
 import Login from './components/Login';
 import Navbar from './components/navbar/Navbar';
-import NotFound from './components/notfound';
+import NotFound from './components/NotFound';
 import SignUp from './components/Signup';
 import User from './components/User';
 
