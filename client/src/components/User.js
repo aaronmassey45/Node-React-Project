@@ -4,7 +4,7 @@ import Rater from 'react-rater';
 import { graphql, compose } from 'react-apollo';
 
 import Post from './Post';
-import Chowt from './chowt';
+import Chowt from './Chowt';
 import FetchUser from '../queries/FetchUser';
 import CurrentUser from '../queries/CurrentUser';
 

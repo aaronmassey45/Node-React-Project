@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import Chowt from './chowt';
+import Chowt from './Chowt';
 import handleModal from './HOCs/handle-modal';
 
 class FloatingChowt extends Component {
