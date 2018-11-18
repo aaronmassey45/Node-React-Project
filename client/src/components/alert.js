@@ -20,7 +20,11 @@ const Alert = ({ bg, closeModal, msg }) => (
         </div>
         <div className="modal-body">
           <div>
-            <b>{msg}</b>
+            <b>
+              {Array.isArray(msg)
+                ? msg.map(err => <div key={err}>{err.message}</div>)
+                : { msg }}
+            </b>
           </div>
         </div>
       </div>
