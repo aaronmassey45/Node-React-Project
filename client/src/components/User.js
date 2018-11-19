@@ -1,30 +1,17 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 import Rater from 'react-rater';
-import { Query } from 'react-apollo';
+import { Query, Mutation } from 'react-apollo';
 
 import Post from './Post';
 import Chowt from './Chowt';
 import FETCH_USER from '../queries/FetchUser';
 import CURRENT_USER from '../queries/CurrentUser';
+import RATE_ACCOUNT from '../mutations/rateAccount';
 
 export default class User extends Component {
-  rateUser = async rate => {
-    try {
-      if (rate.type === 'click') {
-        const token = localStorage.getItem('x-auth');
-        const headers = { 'x-auth': token };
-        await axios.patch(
-          `/api/rate/user/${this.state.user._id}`,
-          { rating: rate.rating },
-          { headers }
-        );
-        this.state.isAuthed
-          ? this.props.isUserAuthenticated()
-          : this.props.getUser(this.props.match.params.username);
-      }
-    } catch (err) {
-      console.log(err);
+  rateUser = ({ type, rating }, rateAccount, id) => {
+    if (type === 'click') {
+      rateAccount({ variables: { id, rating } });
     }
   };
 
@@ -96,14 +83,23 @@ export default class User extends Component {
                           <div>{user.location}</div>
                           {user.isAFoodTruck && (
                             <div>
-                              <Rater
-                                total={5}
-                                onRate={this.rateUser}
-                                rating={parseFloat(user.rating.average)}
-                                interactive={
-                                  user.isAFoodTruck && !!currentUser.me
-                                }
-                              />
+                              <Mutation
+                                mutation={RATE_ACCOUNT}
+                                onError={err => console.log(err)}
+                              >
+                                {rateAccount => (
+                                  <Rater
+                                    total={5}
+                                    onRate={rate =>
+                                      this.rateUser(rate, rateAccount, user.id)
+                                    }
+                                    rating={parseFloat(user.rating.average)}
+                                    interactive={
+                                      user.isAFoodTruck && !!currentUser.me
+                                    }
+                                  />
+                                )}
+                              </Mutation>
                               <p>
                                 <small>
                                   Rated {user.rating.average} out of 5!
