@@ -33,12 +33,13 @@ class Chowt extends Component {
   submitChowt = async (e, chowt) => {
     e.preventDefault();
     const body = { text: this.state.chowt };
+    const { user, show, hideAfterSubmit } = this.props;
 
     try {
-      if (this.state.sendLocation && this.props.user.isAFoodTruck) {
+      if (this.state.sendLocation && user.isAFoodTruck) {
         if (!navigator.geolocation) {
           this.setState({ sendLocation: false });
-          this.props.show();
+          show();
           return;
         }
 
@@ -56,7 +57,7 @@ class Chowt extends Component {
           {
             query,
             variables: {
-              username: this.props.user.username,
+              username: user.username,
             },
           },
         ],
@@ -64,7 +65,7 @@ class Chowt extends Component {
 
       this.setState({ chowt: '' });
 
-      if (this.props.hideAfterSubmit) this.props.hideAfterSubmit();
+      if (hideAfterSubmit) hideAfterSubmit();
     } catch (err) {
       this.setState(prevState => ({
         ...prevState,
@@ -76,6 +77,8 @@ class Chowt extends Component {
 
   render() {
     const { showModal, hide, user } = this.props;
+    const { chowt: chowtInput, sendLocation, hasError, errMsg } = this.state;
+
     return (
       <Mutation mutation={CHOWT}>
         {chowt => (
@@ -94,7 +97,7 @@ class Chowt extends Component {
                 placeholder="Chowt it out!"
                 required
                 type="text"
-                value={this.state.chowt}
+                value={chowtInput}
               />
               <span className="input-group-btn">
                 <button className="btn btn-secondary" type="submit">
@@ -109,18 +112,16 @@ class Chowt extends Component {
                     type="checkbox"
                     className="form-check-input"
                     id="sendLocation"
-                    checked={this.state.sendLocation}
+                    checked={sendLocation}
                     onChange={this.handleChange}
                   />
                   Send Location
                 </label>
               </div>
             )}
-            {this.state.hasError && (
+            {hasError && (
               <div className="alert alert-danger" role="alert">
-                {this.state.errMsg
-                  ? this.state.errMsg
-                  : 'Post failed. Try again!'}
+                {errMsg ? errMsg : 'Post failed. Try again!'}
               </div>
             )}
           </form>
