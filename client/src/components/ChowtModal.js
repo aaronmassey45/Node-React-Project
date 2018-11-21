@@ -1,47 +1,54 @@
-import React, { Component } from 'react';
+import React, { Fragment } from 'react';
+import { Query } from 'react-apollo';
 
 import Chowt from './Chowt';
 import handleModal from './HOCs/handle-modal';
+import CURRENT_USER from '../queries/CurrentUser';
 
-class FloatingChowt extends Component {
-  render() {
-    const { hide, show, showModal } = this.props;
-    return (
-      <div>
-        <div className="FloatingChowt">
-          <button className="btn btn-gray fake-link" onClick={show}>
-            <i className="fa fa-paper-plane" />
-          </button>
-        </div>
-        <div>
-          <div
-            className="modal fade show"
-            tabIndex="-1"
-            role="dialog"
-            style={{ display: showModal ? 'block' : 'none' }}
-          >
-            <div className="modal-dialog" role="document">
-              <div className="modal-content">
-                <div className="modal-header">
-                  <h5 className="modal-title">Send Chowt</h5>
-                  <button className="close" onClick={hide}>
-                    <span>&times;</span>
-                  </button>
-                </div>
-                <div className="modal-body">
-                  <Chowt hideAfterSubmit={hide} />
+const FloatingChowt = ({ hide, show, showModal }) => {
+  return (
+    <Query query={CURRENT_USER} variables={{ withEditingData: true }}>
+      {({ loading, data }) => {
+        if (loading || (!loading && !data.me)) return null;
+
+        return (
+          <Fragment>
+            <div className="FloatingChowt">
+              <button className="btn btn-gray fake-link" onClick={show}>
+                <i className="fa fa-paper-plane" />
+              </button>
+            </div>
+            <div>
+              <div
+                className="modal fade show"
+                tabIndex="-1"
+                role="dialog"
+                style={{ display: showModal ? 'block' : 'none' }}
+              >
+                <div className="modal-dialog" role="document">
+                  <div className="modal-content">
+                    <div className="modal-header">
+                      <h5 className="modal-title">Send Chowt</h5>
+                      <button className="close" onClick={hide}>
+                        <span>&times;</span>
+                      </button>
+                    </div>
+                    <div className="modal-body">
+                      <Chowt hideAfterSubmit={hide} user={data.me} />
+                    </div>
+                  </div>
                 </div>
               </div>
+              <div
+                className="modal-backdrop show fade"
+                style={{ display: showModal ? 'block' : 'none' }}
+              />
             </div>
-          </div>
-          <div
-            className="modal-backdrop show fade"
-            style={{ display: showModal ? 'block' : 'none' }}
-          />
-        </div>
-      </div>
-    );
-  }
-}
+          </Fragment>
+        );
+      }}
+    </Query>
+  );
+};
 
 export default handleModal(FloatingChowt);
