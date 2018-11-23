@@ -2,22 +2,13 @@ import React, { Component } from 'react';
 import { graphql, compose } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
 
-import mutation from '../../mutations/DeleteUser';
+import DELETE_USER from '../../mutations/DeleteUser';
 import query from '../../queries/CurrentUser';
 
 class DeleteAccount extends Component {
   deleteAccount = async () => {
     try {
-      await this.props.mutate({
-        refetchQueries: [
-          {
-            query,
-            variables: {
-              withLikedPosts: false,
-            },
-          },
-        ],
-      });
+      await this.props.mutate({ refetchQueries: [{ query }] });
       localStorage.removeItem('x-auth');
       this.props.history.push('/');
     } catch (error) {
@@ -61,4 +52,4 @@ class DeleteAccount extends Component {
   }
 }
 
-export default compose(graphql(mutation), withRouter)(DeleteAccount);
+export default compose(graphql(DELETE_USER), withRouter)(DeleteAccount);
