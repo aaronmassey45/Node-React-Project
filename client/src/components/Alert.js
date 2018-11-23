@@ -23,7 +23,7 @@ const Alert = ({ bg, closeModal, msg }) => (
             <b>
               {Array.isArray(msg)
                 ? msg.map(err => <div key={err}>{err.message}</div>)
-                : { msg }}
+                : msg}
             </b>
           </div>
         </div>
