@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
-import requireAuth from './components/HOCs/requireAuth';
+import ProtectedRoute from './components/HOCs/ProtectedRoute';
 import EditUser from './components/editUser/EditUser';
 import FloatingChowt from './components/ChowtModal';
 import HomePage from './components/Homepage';
@@ -18,7 +18,7 @@ const App = () => (
       <div className="mt-app">
         <Switch>
           <Route path="/login" exact component={Login} />
-          <Route path="/account/edit" exact component={requireAuth(EditUser)} />
+          <ProtectedRoute path="/account/edit" exact component={EditUser} />
           <Route path="/users/account/:username" exact component={User} />
           <Route path="/signup" exact component={SignUp} />
           <Route path="/" exact component={HomePage} />
