@@ -11,9 +11,7 @@ import UserSearch from './UserSearch';
 class Navbar extends Component {
   handleLogout = () => {
     this.props
-      .mutate({
-        refetchQueries: [{ query, variables: { withLikedPosts: false } }],
-      })
+      .mutate({ refetchQueries: [{ query }] })
       .then(() => localStorage.removeItem('x-auth'))
       .catch(err => console.log(err));
   };
@@ -71,8 +69,4 @@ class Navbar extends Component {
   }
 }
 
-export default graphql(query, {
-  options: props => ({
-    variables: { withLikedPosts: false },
-  }),
-})(graphql(mutation)(Navbar));
+export default graphql(query)(graphql(mutation)(Navbar));
