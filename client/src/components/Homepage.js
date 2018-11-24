@@ -15,22 +15,23 @@ const HomePage = () => {
               <h1 className="home-heading">Chowster</h1>
               <div className="card">
                 <div className="card-header">Most Recent Posts</div>
-                <div className="card-body">
-                  {loadingOne || loadingTwo ? (
+                {loadingOne || loadingTwo ? (
+                  <div className="card-body">
                     <div className="text-center">
                       <i className="fa fa-spinner fa-pulse fa-3x fa-fw" />
                     </div>
-                  ) : (
-                    posts.map(post => (
-                      <Post
-                        post={post}
-                        profile={post._creator}
-                        me={me}
-                        key={post.id}
-                      />
-                    ))
-                  )}
-                </div>
+                  </div>
+                ) : (
+                  posts
+                    .map(post => {
+                      return (
+                        <div key={post.id} className="list-group-item">
+                          <Post post={post} profile={post._creator} me={me} />
+                        </div>
+                      );
+                    })
+                    .reverse()
+                )}
               </div>
             </div>
           )}
