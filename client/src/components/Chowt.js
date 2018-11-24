@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { Mutation } from 'react-apollo';
 
 import CHOWT from '../mutations/Chowt';
-import query from '../queries/FetchUser';
+import FETCH_USER from '../queries/FetchUser';
+import GET_POSTS from '../queries/GetPosts';
 import Alert from './Alert';
 import handleModal from './HOCs/handle-modal';
 
@@ -55,11 +56,12 @@ class Chowt extends Component {
         variables: { ...body },
         refetchQueries: [
           {
-            query,
+            query: FETCH_USER,
             variables: {
               username: user.username,
             },
           },
+          { query: GET_POSTS },
         ],
       });
 
