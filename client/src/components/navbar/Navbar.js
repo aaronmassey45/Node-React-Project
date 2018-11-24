@@ -6,7 +6,7 @@ import query from '../../queries/CurrentUser';
 import mutation from '../../mutations/Logout';
 import AuthedButtons from './AuthedButtons';
 import UnauthedButtons from './UnauthedButtons';
-import UserSearch from './UserSearch';
+// import UserSearch from './UserSearch';
 
 class Navbar extends Component {
   handleLogout = () => {
@@ -33,7 +33,12 @@ class Navbar extends Component {
   render() {
     return (
       <nav className="navbar fixed-top navbar-expand-md navbar-dark bg-dark">
-        <span className="navbar-brand mb-0 h1">Chowster</span>
+        <NavLink to="/" exact className="nav-link p-0">
+          <span className="navbar-brand mb-0 home-heading text-dark">
+            Chowster
+          </span>
+        </NavLink>
+
         <button
           className="navbar-toggler"
           type="button"
@@ -62,7 +67,7 @@ class Navbar extends Component {
             </li>
             {this.renderButtons()}
           </ul>
-          <UserSearch />
+          {/*<UserSearch />*/}
         </div>
       </nav>
     );
