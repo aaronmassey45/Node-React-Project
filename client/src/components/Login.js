@@ -16,11 +16,11 @@ class Login extends Component {
     this.setState({ [e.target.id]: e.target.value });
   };
 
-  handleSubmit = async e => {
+  handleSubmit = e => {
     e.preventDefault();
     const { password, username } = this.state;
 
-    await this.props
+    this.props
       .mutate({
         variables: { username, password },
       })
@@ -28,7 +28,7 @@ class Login extends Component {
         localStorage.setItem('x-auth', res.data.login);
         this.props.data.refetch();
       })
-      .catch(err => console.log(err));
+      .catch(this.setState({ hasErr: true }));
   };
 
   render() {
