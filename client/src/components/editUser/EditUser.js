@@ -1,11 +1,10 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { graphql, compose } from 'react-apollo';
 
-import Alert from '../alert';
+import Alert from '../Alert';
 import addAlertProps from '../HOCs/add-alert';
 import InputField from './InputField';
 import DeleteAccount from './DeleteAccount';
-import query from '../../queries/CurrentUser';
 import mutation from '../../mutations/UpdateUser';
 
 const FIELDS = [
@@ -52,38 +51,22 @@ const FIELDS = [
 ];
 
 class AccountEdit extends Component {
-  state = {
-    bio: '',
-    currentPassword: '',
-    email: '',
-    isAFoodTruck: false,
-    errors: {},
-    location: '',
-    newPassword: '',
-    profileImg: '',
-    username: '',
-  };
+  constructor(props) {
+    super(props);
 
-  componentWillReceiveProps(nextProps) {
-    if (this.props.data.me === nextProps.data.me) return false;
+    const { user } = props;
 
-    const {
-      bio,
-      email,
-      isAFoodTruck,
-      location,
-      profileImg,
-      username,
-    } = nextProps.data.me;
-
-    this.setState({
-      bio,
-      email,
-      isAFoodTruck,
-      location,
-      profileImg,
-      username,
-    });
+    this.state = {
+      bio: user.bio,
+      currentPassword: '',
+      email: user.email,
+      isAFoodTruck: user.isAFoodTruck,
+      errors: {},
+      location: user.location,
+      newPassword: '',
+      profileImg: user.profileImg,
+      username: user.username,
+    };
   }
 
   updateAndShowAlert = ({ bg, msg }) => {
@@ -112,8 +95,11 @@ class AccountEdit extends Component {
   };
 
   handleChange = e => {
-    if (e.target.name === 'isAFoodTruck')
-      return this.setState({ isAFoodTruck: !this.state.isAFoodTruck });
+    if (e.target.name === 'isAFoodTruck') {
+      return this.setState(prevState => ({
+        isAFoodTruck: !prevState.isAFoodTruck,
+      }));
+    }
 
     this.setState({ [e.target.name]: e.target.value });
   };
@@ -199,7 +185,7 @@ class AccountEdit extends Component {
   };
 
   render() {
-    const { alert, showModal, clearAlert, hide, data } = this.props;
+    const { alert, showModal, clearAlert, hide } = this.props;
 
     return (
       <div className="AccountEdit text-left container my-1">
@@ -223,24 +209,16 @@ class AccountEdit extends Component {
         <div className="card bg-light">
           <div className="card-header">Basic Information</div>
           <div className="card-body">
-            {data.loading ? (
-              <div className="text-center">
-                <i className="fa fa-spinner fa-pulse fa-3x fa-fw" />
-              </div>
-            ) : (
-              <Fragment>
-                <form onSubmit={e => e.preventDefault()}>
-                  {this.renderFields()}
-                </form>
-                <button
-                  className="btn btn-danger text-white"
-                  data-toggle="modal"
-                  data-target="#deleteModal"
-                >
-                  <i className="fa fa-ban" aria-hidden="true" /> Delete account
-                </button>
-              </Fragment>
-            )}
+            <form onSubmit={e => e.preventDefault()}>
+              {this.renderFields()}
+            </form>
+            <button
+              className="btn btn-danger text-white"
+              data-toggle="modal"
+              data-target="#deleteModal"
+            >
+              <i className="fa fa-ban" aria-hidden="true" /> Delete account
+            </button>
           </div>
           <div className="card-footer text-right">
             <button className="btn btn-success" onClick={this.handleSubmit}>
@@ -253,12 +231,4 @@ class AccountEdit extends Component {
   }
 }
 
-export default compose(
-  addAlertProps,
-  graphql(query, {
-    options: props => ({
-      variables: { withEditingData: true },
-    }),
-  }),
-  graphql(mutation)
-)(AccountEdit);
+export default compose(addAlertProps, graphql(mutation))(AccountEdit);

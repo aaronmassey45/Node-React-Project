@@ -6,14 +6,12 @@ import query from '../../queries/CurrentUser';
 import mutation from '../../mutations/Logout';
 import AuthedButtons from './AuthedButtons';
 import UnauthedButtons from './UnauthedButtons';
-import UserSearch from './UserSearch';
+// import UserSearch from './UserSearch';
 
 class Navbar extends Component {
   handleLogout = () => {
     this.props
-      .mutate({
-        refetchQueries: [{ query, variables: { withLikedPosts: false } }],
-      })
+      .mutate({ refetchQueries: [{ query }] })
       .then(() => localStorage.removeItem('x-auth'))
       .catch(err => console.log(err));
   };
@@ -35,7 +33,12 @@ class Navbar extends Component {
   render() {
     return (
       <nav className="navbar fixed-top navbar-expand-md navbar-dark bg-dark">
-        <span className="navbar-brand mb-0 h1">Chowster</span>
+        <NavLink to="/" exact className="nav-link p-0">
+          <span className="navbar-brand mb-0 home-heading text-dark">
+            Chowster
+          </span>
+        </NavLink>
+
         <button
           className="navbar-toggler"
           type="button"
@@ -64,15 +67,11 @@ class Navbar extends Component {
             </li>
             {this.renderButtons()}
           </ul>
-          <UserSearch />
+          {/*<UserSearch />*/}
         </div>
       </nav>
     );
   }
 }
 
-export default graphql(query, {
-  options: props => ({
-    variables: { withLikedPosts: false },
-  }),
-})(graphql(mutation)(Navbar));
+export default graphql(query)(graphql(mutation)(Navbar));
