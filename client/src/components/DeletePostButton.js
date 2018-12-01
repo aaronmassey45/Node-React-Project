@@ -3,6 +3,7 @@ import { Mutation } from 'react-apollo';
 
 import DELETE_CHOWT from '../mutations/DeleteChowt';
 import FETCH_USER_QUERY from '../queries/FetchUser';
+import GET_POSTS from '../queries/GetPosts';
 
 const DeletePostButton = ({ id, username, updateAlert, show }) => {
   return (
@@ -21,6 +22,7 @@ const DeletePostButton = ({ id, username, updateAlert, show }) => {
               variables: { id },
               refetchQueries: [
                 { query: FETCH_USER_QUERY, variables: { username } },
+                { query: GET_POSTS },
               ],
             })
           }
