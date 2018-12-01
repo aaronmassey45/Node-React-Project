@@ -28,7 +28,10 @@ class Login extends Component {
         localStorage.setItem('x-auth', res.data.login);
         this.props.data.refetch();
       })
-      .catch(this.setState({ hasErr: true }));
+      .catch(err => {
+        console.log(err);
+        this.setState({ hasErr: true });
+      });
   };
 
   render() {
@@ -98,8 +101,4 @@ class Login extends Component {
   }
 }
 
-export default graphql(query, {
-  options: props => ({
-    variables: { withLikedPosts: false },
-  }),
-})(graphql(mutation)(Login));
+export default graphql(query)(graphql(mutation)(Login));
