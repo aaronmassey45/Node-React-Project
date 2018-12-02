@@ -12,7 +12,7 @@ const HomePage = () => {
         <Query query={CurrentUser} variables={{ withLikedPosts: true }}>
           {({ loading: loadingTwo, data: { me } }) => (
             <div className="HomePage container mb-2">
-              <h1 className="home-heading">Chowster</h1>
+              <h1 className="chowster-font">Chowster</h1>
               <div className="card">
                 <div className="card-header">Most Recent Posts</div>
                 {loadingOne || loadingTwo ? (
