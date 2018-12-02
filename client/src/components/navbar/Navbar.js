@@ -34,7 +34,7 @@ class Navbar extends Component {
     return (
       <nav className="navbar fixed-top navbar-expand-md navbar-dark bg-dark">
         <NavLink to="/" exact className="nav-link p-0">
-          <span className="navbar-brand mb-0 home-heading text-dark">
+          <span className="navbar-brand mb-0 chowster-font text-dark">
             Chowster
           </span>
         </NavLink>
