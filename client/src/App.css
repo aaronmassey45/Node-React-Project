@@ -88,12 +88,12 @@ body {
   font-family: 'Ubuntu', sans-serif;
 }
 
-a {
+.landing-page a {
   color: #84919e;
   text-decoration: none;
 }
 
-a:hover {
+.landing-page a:hover {
   color: #1f2020;
   text-decoration: none;
   cursor: pointer;
