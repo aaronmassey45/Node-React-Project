@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { Query } from 'react-apollo';
 
