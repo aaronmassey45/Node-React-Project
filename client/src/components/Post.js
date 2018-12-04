@@ -39,23 +39,21 @@ class Post extends Component {
       <Fragment>
         {showModal && <Alert closeModal={hide} msg={msg} bg={bg} />}
         <div className="Post">
-          <div className="row">
-            <div className="col-3 my-auto">
-              <img
-                src={profile.profileImg}
-                alt="user"
-                className="rounded float-left img-fluid"
-              />
-            </div>
-            <div className="col-9 my-auto itim-font">
-              <div className="text-left row">
-                <span className="col-10">
-                  <Link to={`/users/account/${profile.username}`}>
-                    @{profile.username}
-                  </Link>
-                </span>
-                {me &&
-                  profile.id === me.id && (
+          <div className="media">
+            <img
+              src={profile.profileImg}
+              alt="user avatar"
+              className="rounded mx-3 img-fluid"
+            />
+            <div className="media-body container">
+              <div className="my-auto itim-font">
+                <div className="text-left row">
+                  <span className="col-10">
+                    <Link to={`/users/account/${profile.username}`}>
+                      @{profile.username}
+                    </Link>
+                  </span>
+                  {me && profile.id === me.id && (
                     <span className="col-2 text-right">
                       <DeletePostButton
                         id={post.id}
@@ -65,12 +63,11 @@ class Post extends Component {
                       />
                     </span>
                   )}
-              </div>
-              <div className="row text-left">
-                <div className="col-12 mt-1">
-                  {post.text}
-                  {post.location &&
-                    post.location.lat && (
+                </div>
+                <div className="row text-left">
+                  <div className="col-12 mt-1">
+                    {post.text}
+                    {post.location && post.location.lat && (
                       <p className="mb-0">
                         <small>
                           <a
@@ -84,19 +81,22 @@ class Post extends Component {
                         </small>
                       </p>
                     )}
-                </div>
-                <div className="col-4 mt-1">
-                  <LikePostButton
-                    id={post.id}
-                    liked={iLiked}
-                    show={show}
-                    updateAlert={updateAlert}
-                    username={profile.username}
-                  />
-                  <span className="text-gray ml-2">{post.likedBy.length}</span>
-                </div>
-                <div className="col-8 mt-1 text-right">
-                  <small className="text-gray">{timeString}</small>
+                  </div>
+                  <div className="col-4 mt-1">
+                    <LikePostButton
+                      id={post.id}
+                      liked={iLiked}
+                      show={show}
+                      updateAlert={updateAlert}
+                      username={profile.username}
+                    />
+                    <span className="text-gray ml-2">
+                      {post.likedBy.length}
+                    </span>
+                  </div>
+                  <div className="col-8 mt-1 text-right">
+                    <small className="text-gray">{timeString}</small>
+                  </div>
                 </div>
               </div>
             </div>
