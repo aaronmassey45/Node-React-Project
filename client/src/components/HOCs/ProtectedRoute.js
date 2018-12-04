@@ -8,7 +8,6 @@ const PrivateRoute = ({ component: Component, redirectTo, ...rest }) => (
   <Query query={query} variables={{ withEditingData: true }}>
     {({ loading, data }) => {
       if (loading) return null;
-      console.log(redirectTo);
       return (
         <Route
           {...rest}
