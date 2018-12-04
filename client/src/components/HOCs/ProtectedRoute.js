@@ -4,10 +4,11 @@ import { Route, Redirect } from 'react-router-dom';
 
 import query from '../../queries/CurrentUser';
 
-const PrivateRoute = ({ component: Component, ...rest }) => (
+const PrivateRoute = ({ component: Component, redirectTo, ...rest }) => (
   <Query query={query} variables={{ withEditingData: true }}>
     {({ loading, data }) => {
       if (loading) return null;
+      console.log(redirectTo);
       return (
         <Route
           {...rest}
@@ -15,7 +16,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
             data.me ? (
               <Component {...props} user={data.me} />
             ) : (
-              <Redirect to={{ pathname: '/login' }} />
+              <Redirect to={{ pathname: redirectTo || '/login' }} />
             )
           }
         />
