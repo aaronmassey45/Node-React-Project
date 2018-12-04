@@ -1,33 +1,18 @@
-let mongoose = require('mongoose');
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
-let Post = mongoose.model('Post', {
-  _creator: {
-    required: true,
-    type: mongoose.Schema.Types.ObjectId
-  },
-  likes: {
-    type: Number,
-    default: 0
-  },
-  location: {
-    lat: {
-      type: Number,
-    },
-    lng: {
-      type: Number,
-    }
-  },
+const PostSchema = new Schema({
+  _creator: { required: true, type: Schema.Types.ObjectId },
+  likedBy: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+  location: { lat: { type: Number }, lng: { type: Number } },
   text: {
     type: String,
     required: true,
     maxlength: 300,
     minlength: 1,
-    trim: true
+    trim: true,
   },
-  timeCreated: {
-    type: Number,
-    default: null
-  }
+  timeCreated: { type: Number, default: null },
 });
 
-module.exports = {Post};
+mongoose.model('post', PostSchema);

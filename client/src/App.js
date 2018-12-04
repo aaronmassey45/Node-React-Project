@@ -1,49 +1,40 @@
-import './App.css';
-
-import React, { Component } from 'react';
+import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import { connect } from 'react-redux';
 
-import AccountEdit from './components/users-edit';
-import FloatingChowt from './components/chowt-modal';
-import HomePage from './components/homepage';
-import Login from './components/login';
-import MyAccount from './components/users-me';
-import Navbar from './components/navbar';
-import NotFound from './components/notfound';
-import SignUp from './components/signup';
-import UserPage from './components/users-page';
+import ProtectedRoute from './components/HOCs/ProtectedRoute';
+import EditUser from './components/editUser/EditUser';
+import FloatingChowt from './components/ChowtModal';
+import HomePage from './components/Homepage';
+import LandingPage from './components/LandingPage';
+import Login from './components/Login';
+import Navbar from './components/navbar/Navbar';
+import NotFound from './components/NotFound';
+import SignUp from './components/Signup';
+import User from './components/User';
 
-class App extends Component {
-  render() {
-    return (
-      <BrowserRouter>
-        <div className="App">
-          <Navbar />
-          <div className="mt-app">
-            <Switch>
-              <Route path="/login" exact component={Login} />
-              <Route path="/users/account/edit" exact component={AccountEdit} />
-              <Route
-                path="/users/account/:username"
-                exact
-                component={UserPage}
-              />
-              <Route path="/users/me" exact component={MyAccount} />
-              <Route path="/signup" exact component={SignUp} />
-              <Route path="/" exact component={HomePage} />
-              <Route path="*" component={NotFound} />
-            </Switch>
-            {this.props.appState.loggedIn ? <FloatingChowt /> : ''}
-          </div>
-        </div>
-      </BrowserRouter>
-    );
-  }
-}
+const App = () => (
+  <BrowserRouter>
+    <div className="App">
+      <Navbar />
+      <div className="mt-app">
+        <Switch>
+          <Route path="/login" exact component={Login} />
+          <ProtectedRoute path="/account/edit" exact component={EditUser} />
+          <Route path="/users/account/:username" exact component={User} />
+          <Route path="/signup" exact component={SignUp} />
+          <ProtectedRoute
+            path="/feed"
+            redirectTo="/"
+            exact
+            component={HomePage}
+          />
+          <Route path="/" exact component={LandingPage} />
+          <Route path="*" component={NotFound} />
+        </Switch>
+        <FloatingChowt />
+      </div>
+    </div>
+  </BrowserRouter>
+);
 
-const mapStateToProps = state => ({
-  appState: state.appState
-});
-
-export default connect(mapStateToProps)(App);
+export default App;

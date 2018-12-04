@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 const handleModal = WrappedComponent => {
   return class extends Component {
     state = {
-      showModal: false
+      showModal: false,
     };
 
     hide = () => {

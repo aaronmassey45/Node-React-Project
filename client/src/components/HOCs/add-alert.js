@@ -7,25 +7,22 @@ const addAlertProps = WrappedComponent => {
     state = {
       alert: {
         bg: '',
-        msg: ''
-      }
+        msg: '',
+      },
     };
 
     clearAlert = () => {
       this.setState({
         alert: {
           bg: '',
-          msg: ''
-        }
+          msg: '',
+        },
       });
     };
 
-    updateAlert = (alert) => {
+    updateAlert = ({ bg, msg }) => {
       this.setState({
-        alert: {
-          bg: alert.bg,
-          msg: alert.msg
-        }
+        alert: { bg, msg },
       });
     };
 
@@ -39,7 +36,7 @@ const addAlertProps = WrappedComponent => {
         />
       );
     }
-  };
+  }
 
   return handleModal(AlertProps);
 };
