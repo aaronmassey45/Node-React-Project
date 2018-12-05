@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 export default ({ logout, username }) => {
   return (
     <li className="nav-item dropdown">
-      <a
+      <span
         className="nav-link dropdown-toggle fake-link"
         id="navbarDropdown"
         role="button"
@@ -13,7 +13,7 @@ export default ({ logout, username }) => {
         aria-expanded="false"
       >
         {username}
-      </a>
+      </span>
       <div
         className="dropdown-menu bg-dark dropdown-menu-right"
         aria-labelledby="navbarDropdown"
