@@ -75,6 +75,7 @@ class Post extends Component {
                               post.location.lat
                             },${post.location.lng}`}
                             target="_blank"
+                            rel="noopener noreferrer"
                           >
                             My Location
                           </a>
