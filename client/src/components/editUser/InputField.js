@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 
 const InputField = ({ error, handleChange, label, name, type, value }) => {
   if (type === 'checkbox') {
@@ -38,4 +38,4 @@ const InputField = ({ error, handleChange, label, name, type, value }) => {
   );
 };
 
-export default InputField;
+export default memo(InputField);
