@@ -27,6 +27,7 @@ const InputField = ({ error, handleChange, label, name, type, value }) => {
         <input
           type={type}
           className="form-control"
+          autoComplete={name}
           name={name}
           onChange={handleChange}
           value={value}
