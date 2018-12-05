@@ -1,36 +1,58 @@
-import React from 'react';
+import React, { Suspense, lazy } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
-import ProtectedRoute from './components/HOCs/ProtectedRoute';
-import EditUser from './components/editUser/EditUser';
-import FloatingChowt from './components/ChowtModal';
-import HomePage from './components/Homepage';
-import LandingPage from './components/LandingPage';
-import Login from './components/Login';
 import Navbar from './components/navbar/Navbar';
-import NotFound from './components/NotFound';
-import SignUp from './components/Signup';
-import User from './components/User';
+import ProtectedRoute from './components/HOCs/ProtectedRoute';
+import FloatingChowt from './components/ChowtModal';
+const EditUser = lazy(() => import('./components/editUser/EditUser'));
+const HomePage = lazy(() => import('./components/Homepage'));
+const LandingPage = lazy(() => import('./components/LandingPage'));
+const Login = lazy(() => import('./components/Login'));
+const NotFound = lazy(() => import('./components/NotFound'));
+const SignUp = lazy(() => import('./components/Signup'));
+const User = lazy(() => import('./components/User'));
 
 const App = () => (
   <BrowserRouter>
     <div className="App">
       <Navbar />
       <div className="mt-app">
-        <Switch>
-          <Route path="/login" exact component={Login} />
-          <ProtectedRoute path="/account/edit" exact component={EditUser} />
-          <Route path="/users/account/:username" exact component={User} />
-          <Route path="/signup" exact component={SignUp} />
-          <ProtectedRoute
-            path="/feed"
-            redirectTo="/"
-            exact
-            component={HomePage}
-          />
-          <Route path="/" exact component={LandingPage} />
-          <Route path="*" component={NotFound} />
-        </Switch>
+        <Suspense fallback={<div />}>
+          <Switch>
+            <Route
+              path="/login"
+              exact
+              component={props => <Login {...props} />}
+            />
+            <ProtectedRoute
+              path="/account/edit"
+              exact
+              component={props => <EditUser {...props} />}
+            />
+            <Route
+              path="/users/account/:username"
+              exact
+              component={props => <User {...props} />}
+            />
+            <Route
+              path="/signup"
+              exact
+              component={props => <SignUp {...props} />}
+            />
+            <ProtectedRoute
+              path="/feed"
+              redirectTo="/"
+              exact
+              component={props => <HomePage {...props} />}
+            />
+            <Route
+              path="/"
+              exact
+              component={props => <LandingPage {...props} />}
+            />
+            <Route component={props => <NotFound {...props} />} />
+          </Switch>
+        </Suspense>
         <FloatingChowt />
       </div>
     </div>
