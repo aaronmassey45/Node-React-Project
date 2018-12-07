@@ -9,6 +9,7 @@
   "scripts": {
     "client": "npm run start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "dev-localdb": "concurrently \"mongod\" \"npm run server\" \"npm run client\"",
     "format": "prettier --write \"**/*.js\"",
     "server": "nodemon server/index.js",
     "start": "node server/index.js"
