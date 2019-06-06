@@ -1,11 +1,11 @@
 module.exports = (object, paths) => {
   const newObj = {};
 
-  Object.keys(object).forEach(key => {
-    if (paths.includes(key)) {
-      newObj[key] = object[key];
+  for (let path of paths) {
+    if (object[path]) {
+      newObj[path] = object[path];
     }
-  });
+  }
 
   return newObj;
 };
