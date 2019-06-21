@@ -97,6 +97,7 @@ const UserSchema = new Schema({
       return this.username.toLowerCase();
     },
     type: String,
+    unique: true,
   },
 });
 
@@ -196,7 +197,7 @@ UserSchema.pre('save', function(next) {
 });
 
 UserSchema.plugin(uniqueValidator, {
-  message: 'That {PATH} is already taken!',
+  message: 'That {VALUE} is already taken!',
 });
 
 mongoose.model('user', UserSchema);
