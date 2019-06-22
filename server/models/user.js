@@ -197,7 +197,7 @@ UserSchema.pre('save', function(next) {
 });
 
 UserSchema.plugin(uniqueValidator, {
-  message: 'That {VALUE} is already taken!',
+  message: '{VALUE} is already taken!',
 });
 
 mongoose.model('user', UserSchema);
