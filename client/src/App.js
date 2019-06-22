@@ -7,9 +7,9 @@ import FloatingChowt from './components/ChowtModal';
 const EditUser = lazy(() => import('./components/editUser/EditUser'));
 const HomePage = lazy(() => import('./components/Homepage'));
 const LandingPage = lazy(() => import('./components/LandingPage'));
-const Login = lazy(() => import('./components/Login'));
+const Login = lazy(() => import('./components/AuthForms/Login'));
 const NotFound = lazy(() => import('./components/NotFound'));
-const SignUp = lazy(() => import('./components/Signup'));
+const SignUp = lazy(() => import('./components/AuthForms/Signup'));
 const User = lazy(() => import('./components/User'));
 
 const App = () => (

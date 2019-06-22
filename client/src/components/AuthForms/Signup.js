@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import AuthForm from './AuthForms/AuthForm';
+import AuthForm from './AuthForm';
 
 const Signup = () => {
   return (
