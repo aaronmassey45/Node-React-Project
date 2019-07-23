@@ -1,7 +1,7 @@
 import React, { Suspense, lazy } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
-import Navbar from './components/navbar/Navbar';
+import { default as Navbar } from './components/navbar/NavbarContainer';
 import ProtectedRoute from './components/HOCs/ProtectedRoute';
 import FloatingChowt from './components/ChowtModal';
 const EditUser = lazy(() => import('./components/editUser/EditUser'));
