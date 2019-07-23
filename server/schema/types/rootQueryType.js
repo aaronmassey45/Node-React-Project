@@ -18,11 +18,6 @@ const RootQuery = new GraphQLObjectType({
   fields: () => ({
     me: {
       type: UserType,
-      args: {
-        withLikedPosts: {
-          type: GraphQLBoolean,
-        },
-      },
       resolve(_, args, context) {
         return context.user;
       },
