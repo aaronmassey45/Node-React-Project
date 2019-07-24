@@ -153,6 +153,8 @@ const followUser = async (userIdToFollow, user) => {
       throw new Error('Invalid id.');
     }
     if (!user) throw new Error("You aren't logged in.");
+    if (user.id === userIdToFollow)
+      throw new Error("You can't follow yourself.");
 
     const currentUser = await User.findById(user.id);
 
