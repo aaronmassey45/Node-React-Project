@@ -18,8 +18,8 @@ export default class AuthForm extends Component {
     hasErr: false,
   };
 
-  handleChange = e => {
-    this.setState({ [e.target.id]: e.target.value });
+  handleChange = ({ target: { id, value, checked } }) => {
+    this.setState({ [id]: id === 'isAFoodTruck' ? checked : value });
   };
 
   _onCompleted = (data, refetch) => {
