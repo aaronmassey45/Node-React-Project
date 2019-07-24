@@ -62,7 +62,7 @@ export default class User extends Component {
 
               if (!user) {
                 history.push(`/404/user/${match.params.username}`);
-                return;
+                return null;
               }
 
               const authenticated =
