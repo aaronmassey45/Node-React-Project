@@ -1,0 +1,31 @@
+.not-found-img-overlay {
+  height: 80vh;
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+
+  .img-container {
+    display: inline-block;
+    background-size: cover;
+    background-image: url('https://i.imgur.com/Oqnene0.png');
+    background-position: center;
+    width: 40vh;
+    height: 40vh;
+  }
+
+  .img-text {
+    font-size: 28px;
+    color: white;
+  }
+
+  .nav-buttons {
+    width: 100%;
+
+    .btn {
+      margin: 0 10px;
+    }
+  }
+}
