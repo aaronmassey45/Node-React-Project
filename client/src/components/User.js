@@ -65,8 +65,10 @@ export default class User extends Component {
                 return null;
               }
 
-              const authenticated =
-                currentUser.me && user.id === currentUser.me.id;
+              const authenticated = !!currentUser.me && !!currentUser.me.id;
+
+              const isMyPage =
+                currentUser.me && user.id === currentUser.me.id ? true : false;
 
               return (
                 <div className="mt-3">
@@ -110,13 +112,22 @@ export default class User extends Component {
                               </p>
                             </div>
                           )}
-                          <FollowButton />
+                          {authenticated && (
+                            <FollowButton
+                              following={
+                                !!user.followers.find(
+                                  o => o.id === currentUser.me.id
+                                )
+                              }
+                              userId={user.id}
+                            />
+                          )}
                         </div>
                       </div>
                     </div>
                     <div className="col-xs-12 col-sm-8">
                       <div className="card">
-                        {authenticated && (
+                        {isMyPage && (
                           <div className="card-body">
                             <Chowt user={user} />
                           </div>
