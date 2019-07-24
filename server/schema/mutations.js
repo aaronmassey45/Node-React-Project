@@ -129,6 +129,13 @@ const mutations = new GraphQLObjectType({
         return AuthService.followUser(id, user);
       },
     },
+    unfollowUser: {
+      type: GraphQLID,
+      args: { id: { type: new GraphQLNonNull(GraphQLID) } },
+      resolve(_, { id }, { user }) {
+        return AuthService.unfollowUser(id, user);
+      },
+    },
   },
 });
 
