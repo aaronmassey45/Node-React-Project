@@ -4,6 +4,9 @@ import { Query, Mutation } from 'react-apollo';
 
 import Post from './Post';
 import Chowt from './Chowt';
+import Spinner from './spinner/Spinner';
+import FollowButton from './follow-button/FollowButton';
+
 import FETCH_USER from '../queries/FetchUser';
 import CURRENT_USER from '../queries/CurrentUser';
 import RATE_ACCOUNT from '../mutations/rateAccount';
@@ -52,7 +55,7 @@ export default class User extends Component {
               data: currentUser,
             }) => {
               if (fetchLoading || currentLoading) {
-                return <i className="fa fa-spinner fa-pulse fa-3x fa-fw" />;
+                return <Spinner />;
               }
 
               const { user } = fetchedUser;
@@ -107,6 +110,7 @@ export default class User extends Component {
                               </p>
                             </div>
                           )}
+                          <FollowButton />
                         </div>
                       </div>
                     </div>
