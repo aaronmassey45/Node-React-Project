@@ -147,6 +147,32 @@ const rateFoodTruck = async (id, rating) => {
   }
 };
 
+const followUser = async (userIdToFollow, user) => {
+  try {
+    if (!mongoose.Types.ObjectId.isValid(userIdToFollow)) {
+      throw new Error('Invalid id.');
+    }
+    if (!user) throw new Error("You aren't logged in.");
+
+    const userToFollow = await User.findById(userIdToFollow);
+    const currentUser = await User.findById(user.id);
+
+    if (currentUser.following.includes(userIdToFollow)) {
+      throw new Error('You already follow this user!');
+    }
+
+    currentUser.following.push(userIdToFollow);
+    return Promise.all([
+      User.findByIdAndUpdate(userIdToFollow, { $push: { followers: user.id } }),
+      currentUser.save(),
+    ])
+      .then(() => `Successfully followed user ${userIdToFollow}`)
+      .catch(error => error);
+  } catch (err) {
+    return err;
+  }
+};
+
 module.exports = {
   login,
   logout,
@@ -154,4 +180,5 @@ module.exports = {
   deleteUser,
   updateUser,
   rateFoodTruck,
+  followUser,
 };
