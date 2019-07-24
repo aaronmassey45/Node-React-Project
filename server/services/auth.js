@@ -154,7 +154,6 @@ const followUser = async (userIdToFollow, user) => {
     }
     if (!user) throw new Error("You aren't logged in.");
 
-    const userToFollow = await User.findById(userIdToFollow);
     const currentUser = await User.findById(user.id);
 
     if (currentUser.following.includes(userIdToFollow)) {
@@ -173,6 +172,28 @@ const followUser = async (userIdToFollow, user) => {
   }
 };
 
+const unfollowUser = async (userIdToUnfollow, user) => {
+  try {
+    if (!mongoose.Types.ObjectId.isValid(userIdToUnfollow)) {
+      throw new Error('Invalid id.');
+    }
+    if (!user) throw new Error("You aren't logged in.");
+
+    return Promise.all([
+      User.findByIdAndUpdate(userIdToUnfollow, {
+        $pull: { followers: user.id },
+      }),
+      User.findByIdAndUpdate(user.id, {
+        $pull: { following: userIdToUnfollow },
+      }),
+    ])
+      .then(() => userIdToUnfollow)
+      .catch(error => error);
+  } catch (err) {
+    return err;
+  }
+};
+
 module.exports = {
   login,
   logout,
@@ -181,4 +202,5 @@ module.exports = {
   updateUser,
   rateFoodTruck,
   followUser,
+  unfollowUser,
 };
