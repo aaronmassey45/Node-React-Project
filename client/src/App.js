@@ -24,7 +24,7 @@ const App = () => (
             <ProtectedRoute
               path="/account/edit"
               exact
-              render={props => <EditUser {...props} />}
+              component={props => <EditUser {...props} />}
             />
             <Route
               path="/users/account/:username"
@@ -40,7 +40,7 @@ const App = () => (
               path="/feed"
               redirectTo="/"
               exact
-              render={props => <HomePage {...props} />}
+              component={props => <HomePage {...props} />}
             />
             <Route
               path="/"
