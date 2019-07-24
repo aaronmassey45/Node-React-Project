@@ -112,7 +112,7 @@ export default class User extends Component {
                               </p>
                             </div>
                           )}
-                          {authenticated && (
+                          {!isMyPage && authenticated && (
                             <FollowButton
                               following={
                                 !!user.followers.find(
