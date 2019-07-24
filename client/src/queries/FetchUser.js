@@ -8,6 +8,12 @@ export default gql`
       isAFoodTruck
       location
       profileImg
+      following {
+        id
+      }
+      followers {
+        id
+      }
       rating {
         average
         numberOfRatings
