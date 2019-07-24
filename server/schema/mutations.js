@@ -1,4 +1,13 @@
 const graphql = require('graphql');
+const mongoose = require('mongoose');
+const User = mongoose.model('user');
+const Post = mongoose.model('post');
+const UserType = require('./types/userType');
+const PostType = require('./types/postType');
+
+const AuthService = require('../services/auth');
+const PostService = require('../services/post');
+
 const {
   GraphQLObjectType,
   GraphQLString,
@@ -9,14 +18,6 @@ const {
   GraphQLInputObjectType,
   GraphQLNonNull,
 } = graphql;
-const mongoose = require('mongoose');
-const User = mongoose.model('user');
-const Post = mongoose.model('post');
-const UserType = require('./types/userType');
-const PostType = require('./types/postType');
-
-const AuthService = require('../services/auth');
-const PostService = require('../services/post');
 
 const Location = new GraphQLInputObjectType({
   name: 'Location',
@@ -119,6 +120,13 @@ const mutations = new GraphQLObjectType({
       },
       resolve(_, { id, rating }) {
         return AuthService.rateFoodTruck(id, rating);
+      },
+    },
+    followUser: {
+      type: GraphQLString,
+      args: { id: { type: new GraphQLNonNull(GraphQLID) } },
+      resolve(_, { id }, { user }) {
+        return AuthService.followUser(id, user);
       },
     },
   },
