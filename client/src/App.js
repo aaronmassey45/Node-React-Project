@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import { default as Navbar } from './components/navbar/NavbarContainer';
 import ProtectedRoute from './components/HOCs/ProtectedRoute';
-import FloatingChowt from './components/ChowtModal';
+import ComposeChowtLink from './components/compose-chowt-link/ComposeChowtLink';
 import Spinner from './components/spinner/Spinner';
 
 const AboutPage = lazy(() => import('./pages/about/AboutPage'));
@@ -58,7 +58,7 @@ const App = () => (
             <Route render={props => <NotFound {...props} />} />
           </Switch>
         </Suspense>
-        <FloatingChowt />
+        <ComposeChowtLink />
       </div>
     </div>
   </BrowserRouter>
