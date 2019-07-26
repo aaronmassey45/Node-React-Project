@@ -9,7 +9,7 @@ import LOGOUT from '../../mutations/Logout';
 
 const NavbarContainer = () => (
   <Query query={CURRENT_USER} onError={err => console.log(err)}>
-    {({ data, loading, error: errorQuery }) => (
+    {({ data }) => (
       <Mutation
         mutation={LOGOUT}
         refetchQueries={[{ query: CURRENT_USER }]}
@@ -19,17 +19,13 @@ const NavbarContainer = () => (
         }}
         onError={err => console.log(err)}
       >
-        {(logout, { error: errorMutation }) => {
-          if (loading) return null;
-          if (errorQuery || errorMutation) {
-            return <div>Error</div>;
-          }
-
-          const navButtons = data.me ? (
-            <AuthedButtons logout={logout} username={data.me.username} />
-          ) : (
-            <UnauthedButtons />
-          );
+        {logout => {
+          const navButtons =
+            data && data.me ? (
+              <AuthedButtons logout={logout} username={data.me.username} />
+            ) : (
+              <UnauthedButtons />
+            );
 
           return <Navbar navButtons={navButtons} />;
         }}
