@@ -2,16 +2,16 @@ import React, { Component } from 'react';
 import Rater from 'react-rater';
 import { Query, Mutation } from 'react-apollo';
 
-import Post from './Post';
-import Chowt from './Chowt';
-import Spinner from './spinner/Spinner';
-import FollowButton from './follow-button/FollowButton';
+import Post from '../../components/Post';
+import Chowt from '../../components/Chowt';
+import Spinner from '../../components/spinner/Spinner';
+import FollowButton from '../../components/follow-button/FollowButton';
 
-import FETCH_USER from '../queries/FetchUser';
-import CURRENT_USER from '../queries/CurrentUser';
-import RATE_ACCOUNT from '../mutations/rateAccount';
+import FETCH_USER from '../../queries/FetchUser';
+import CURRENT_USER from '../../queries/CurrentUser';
+import RATE_ACCOUNT from '../../mutations/rateAccount';
 
-export default class User extends Component {
+export default class UserPage extends Component {
   rateUser = ({ type, rating }, rateAccount, id) => {
     if (type === 'click') {
       rateAccount({ variables: { id, rating } });
