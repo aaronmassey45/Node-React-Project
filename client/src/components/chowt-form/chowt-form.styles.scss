@@ -1,0 +1,34 @@
+#chowt-form {
+  width: 65%;
+  margin: auto;
+  color: white;
+
+  #text {
+    color: inherit;
+    background-color: #a0081e;
+    border: none;
+    resize: none;
+    width: 80%;
+
+    &::placeholder {
+      color: white;
+      opacity: 0.8;
+    }
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  & > .d-flex {
+    align-items: center;
+
+    input[type='checkbox'] {
+      margin-top: 0.5rem;
+    }
+
+    .align-right {
+      margin-left: auto;
+    }
+  }
+}
