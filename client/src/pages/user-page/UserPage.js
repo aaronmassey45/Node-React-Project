@@ -3,7 +3,6 @@ import Rater from 'react-rater';
 import { Query, Mutation } from 'react-apollo';
 
 import Post from '../../components/Post';
-import Chowt from '../../components/Chowt';
 import Spinner from '../../components/spinner/Spinner';
 import FollowButton from '../../components/follow-button/FollowButton';
 
@@ -127,11 +126,6 @@ export default class UserPage extends Component {
                     </div>
                     <div className="col-xs-12 col-sm-8">
                       <div className="card">
-                        {isMyPage && (
-                          <div className="card-body">
-                            <Chowt user={user} />
-                          </div>
-                        )}
                         {this.renderPosts(user, currentUser)}
                       </div>
                     </div>
