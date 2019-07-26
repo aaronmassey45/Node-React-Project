@@ -7,6 +7,7 @@ import FloatingChowt from './components/ChowtModal';
 import Spinner from './components/spinner/Spinner';
 
 const AboutPage = lazy(() => import('./pages/about/AboutPage'));
+const ChowtPage = lazy(() => import('./pages/chowt-page/ChowtPage'));
 const EditUser = lazy(() => import('./components/editUser/EditUser'));
 const HomePage = lazy(() => import('./components/Homepage'));
 const LandingPage = lazy(() => import('./components/LandingPage'));
@@ -50,6 +51,10 @@ const App = () => (
               render={props => <LandingPage {...props} />}
             />
             <Route path="/about" render={props => <AboutPage {...props} />} />
+            <Route
+              path="/compose/chowt"
+              render={props => <ChowtPage {...props} />}
+            />
             <Route render={props => <NotFound {...props} />} />
           </Switch>
         </Suspense>
