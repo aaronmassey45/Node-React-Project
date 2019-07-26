@@ -13,7 +13,7 @@ const ChowtForm = ({ text, sendLocation, handleChange }) => {
         onChange={handleChange}
       />
       <div className="d-flex">
-        <div className="form-check text-left mb-0 mt-1">
+        <div className="form-check text-left mb-0">
           <label className="form-check-label">
             <input
               type="checkbox"
