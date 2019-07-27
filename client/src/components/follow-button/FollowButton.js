@@ -9,9 +9,10 @@ import './follow-button.styles.scss';
 
 const FollowButton = ({ following, userId }) => {
   const [isFollowing, setFollowingState] = useState(following);
-  const btnClasses = classNames('follow-button', 'btn', {
-    'btn-success': isFollowing,
-    'btn-primary': !isFollowing,
+  const [isHovering, setHovering] = useState(false);
+
+  const btnClasses = classNames('follow-button', {
+    active: isFollowing,
   });
 
   return (
@@ -23,10 +24,23 @@ const FollowButton = ({ following, userId }) => {
     >
       {(followFunc, { loading }) => {
         return (
-          <button className={btnClasses} onClick={followFunc}>
+          <button
+            className={btnClasses}
+            onClick={followFunc}
+            onMouseEnter={() => setHovering(true)}
+            onMouseLeave={() => setHovering(false)}
+          >
             {isFollowing ? (
               <Fragment>
-                Following <i className="fas fa-check"></i>
+                {isHovering ? (
+                  <Fragment>
+                    Unfollow <i className="fas fa-user-minus" />
+                  </Fragment>
+                ) : (
+                  <Fragment>
+                    Following <i className="fas fa-check" />
+                  </Fragment>
+                )}
               </Fragment>
             ) : (
               <Fragment>
