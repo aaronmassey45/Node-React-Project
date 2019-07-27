@@ -8,7 +8,7 @@ import 'bootstrap/dist/js/bootstrap.bundle.min';
 import 'jquery';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-rater/lib/react-rater.css';
-import './App.css';
+import './App.scss';
 
 const cache = new InMemoryCache({
   dataIdFromObject: o => o.id,
