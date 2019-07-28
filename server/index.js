@@ -1,7 +1,5 @@
 require('./config/config');
 
-const bcrypt = require('bcryptjs');
-const bodyParser = require('body-parser');
 const express = require('express');
 const mongoose = require('mongoose');
 const expressGraphQL = require('express-graphql');
@@ -17,7 +15,7 @@ const app = express();
 
 app.use(
   '/api',
-  bodyParser.json(),
+  express.json(),
   authenticate,
   expressGraphQL(req => ({
     schema,
