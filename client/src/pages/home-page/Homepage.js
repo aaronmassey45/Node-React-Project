@@ -1,22 +1,28 @@
 import React from 'react';
 import { Query } from 'react-apollo';
 
-import Post from './../../components/Post';
+import Post from './../../components/post/Post';
 import CurrentUser from '../../queries/CurrentUser';
-import GetPosts from '../../queries/GetPosts';
 import Spinner from '../../components/spinner/Spinner';
+import Chowt from '../../components/chowt-component/Chowt';
+
+import GET_POSTS from '../../queries/GetPosts';
 
 import './home-page.styles.scss';
 
 const HomePage = () => (
-  <Query query={GetPosts}>
+  <Query query={GET_POSTS}>
     {({ loading: loadingOne, data: { posts } }) => (
       <Query query={CurrentUser} variables={{ withLikedPosts: true }}>
         {({ loading: loadingTwo, data: { me } }) => (
-          <div className="HomePage container mb-2">
-            <h1 className="chowster-font">Chowster</h1>
+          <div id="home-page" className="container mb-2">
             <div className="card">
-              <div className="card-header">Most Recent Posts</div>
+              <div className="list-header">
+                <span className="chowster-font">Chowster</span> - Home
+              </div>
+              <div className="list-group-item p-0">
+                <Chowt />
+              </div>
               {loadingOne || loadingTwo ? (
                 <div className="list-group-item">
                   <Spinner />
