@@ -1,0 +1,17 @@
+#stars-container {
+  .react-rater {
+    font-size: 1.2rem;
+
+    &-star {
+      &.is-active,
+      &.is-active-half:before,
+      &.will-be-active {
+        color: gold;
+      }
+    }
+  }
+
+  #stars-average {
+    display: block;
+  }
+}

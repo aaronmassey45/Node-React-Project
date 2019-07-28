@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { graphql, compose } from 'react-apollo';
 
 import Alert from '../Alert';
@@ -6,51 +6,9 @@ import addAlertProps from '../HOCs/add-alert';
 import InputField from './InputField';
 import DeleteAccount from './DeleteAccount';
 import mutation from '../../mutations/UpdateUser';
+import FIELDS from './form-fields';
 
-const FIELDS = [
-  {
-    label: 'Username*',
-    name: 'username',
-    type: 'text',
-  },
-  {
-    label: 'Email*',
-    name: 'email',
-    type: 'email',
-  },
-  {
-    label: 'Location*',
-    name: 'location',
-    type: 'text',
-  },
-  {
-    label: 'URL for Profile Pic*',
-    name: 'profileImg',
-    type: 'text',
-  },
-  {
-    label: 'Is account a food truck?*',
-    name: 'isAFoodTruck',
-    type: 'checkbox',
-  },
-  {
-    label: 'Bio*',
-    name: 'bio',
-    type: 'textarea',
-  },
-  {
-    label: 'New Password',
-    name: 'newPassword',
-    type: 'password',
-  },
-  {
-    label: 'Current Password',
-    name: 'currentPassword',
-    type: 'password',
-  },
-];
-
-class AccountEdit extends Component {
+class AccountEdit extends PureComponent {
   constructor(props) {
     super(props);
 
@@ -231,4 +189,7 @@ class AccountEdit extends Component {
   }
 }
 
-export default compose(addAlertProps, graphql(mutation))(AccountEdit);
+export default compose(
+  addAlertProps,
+  graphql(mutation)
+)(AccountEdit);

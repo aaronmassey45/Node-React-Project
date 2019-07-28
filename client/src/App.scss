@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Bungee|Itim|Ubuntu');
+
 .App {
   text-align: center;
 }
@@ -13,28 +14,6 @@ body {
 
 .fake-link {
   cursor: pointer;
-}
-
-.FloatingChowt {
-  bottom: 2%;
-  height: 50px;
-  position: fixed;
-  right: 2%;
-  width: 50px;
-  z-index: 1049;
-}
-
-.FloatingChowt .btn {
-  border-radius: 100%;
-  font-size: 16px;
-  height: 50px;
-  line-height: 28px;
-  text-align: center;
-  width: 50px;
-}
-
-.FloatingChowt .btn:focus {
-  outline: none;
 }
 
 .chowster-font {
@@ -66,13 +45,7 @@ body {
 }
 
 .mt-app {
-  margin-top: 4rem !important;
-}
-
-.react-rater-star.is-active,
-.react-rater-star.is-active-half:before,
-.react-rater-star.will-be-active {
-  color: gold !important;
+  margin-top: calc(40px + 1rem);
 }
 
 .landing-page {

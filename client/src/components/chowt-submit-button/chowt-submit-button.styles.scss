@@ -1,0 +1,22 @@
+#chowt-submit-button {
+  margin-left: auto;
+  background-color: #faebd7;
+  border-radius: 9999px;
+  font-weight: bold;
+
+  &:hover {
+    background-color: #f0dec7;
+  }
+
+  .spinner-overlay {
+    height: unset;
+    width: unset;
+    display: inline-block;
+
+    .spinner-container {
+      width: 15px;
+      height: 15px;
+      border-width: 1px;
+    }
+  }
+}

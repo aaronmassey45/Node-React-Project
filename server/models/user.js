@@ -29,6 +29,8 @@ const UserSchema = new Schema({
     },
     unique: true,
   },
+  followers: { type: [Schema.Types.ObjectId], ref: 'User', default: [] },
+  following: { type: [Schema.Types.ObjectId], ref: 'User', default: [] },
   isAFoodTruck: {
     required: true,
     type: Boolean,
@@ -97,6 +99,7 @@ const UserSchema = new Schema({
       return this.username.toLowerCase();
     },
     type: String,
+    unique: true,
   },
 });
 
@@ -196,7 +199,7 @@ UserSchema.pre('save', function(next) {
 });
 
 UserSchema.plugin(uniqueValidator, {
-  message: 'That {PATH} is already taken!',
+  message: '{VALUE} is already taken!',
 });
 
 mongoose.model('user', UserSchema);

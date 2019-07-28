@@ -7,7 +7,9 @@ import CURRENT_USER from '../queries/CurrentUser';
 const LandingPage = () => (
   <Query query={CURRENT_USER}>
     {({ data, loading }) => {
-      return !loading && data.me ? (
+      if (loading) return <div />;
+
+      return data.me ? (
         <Redirect to="/feed" />
       ) : (
         <div className="landing-page text-white row container mx-auto">

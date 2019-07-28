@@ -1,0 +1,28 @@
+#about {
+  width: 75%;
+  margin: 0 auto;
+
+  .card {
+    background: rgba(255, 255, 255, 0.85);
+
+    .card-body {
+      text-align: left;
+
+      img {
+        display: block;
+        margin: 0 auto;
+      }
+
+      .responsive-img {
+        max-width: 240px;
+        height: auto;
+      }
+
+      .dont-sue-me {
+        text-align: center;
+        font-size: 10px;
+        margin: 10px auto;
+      }
+    }
+  }
+}
