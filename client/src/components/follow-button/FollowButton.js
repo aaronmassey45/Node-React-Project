@@ -1,4 +1,6 @@
 import React, { useState, Fragment } from 'react';
+import PropTypes from 'prop-types';
+
 import { Mutation } from 'react-apollo';
 import classNames from 'classnames';
 
@@ -22,36 +24,39 @@ const FollowButton = ({ following, userId }) => {
       onCompleted={() => setFollowingState(!isFollowing)}
       onError={err => console.log(err)}
     >
-      {(followFunc, { loading }) => {
-        return (
-          <button
-            className={btnClasses}
-            onClick={followFunc}
-            onMouseEnter={() => setHovering(true)}
-            onMouseLeave={() => setHovering(false)}
-          >
-            {isFollowing ? (
-              <Fragment>
-                {isHovering ? (
-                  <Fragment>
-                    Unfollow <i className="fas fa-user-minus" />
-                  </Fragment>
-                ) : (
-                  <Fragment>
-                    Following <i className="fas fa-check" />
-                  </Fragment>
-                )}
-              </Fragment>
-            ) : (
-              <Fragment>
-                Follow <i className="fas fa-user-plus"></i>
-              </Fragment>
-            )}
-          </button>
-        );
-      }}
+      {followFunc => (
+        <button
+          className={btnClasses}
+          onClick={followFunc}
+          onMouseEnter={() => setHovering(true)}
+          onMouseLeave={() => setHovering(false)}
+        >
+          {isFollowing ? (
+            <Fragment>
+              {isHovering ? (
+                <Fragment>
+                  Unfollow <i className="fas fa-user-minus" />
+                </Fragment>
+              ) : (
+                <Fragment>
+                  Following <i className="fas fa-check" />
+                </Fragment>
+              )}
+            </Fragment>
+          ) : (
+            <Fragment>
+              Follow <i className="fas fa-user-plus"></i>
+            </Fragment>
+          )}
+        </button>
+      )}
     </Mutation>
   );
+};
+
+FollowButton.propTypes = {
+  following: PropTypes.bool.isRequired,
+  userId: PropTypes.string.isRequired,
 };
 
 export default FollowButton;
