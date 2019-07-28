@@ -8,13 +8,13 @@ import Spinner from './components/spinner/Spinner';
 
 const AboutPage = lazy(() => import('./pages/about/AboutPage'));
 const ChowtPage = lazy(() => import('./pages/chowt-page/ChowtPage'));
+const UserPage = lazy(() => import('./pages/user-page/UserPage'));
 const EditUser = lazy(() => import('./components/editUser/EditUser'));
 const HomePage = lazy(() => import('./components/Homepage'));
 const LandingPage = lazy(() => import('./components/LandingPage'));
 const Login = lazy(() => import('./components/AuthForms/Login'));
 const NotFound = lazy(() => import('./pages/not-found/NotFound'));
 const SignUp = lazy(() => import('./components/AuthForms/Signup'));
-const User = lazy(() => import('./components/User'));
 
 const App = () => (
   <BrowserRouter>
@@ -32,7 +32,7 @@ const App = () => (
             <Route
               path="/users/account/:username"
               exact
-              render={props => <User {...props} />}
+              render={props => <UserPage {...props} />}
             />
             <Route
               path="/signup"
