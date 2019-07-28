@@ -35,8 +35,11 @@ const Post = ({
             <div className="my-auto itim-font">
               <div className="text-left row">
                 <span className="col-10">
-                  <Link to={`/users/account/${profile.username}`}>
-                    @{profile.username}
+                  <Link
+                    to={`/users/account/${profile.username}`}
+                    className="text-white"
+                  >
+                    <b>@{profile.username}</b>
                   </Link>
                 </span>
                 {me && profile.id === me.id && (
@@ -57,9 +60,7 @@ const Post = ({
                     <p className="mb-0">
                       <small>
                         <a
-                          href={`https://www.google.com/maps?q=${
-                            post.location.lat
-                          },${post.location.lng}`}
+                          href={`https://www.google.com/maps?q=${post.location.lat},${post.location.lng}`}
                           target="_blank"
                           rel="noopener noreferrer"
                         >
