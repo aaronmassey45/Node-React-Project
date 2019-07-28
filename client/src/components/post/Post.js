@@ -1,11 +1,14 @@
 import React, { memo, Fragment } from 'react';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 import Alert from '../Alert';
 import addAlertProps from '../HOCs/add-alert';
 import LikePostButton from '../LikePostButton';
 import DeletePostButton from '../DeletePostButton';
 import getTimeDifference from '../../utils/getTimeDifference';
+
+import './post.styles.scss';
 
 const Post = ({
   alert: { msg, bg },
@@ -24,15 +27,15 @@ const Post = ({
   return (
     <Fragment>
       {showModal && <Alert closeModal={hide} msg={msg} bg={bg} />}
-      <div className="Post">
+      <div className="post">
         <div className="media">
           <img
             src={profile.profileImg}
             alt="user avatar"
-            className="rounded mx-3 img-fluid"
+            className="post-avatar align-self-center"
           />
           <div className="media-body container">
-            <div className="my-auto itim-font">
+            <div className="my-auto">
               <div className="text-left row">
                 <span className="col-10">
                   <Link
@@ -90,6 +93,17 @@ const Post = ({
       </div>
     </Fragment>
   );
+};
+
+Post.propTypes = {
+  alert: PropTypes.object.isRequired,
+  hide: PropTypes.func.isRequired,
+  me: PropTypes.object.isRequired,
+  post: PropTypes.object.isRequired,
+  profile: PropTypes.object.isRequired,
+  show: PropTypes.func.isRequired,
+  showModal: PropTypes.bool.isRequired,
+  updateAlert: PropTypes.func.isRequired,
 };
 
 export default addAlertProps(memo(Post));
