@@ -1,141 +1,67 @@
-import React, { Component } from 'react';
-import Rater from 'react-rater';
-import { Query, Mutation } from 'react-apollo';
+import React from 'react';
+import { Query } from 'react-apollo';
+import PropTypes from 'prop-types';
 
-import Post from '../../components/Post';
 import Spinner from '../../components/spinner/Spinner';
-import FollowButton from '../../components/follow-button/FollowButton';
+import PostsList from '../../components/posts-list/PostsList';
+import UserDetails from '../../components/user-details/UserDetails';
 
 import FETCH_USER from '../../queries/FetchUser';
 import CURRENT_USER from '../../queries/CurrentUser';
-import RATE_ACCOUNT from '../../mutations/rateAccount';
 
-export default class UserPage extends Component {
-  rateUser = ({ type, rating }, rateAccount, id) => {
-    if (type === 'click') {
-      rateAccount({ variables: { id, rating } });
-    }
-  };
+import './user-page.styles.scss';
 
-  renderPosts = (fetchedUser, currentUser) => {
-    const { posts, username, profileImg, id } = fetchedUser;
+const UserPage = ({ history, match }) => (
+  <Query
+    query={FETCH_USER}
+    variables={{ username: match.params.username }}
+    onError={err => console.log(err)}
+  >
+    {({ loading: fetchLoading, data: fetchedUser }) => (
+      <Query
+        query={CURRENT_USER}
+        variables={{ withLikedPosts: true }}
+        onError={err => console.log(err)}
+      >
+        {({ loading: currentLoading, data: currentUser }) => {
+          if (fetchLoading || currentLoading) {
+            return <Spinner />;
+          }
 
-    if (posts.length === 0) {
-      return (
-        <div className="list-group-item">This user has not chowted yet!</div>
-      );
-    }
+          const { user } = fetchedUser;
 
-    return posts
-      .map(post => {
-        return (
-          <div key={post.id} className="list-group-item">
-            <Post
-              post={post}
-              profile={{ username, profileImg, id }}
-              me={currentUser.me}
-            />
-          </div>
-        );
-      })
-      .reverse();
-  };
+          if (!user) {
+            history.push(`/404/user/${match.params.username}`);
+            return null;
+          }
 
-  render() {
-    const { history, match } = this.props;
+          const authenticated = !!currentUser.me && !!currentUser.me.id;
 
-    return (
-      <Query query={FETCH_USER} variables={{ username: match.params.username }}>
-        {({ loading: fetchLoading, error: fetchErr, data: fetchedUser }) => (
-          <Query query={CURRENT_USER} variables={{ withLikedPosts: true }}>
-            {({
-              loading: currentLoading,
-              error: currentErr,
-              data: currentUser,
-            }) => {
-              if (fetchLoading || currentLoading) {
-                return <Spinner />;
-              }
+          const isMyPage = authenticated && user.id === currentUser.me.id;
 
-              const { user } = fetchedUser;
-
-              if (!user) {
-                history.push(`/404/user/${match.params.username}`);
-                return null;
-              }
-
-              const authenticated = !!currentUser.me && !!currentUser.me.id;
-
-              const isMyPage =
-                currentUser.me && user.id === currentUser.me.id ? true : false;
-
-              return (
-                <div className="mt-3">
-                  <div className="row p-3 m-0">
-                    <div className="col-xs-12 col-sm-4">
-                      <div className="card">
-                        <img
-                          src={user.profileImg}
-                          alt="header"
-                          className="card-img-top"
-                        />
-                        <div className="card-body">
-                          <div>
-                            <b>{user.username}</b>
-                          </div>
-                          <div>{user.bio}</div>
-                          <div>{user.location}</div>
-                          {user.isAFoodTruck && (
-                            <div>
-                              <Mutation
-                                mutation={RATE_ACCOUNT}
-                                onError={err => console.log(err)}
-                              >
-                                {rateAccount => (
-                                  <Rater
-                                    total={5}
-                                    onRate={rate =>
-                                      this.rateUser(rate, rateAccount, user.id)
-                                    }
-                                    rating={parseFloat(user.rating.average)}
-                                    interactive={
-                                      user.isAFoodTruck && !!currentUser.me
-                                    }
-                                  />
-                                )}
-                              </Mutation>
-                              <p>
-                                <small>
-                                  Rated {user.rating.average} out of 5!
-                                </small>
-                              </p>
-                            </div>
-                          )}
-                          {!isMyPage && authenticated && (
-                            <FollowButton
-                              following={
-                                !!user.followers.find(
-                                  o => o.id === currentUser.me.id
-                                )
-                              }
-                              userId={user.id}
-                            />
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-xs-12 col-sm-8">
-                      <div className="card">
-                        {this.renderPosts(user, currentUser)}
-                      </div>
-                    </div>
-                  </div>
+          return (
+            <div id="user-page" className="row justify-content-center">
+              <div className="col-md-10 col-sm-12">
+                <div className="card">
+                  <UserDetails
+                    canFollow={!isMyPage && authenticated}
+                    currentUser={currentUser.me}
+                    user={user}
+                  />
+                  <PostsList fetchedUser={user} currentUser={currentUser.me} />
                 </div>
-              );
-            }}
-          </Query>
-        )}
+              </div>
+            </div>
+          );
+        }}
       </Query>
-    );
-  }
-}
+    )}
+  </Query>
+);
+
+UserPage.propTypes = {
+  history: PropTypes.object.isRequired,
+  match: PropTypes.object.isRequired,
+};
+
+export default UserPage;
