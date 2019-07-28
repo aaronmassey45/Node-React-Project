@@ -1,6 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-import Post from '../../components/Post';
+import Post from '../../components/post/Post';
 
 import './posts-lists.styles.scss';
 
@@ -22,6 +23,11 @@ const PostsList = ({ fetchedUser, currentUser }) => {
       ))
       .reverse()
   );
+};
+
+PostsList.propTypes = {
+  fetchedUser: PropTypes.object,
+  currentUser: PropTypes.object,
 };
 
 export default PostsList;
