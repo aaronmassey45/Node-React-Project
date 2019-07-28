@@ -31,4 +31,8 @@
       margin-left: auto;
     }
   }
+
+  @media only screen and (max-width: 576px) {
+    width: 85%;
+  }
 }
