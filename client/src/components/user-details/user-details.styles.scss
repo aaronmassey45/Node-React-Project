@@ -1,0 +1,38 @@
+$text-color: #fff;
+
+#user-details {
+  .header {
+    display: flex;
+
+    .profile-img {
+      border: 2px solid black;
+    }
+
+    .user-actions {
+      align-self: flex-end;
+      margin-left: auto;
+    }
+  }
+
+  .user-content {
+    color: rgba($text-color, 0.8);
+
+    .user-name {
+      font-size: 1.2rem;
+    }
+
+    .content-bold {
+      color: $text-color;
+      font-weight: bolder;
+    }
+  }
+
+  .followers-container {
+    display: flex;
+    justify-content: flex-start;
+
+    > :first-child {
+      margin-right: 10px;
+    }
+  }
+}
