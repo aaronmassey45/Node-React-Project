@@ -1,11 +1,11 @@
 import React, { memo, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 
-import Alert from './Alert';
-import addAlertProps from './HOCs/add-alert';
-import LikePostButton from './LikePostButton';
-import DeletePostButton from './DeletePostButton';
-import getTimeDifference from '../utils/getTimeDifference';
+import Alert from '../Alert';
+import addAlertProps from '../HOCs/add-alert';
+import LikePostButton from '../LikePostButton';
+import DeletePostButton from '../DeletePostButton';
+import getTimeDifference from '../../utils/getTimeDifference';
 
 const Post = ({
   alert: { msg, bg },
