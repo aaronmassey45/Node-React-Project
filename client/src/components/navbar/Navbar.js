@@ -1,54 +1,35 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 
-const Navbar = ({ navButtons }) => (
-  <nav className="navbar fixed-top navbar-expand-md navbar-dark bg-dark">
-    <NavLink to="/" exact className="nav-link p-0">
-      <span className="navbar-brand mb-0 chowster-font text-dark">
-        Chowster
-      </span>
-    </NavLink>
+import './navbar.styles.scss';
 
-    <button
-      className="navbar-toggler"
-      type="button"
-      data-toggle="collapse"
-      data-target="#navbarNav"
-      aria-controls="navbarNav"
-      aria-expanded="false"
-      aria-label="Toggle navigation"
-    >
-      <span className="navbar-toggler-icon" />
-    </button>
-    <div
-      className="navbar-collapse collapse justify-content-between"
-      id="navbarNav"
-    >
-      <ul className="navbar-nav mb-0 p-0">
-        <li
-          className="nav-item"
-          data-toggle="collapse"
-          data-target=".navbar-collapse.show"
-        >
-          <NavLink to="/" exact className="nav-link">
-            <i className="fa fa-home fa-fw" />
-            Home
-          </NavLink>
-        </li>
-        <li
-          className="nav-item"
-          data-toggle="collapse"
-          data-target=".navbar-collapse.show"
-        >
-          <NavLink to="/about" exact className="nav-link">
-            About
-          </NavLink>
-        </li>
-
-        {navButtons}
-      </ul>
+const Navbar = ({ navButtons, renderIconsOnly }) => (
+  <nav id="side-nav" className="mt-app">
+    <div className="nav-header chowster-font">
+      <NavLink to="/" exact className="nav-link">
+        {renderIconsOnly ? <i className="fas fa-hamburger" /> : 'Chowster'}
+      </NavLink>
     </div>
+    <ul className="nav-items">
+      <li>
+        <NavLink to="/" exact className="nav-link">
+          <i className="fa fa-home fa-fw" /> {!renderIconsOnly && 'Home'}
+        </NavLink>
+      </li>
+      <li>
+        <NavLink to="/about" exact className="nav-link">
+          <i className="fas fa-info-circle" /> {!renderIconsOnly && 'About'}
+        </NavLink>
+      </li>
+      {navButtons}
+    </ul>
   </nav>
 );
+
+Navbar.propTypes = {
+  navButtons: PropTypes.element,
+  renderIconsOnly: PropTypes.bool.isRequired,
+};
 
 export default Navbar;
