@@ -1,6 +1,8 @@
+@import '../../variables';
+
 .list-group-item {
   border-radius: unset;
-  background-color: #a0081e;
+  background-color: $chowster-red;
   border-top: 1px solid lightgrey;
   border-bottom: 1px solid lightgrey;
   color: white;

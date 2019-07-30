@@ -1,3 +1,5 @@
+@import '../../variables';
+
 #chowt-form {
   width: 65%;
   margin: auto;
@@ -5,7 +7,7 @@
 
   #text {
     color: inherit;
-    background-color: #a0081e;
+    background-color: $chowster-red;
     border: none;
     resize: none;
     width: 80%;
