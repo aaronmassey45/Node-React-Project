@@ -1,55 +1,48 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
-export default ({ logout, username }) => {
+import LogoutLink from './LogoutLink';
+import ComposeChowtLink from '../compose-chowt-link/ComposeChowtLink';
+
+const AuthedButtons = ({ currentUser, renderIconsOnly }) => {
+  const { profileImg, username } = currentUser;
   return (
-    <li className="nav-item dropdown">
-      <span
-        className="nav-link dropdown-toggle fake-link"
-        id="navbarDropdown"
-        role="button"
-        data-toggle="dropdown"
-        aria-haspopup="true"
-        aria-expanded="false"
-      >
-        {username}
-      </span>
-      <div
-        className="dropdown-menu bg-dark dropdown-menu-right"
-        aria-labelledby="navbarDropdown"
-      >
-        <div
-          className="dropdown-item"
-          data-toggle="collapse"
-          data-target=".navbar-collapse.show"
-        >
-          <NavLink to={`/users/account/${username}`} exact className="nav-link">
-            <i className="fa fa-user fa-fw" />
-            Profile
-          </NavLink>
-        </div>
-        <div
-          className="dropdown-item"
-          data-toggle="collapse"
-          data-target=".navbar-collapse.show"
-        >
-          <NavLink to="/account/edit" exact className="nav-link">
-            <i className="fa fa-pencil fa-fw" />
-            Account
-          </NavLink>
-        </div>
-        <div className="dropdown-divider" />
-        <div
-          className="dropdown-item"
-          data-toggle="collapse"
-          data-target=".navbar-collapse.show"
-        >
-          <span className="nav-link fake-link" onClick={logout}>
-            <i className="fa fa-sign-out fa-fw" />
-            Logout
-          </span>
-        </div>
-      </div>
-    </li>
+    <>
+      <li>
+        <NavLink to="/notifications" exact className="nav-link">
+          <i className="fas fa-bell" /> {!renderIconsOnly && 'Notifications'}
+        </NavLink>
+      </li>
+      <li>
+        <NavLink to="/messages" exact className="nav-link">
+          <i className="fas fa-inbox" /> {!renderIconsOnly && 'Messages'}
+        </NavLink>
+      </li>
+      <li>
+        <NavLink to="/account/edit" exact className="nav-link">
+          <i className="fas fa-user-cog" /> {!renderIconsOnly && 'Settings'}
+        </NavLink>
+      </li>
+      <li>
+        <NavLink to={`/users/account/${username}`} exact className="nav-link">
+          <img src={profileImg} alt="user avatar" />{' '}
+          {!renderIconsOnly && 'Profile'}
+        </NavLink>
+      </li>
+      <li>
+        <LogoutLink renderIconsOnly={renderIconsOnly} />
+      </li>
+      <li>
+        <ComposeChowtLink />
+      </li>
+    </>
   );
 };
+
+AuthedButtons.propTypes = {
+  currentUser: PropTypes.object,
+  renderIconsOnly: PropTypes.bool.isRequired,
+};
+
+export default AuthedButtons;
