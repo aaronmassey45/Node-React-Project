@@ -1,11 +1,13 @@
+@import 'variables';
 @import url('https://fonts.googleapis.com/css?family=Bungee|Itim|Ubuntu');
 
 .App {
   text-align: center;
+  display: flex;
 }
 
 body {
-  background-color: #a0081e;
+  background-color: $chowster-red;
 }
 
 .dropdown-item:hover {
@@ -38,14 +40,6 @@ body {
     rgb(255, 255, 255) 1.74541px -2.43999px 0px,
     rgb(255, 255, 255) 2.44769px -1.73459px 0px,
     rgb(255, 255, 255) 2.88051px -0.838247px 0px;
-}
-
-.itim-font {
-  font-family: 'Itim', cursive;
-}
-
-.mt-app {
-  margin-top: calc(40px + 1rem);
 }
 
 .landing-page {
