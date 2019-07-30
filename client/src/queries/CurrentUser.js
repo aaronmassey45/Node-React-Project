@@ -1,6 +1,6 @@
 import gql from 'graphql-tag';
 
-export default gql`
+const CURRENT_USER = gql`
   query CurrentUser(
     $withLikedPosts: Boolean = false
     $withEditingData: Boolean = false
@@ -8,16 +8,18 @@ export default gql`
     me {
       id
       username
+      profileImg
       likedPosts @include(if: $withLikedPosts) {
         id
       }
       ... on User @include(if: $withEditingData) {
         email
         location
-        profileImg
         bio
         isAFoodTruck
       }
     }
   }
 `;
+
+export default CURRENT_USER;
