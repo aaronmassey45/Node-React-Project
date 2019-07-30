@@ -3,7 +3,6 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import { default as Navbar } from './components/navbar/NavbarContainer';
 import ProtectedRoute from './components/HOCs/ProtectedRoute';
-import ComposeChowtLink from './components/compose-chowt-link/ComposeChowtLink';
 import Spinner from './components/spinner/Spinner';
 
 const AboutPage = lazy(() => import('./pages/about/AboutPage'));
@@ -18,49 +17,38 @@ const SignUp = lazy(() => import('./components/AuthForms/Signup'));
 
 const App = () => (
   <BrowserRouter>
-    <div className="App">
-      <Navbar />
-      <div className="mt-app">
-        <Suspense fallback={<Spinner />}>
-          <Switch>
-            <Route path="/login" exact render={props => <Login {...props} />} />
-            <ProtectedRoute
-              path="/account/edit"
-              exact
-              component={props => <EditUser {...props} />}
-            />
-            <Route
-              path="/users/account/:username"
-              exact
-              render={props => <UserPage {...props} />}
-            />
-            <Route
-              path="/signup"
-              exact
-              render={props => <SignUp {...props} />}
-            />
-            <ProtectedRoute
-              path="/feed"
-              redirectTo="/"
-              exact
-              component={props => <HomePage {...props} />}
-            />
-            <Route
-              path="/"
-              exact
-              render={props => <LandingPage {...props} />}
-            />
-            <Route path="/about" render={props => <AboutPage {...props} />} />
-            <Route
-              path="/compose/chowt"
-              render={props => <ChowtPage {...props} />}
-            />
-            <Route render={props => <NotFound {...props} />} />
-          </Switch>
-        </Suspense>
-        <ComposeChowtLink />
-      </div>
-    </div>
+    <Navbar />
+    <main className="App">
+      <Suspense fallback={<Spinner />}>
+        <Switch>
+          <Route path="/login" exact render={props => <Login {...props} />} />
+          <ProtectedRoute
+            path="/account/edit"
+            exact
+            component={props => <EditUser {...props} />}
+          />
+          <Route
+            path="/users/account/:username"
+            exact
+            render={props => <UserPage {...props} />}
+          />
+          <Route path="/signup" exact render={props => <SignUp {...props} />} />
+          <ProtectedRoute
+            path="/feed"
+            redirectTo="/"
+            exact
+            component={props => <HomePage {...props} />}
+          />
+          <Route path="/" exact render={props => <LandingPage {...props} />} />
+          <Route path="/about" render={props => <AboutPage {...props} />} />
+          <Route
+            path="/compose/chowt"
+            render={props => <ChowtPage {...props} />}
+          />
+          <Route render={props => <NotFound {...props} />} />
+        </Switch>
+      </Suspense>
+    </main>
   </BrowserRouter>
 );
 
