@@ -1,11 +1,9 @@
-#compose-chowt-link {
-  bottom: 3%;
-  position: fixed;
-  right: 3%;
-  z-index: 1049;
+@import '../../variables';
 
+#compose-chowt-link {
   .btn {
-    background-color: #a0081e;
+    margin: 0 auto;
+    background-color: $chowster-red;
     border: 2px solid lightgrey;
     color: lightgrey;
     border-radius: 100%;
@@ -16,7 +14,7 @@
 
     &:hover {
       background-color: lightgrey;
-      color: #a0081e;
+      color: $chowster-red;
     }
 
     &:focus {
