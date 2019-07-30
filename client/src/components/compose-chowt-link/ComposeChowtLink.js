@@ -14,7 +14,7 @@ const ComposeChowtLink = () => (
       return (
         <div id="compose-chowt-link">
           <Link className="btn btn-gray fake-link" to="/compose/chowt">
-            <i className="fas fa-feather-alt" />
+            <i className="fas fa-bullhorn" />
           </Link>
         </div>
       );
