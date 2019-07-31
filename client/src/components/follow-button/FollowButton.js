@@ -1,11 +1,11 @@
 import React, { useState, Fragment } from 'react';
 import PropTypes from 'prop-types';
-
 import { Mutation } from 'react-apollo';
 import classNames from 'classnames';
 
 import FOLLOW_USER from '../../mutations/FollowUser';
 import UNFOLLOW_USER from '../../mutations/UnfollowUser';
+import GET_USERS_FOLLOWERS from '../../queries/getUsersFollowers';
 
 import './follow-button.styles.scss';
 
@@ -23,6 +23,9 @@ const FollowButton = ({ following, userId }) => {
       variables={{ id: userId }}
       onCompleted={() => setFollowingState(!isFollowing)}
       onError={err => console.log(err)}
+      refetchQueries={[
+        { query: GET_USERS_FOLLOWERS, variables: { id: userId } },
+      ]}
     >
       {followFunc => (
         <button
