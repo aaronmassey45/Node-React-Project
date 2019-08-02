@@ -43,13 +43,14 @@ const RootQuery = new GraphQLObjectType({
     },
     populateFeed: {
       type: new GraphQLList(PostType),
-      args: { skip: { type: GraphQLInt, defaultValue: 0 } },
-      resolve(_, { skip }, { user }) {
+      args: { offset: { type: GraphQLInt, defaultValue: 0 } },
+      resolve(_, { offset }, { user }) {
+        console.log(offset);
         return Post.find(
           { _creator: { $in: [...user.following, user.id] } },
           null,
           {
-            skip,
+            skip: offset,
           }
         )
           .sort({ $natural: -1 })

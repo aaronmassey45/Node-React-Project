@@ -1,8 +1,8 @@
 import gql from 'graphql-tag';
 
 const GET_USERS_FEED = gql`
-  query PopulateFeed($skip: Int) {
-    populateFeed(skip: $skip) {
+  query PopulateFeed($offset: Int) {
+    populateFeed(offset: $offset) {
       id
       text
       timeCreated
