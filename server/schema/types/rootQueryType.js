@@ -51,7 +51,9 @@ const RootQuery = new GraphQLObjectType({
           {
             skip,
           }
-        ).limit(25);
+        )
+          .sort({ $natural: -1 })
+          .limit(25);
       },
     },
   }),
