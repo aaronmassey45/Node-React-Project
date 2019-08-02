@@ -10,7 +10,7 @@ const LandingPage = () => (
       if (loading) return <div />;
 
       return data.me ? (
-        <Redirect to="/feed" />
+        <Redirect to="/home" />
       ) : (
         <div className="landing-page text-white row container mx-auto">
           <div id="welcome" className="col-12 ubuntu">

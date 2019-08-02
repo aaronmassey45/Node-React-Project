@@ -34,7 +34,7 @@ const App = () => (
           />
           <Route path="/signup" exact render={props => <SignUp {...props} />} />
           <ProtectedRoute
-            path="/feed"
+            path="/home"
             redirectTo="/"
             exact
             component={props => <HomePage {...props} />}
