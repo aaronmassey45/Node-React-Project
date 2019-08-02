@@ -9,7 +9,7 @@ const AboutPage = lazy(() => import('./pages/about/AboutPage'));
 const ChowtPage = lazy(() => import('./pages/chowt-page/ChowtPage'));
 const UserPage = lazy(() => import('./pages/user-page/UserPage'));
 const EditUser = lazy(() => import('./components/editUser/EditUser'));
-const HomePage = lazy(() => import('./pages/home-page/Homepage'));
+const HomePage = lazy(() => import('./pages/home-page/HomePageContainer'));
 const LandingPage = lazy(() => import('./components/LandingPage'));
 const Login = lazy(() => import('./components/AuthForms/Login'));
 const NotFound = lazy(() => import('./pages/not-found/NotFound'));
