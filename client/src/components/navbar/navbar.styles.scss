@@ -1,9 +1,9 @@
 @import '../../variables';
 
 #side-nav {
-  height: 100%; /* Full-height: remove this if you want "auto" height */
-  width: 25%; /* Set the width of the sidebar */
-  position: fixed; /* Fixed Sidebar (stay in place on scroll) */
+  flex: 1;
+  order: 1;
+  height: 100vh;
   z-index: 1; /* Stay on top */
   top: 0; /* Stay at the top */
   left: 0;
@@ -58,18 +58,10 @@
   }
 }
 
-/* Style page content */
-.App {
-  margin-left: 33%; /* Same as the width of the sidebar */
-}
 /* On smaller screens, where height is less than 450px, change the style of the sidebar (less padding and a smaller font size) */
 @media only screen and (max-width: 768px) {
   #side-nav {
     width: 100px;
     text-align: center;
-  }
-
-  .App {
-    margin-left: 150px;
   }
 }

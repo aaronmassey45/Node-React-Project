@@ -17,11 +17,7 @@ const handleScroll = ({ currentTarget }, onLoadMore) => {
 };
 
 const HomePage = ({ isLoading, posts, currentUser, onLoadMore }) => (
-  <div
-    id="home-page"
-    className="container mb-2"
-    onScroll={e => handleScroll(e, onLoadMore)}
-  >
+  <div id="home-page" onScroll={e => handleScroll(e, onLoadMore)}>
     <div className="card">
       <div className="list-header">
         <span className="chowster-font">Chowster</span> - Home
