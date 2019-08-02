@@ -6,6 +6,7 @@ const {
   GraphQLList,
   GraphQLString,
   GraphQLBoolean,
+  GraphQLInt,
 } = graphql;
 const mongoose = require('mongoose');
 const User = mongoose.model('user');
@@ -37,6 +38,19 @@ const RootQuery = new GraphQLObjectType({
       type: new GraphQLList(PostType),
       resolve() {
         return Post.find({});
+      },
+    },
+    populateFeed: {
+      type: new GraphQLList(PostType),
+      args: { skip: { type: GraphQLInt, defaultValue: 0 } },
+      resolve(_, { skip }, { user }) {
+        return Post.find(
+          { _creator: { $in: [...user.following, user.id] } },
+          null,
+          {
+            skip,
+          }
+        ).limit(25);
       },
     },
   }),
