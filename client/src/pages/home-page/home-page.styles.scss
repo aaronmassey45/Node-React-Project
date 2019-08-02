@@ -1,6 +1,9 @@
 @import '../../variables';
 
 #home-page {
+  overflow: auto;
+  max-height: 100vh;
+
   .card {
     background-color: $chowster-red;
     border: 1.5px solid white;
