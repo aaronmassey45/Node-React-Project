@@ -40,16 +40,22 @@ const UserPage = ({ history, match }) => (
           const isMyPage = authenticated && user.id === currentUser.me.id;
 
           return (
-            <div id="user-page" className="row justify-content-center">
-              <div className="col-md-10 col-sm-12">
-                <div className="card">
-                  <UserDetails
-                    canFollow={!isMyPage && authenticated}
-                    currentUser={currentUser.me}
-                    user={user}
-                  />
-                  <PostsList fetchedUser={user} currentUser={currentUser.me} />
-                </div>
+            <div id="user-page">
+              <div className="card">
+                <UserDetails
+                  canFollow={!isMyPage && authenticated}
+                  currentUser={currentUser.me}
+                  user={user}
+                />
+                <PostsList
+                  posts={user.posts}
+                  user={{
+                    id: user.id,
+                    username: user.username,
+                    profileImg: user.profileImg,
+                  }}
+                  currentUser={currentUser.me}
+                />
               </div>
             </div>
           );

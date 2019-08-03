@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Post from './../../components/post/Post';
 import Spinner from '../../components/spinner/Spinner';
 import Chowt from '../../components/chowt-component/Chowt';
+import PostsList from '../../components/posts-list/PostsList';
 
 import './home-page.styles.scss';
 
@@ -30,13 +30,7 @@ const HomePage = ({ isLoading, posts, currentUser, onLoadMore }) => (
           <Spinner />
         </div>
       ) : (
-        posts.map(post => {
-          return (
-            <div key={post.id} className="list-group-item">
-              <Post post={post} profile={post._creator} me={currentUser} />
-            </div>
-          );
-        })
+        <PostsList posts={posts} currentUser={currentUser} />
       )}
     </div>
   </div>
