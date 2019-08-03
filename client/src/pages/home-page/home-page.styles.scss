@@ -5,22 +5,8 @@
   max-height: 100vh;
 
   .card {
-    background-color: $chowster-red;
-    border: 1.5px solid grey;
-    border-top: none;
-    border-right: none;
-    border-radius: 0px;
-    color: white;
-
     #chowt {
       margin-bottom: 2rem;
-    }
-
-    .list-group-item {
-      border-right: none;
-      border-left: none;
-      background-color: $chowster-red;
-      border-color: grey;
     }
 
     .list-header {

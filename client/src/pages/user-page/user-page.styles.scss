@@ -3,13 +3,8 @@
 #user-page {
   text-align: left;
   color: white;
-
-  .card {
-    background-color: $chowster-red;
-    border-radius: unset;
-    border-left: 1px solid lightgrey;
-    border-right: 1px solid lightgrey;
-  }
+  display: flex;
+  flex-wrap: wrap;
 
   .profile-img {
     width: 33%;

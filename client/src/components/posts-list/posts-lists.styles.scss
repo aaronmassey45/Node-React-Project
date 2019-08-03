@@ -1,9 +1,17 @@
 @import '../../variables';
 
-.list-group-item {
-  border-radius: unset;
+.card {
   background-color: $chowster-red;
-  border-top: 1px solid lightgrey;
-  border-bottom: 1px solid lightgrey;
+  border: 1.5px solid grey;
+  border-top: none;
+  border-right: none;
+  border-radius: 0px;
   color: white;
+
+  .list-group-item {
+    border-right: none;
+    border-left: none;
+    background-color: $chowster-red;
+    border-color: grey;
+  }
 }
