@@ -3,6 +3,7 @@ import { Mutation, Query } from 'react-apollo';
 import { Redirect } from 'react-router-dom';
 
 import Spinner from '../spinner/Spinner';
+import FormInput from '../form-input/FormInput';
 
 import SIGNUP from '../../mutations/Signup';
 import LOGIN from '../../mutations/Login';
@@ -14,6 +15,7 @@ export default class AuthForm extends Component {
     email: '',
     errors: null,
     password: '',
+    confirmPassword: '',
     username: '',
     hasErr: false,
   };
@@ -38,11 +40,23 @@ export default class AuthForm extends Component {
     }
   };
 
+  handleSubmit = (e, mutation, isSignup) => {
+    e.preventDefault();
+
+    if (isSignup && this.state.password !== this.state.confirmPassword) {
+      alert('Passwords do not match');
+      return;
+    }
+
+    mutation();
+  };
+
   render() {
     const {
       email,
       username,
       password,
+      confirmPassword,
       isAFoodTruck,
       hasErr,
       errors,
@@ -71,10 +85,7 @@ export default class AuthForm extends Component {
 
                   return (
                     <form
-                      onSubmit={e => {
-                        e.preventDefault();
-                        mutation();
-                      }}
+                      onSubmit={e => this.handleSubmit(e, mutation, isSignup)}
                     >
                       {isSignup && (
                         <div className="form-group">
@@ -135,12 +146,25 @@ export default class AuthForm extends Component {
                           type="password"
                           value={password}
                         />
-                        {isSignup && (
+                      </div>
+                      {isSignup && (
+                        <div className="form-group">
+                          <label htmlFor="confirm-password">Password</label>
+                          <input
+                            autoComplete="password"
+                            className="form-control"
+                            id="confirmPassword"
+                            onChange={this.handleChange}
+                            placeholder="Confirm Password"
+                            required
+                            type="password"
+                            value={confirmPassword}
+                          />
                           <small className="form-text text-muted text-left">
                             Min: 6
                           </small>
-                        )}
-                      </div>
+                        </div>
+                      )}
                       {isSignup && (
                         <div className="form-check my-2">
                           <label className="form-check-label">
