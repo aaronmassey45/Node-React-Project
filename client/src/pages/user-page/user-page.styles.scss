@@ -3,8 +3,7 @@
 #user-page {
   text-align: left;
   color: white;
-  display: flex;
-  flex-wrap: wrap;
+  flex-basis: 100%;
 
   .profile-img {
     width: 33%;
