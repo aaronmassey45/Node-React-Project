@@ -8,6 +8,8 @@ import FormInput from '../form-input/FormInput';
 import SIGNUP from '../../mutations/Signup';
 import LOGIN from '../../mutations/Login';
 
+import './auth-form.styles.scss';
+
 export default class AuthForm extends Component {
   state = {
     isAFoodTruck: false,
