@@ -1,9 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 import AuthForm from './AuthForm';
 
-const Login = () => {
+const Login = ({ refetch }) => {
   return (
     <div className="container">
       <div className="row">
@@ -13,7 +14,7 @@ const Login = () => {
               <h3>Login</h3>
             </div>
             <div className="card-body">
-              <AuthForm isSignup={false} />
+              <AuthForm isSignup={false} refetch={refetch} />
             </div>
             <div className="card-footer">
               Not yet a user? <Link to="/signup">Sign Up!</Link>
@@ -23,6 +24,10 @@ const Login = () => {
       </div>
     </div>
   );
+};
+
+Login.propTypes = {
+  refetch: PropTypes.func.isRequired,
 };
 
 export default Login;
