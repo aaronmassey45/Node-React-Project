@@ -1,11 +1,11 @@
 import React from 'react';
-import { Mutation } from 'react-apollo';
+import { Mutation, withApollo } from 'react-apollo';
 import PropTypes from 'prop-types';
 
 import CURRENT_USER from '../../queries/CurrentUser';
 import LOGOUT from '../../mutations/Logout';
 
-const LogoutLink = ({ renderIconsOnly }) => {
+const LogoutLink = ({ renderIconsOnly, client }) => {
   return (
     <Mutation
       mutation={LOGOUT}
@@ -13,6 +13,7 @@ const LogoutLink = ({ renderIconsOnly }) => {
       awaitRefetchQueries
       onCompleted={() => {
         localStorage.removeItem('x-auth');
+        client.cache.reset();
       }}
       onError={err => console.log(err)}
     >
@@ -27,6 +28,7 @@ const LogoutLink = ({ renderIconsOnly }) => {
 
 LogoutLink.propTypes = {
   renderIconsOnly: PropTypes.bool.isRequired,
+  client: PropTypes.object.isRequired,
 };
 
-export default LogoutLink;
+export default withApollo(LogoutLink);
