@@ -6,7 +6,7 @@ import AuthForm from './AuthForm';
 
 const Login = ({ refetch }) => {
   return (
-    <div className="container">
+    <div className="container auth-form">
       <div className="row">
         <div className="col-sm-6 mx-auto mt-5 ">
           <div className="card">
