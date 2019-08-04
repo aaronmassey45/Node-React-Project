@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import { default as Navbar } from './components/navbar/NavbarContainer';
 import ProtectedRoute from './components/HOCs/ProtectedRoute';
+import UnProtectedRoute from './components/HOCs/UnProtectedRoute';
 import Spinner from './components/spinner/Spinner';
 
 const AboutPage = lazy(() => import('./pages/about/AboutPage'));
@@ -21,7 +22,16 @@ const App = () => (
     <main className="App">
       <Suspense fallback={<Spinner />}>
         <Switch>
-          <Route path="/login" exact render={props => <Login {...props} />} />
+          <UnProtectedRoute
+            path="/login"
+            exact
+            component={props => <Login {...props} />}
+          />
+          <UnProtectedRoute
+            path="/signup"
+            exact
+            component={props => <SignUp {...props} />}
+          />
           <ProtectedRoute
             path="/account/edit"
             exact
@@ -32,7 +42,6 @@ const App = () => (
             exact
             render={props => <UserPage {...props} />}
           />
-          <Route path="/signup" exact render={props => <SignUp {...props} />} />
           <ProtectedRoute
             path="/home"
             redirectTo="/"
