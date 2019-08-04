@@ -22,7 +22,8 @@ const Post = ({
 }) => {
   const timeString = getTimeDifference(new Date(Number(post.timeCreated)));
 
-  const iLiked = me && me.likedPosts.find(postObj => postObj.id === post.id);
+  const likedBy = post.likedBy.map(user => user.id);
+  const iLiked = likedBy.includes(me.id);
 
   return (
     <Fragment>
