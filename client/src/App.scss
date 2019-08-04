@@ -105,3 +105,11 @@ body {
     font-size: 1.6rem;
   }
 }
+
+.flex {
+  display: flex;
+
+  .right {
+    margin-left: auto;
+  }
+}
