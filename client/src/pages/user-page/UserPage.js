@@ -48,7 +48,7 @@ const UserPage = ({ history, match }) => (
                   user={user}
                 />
                 <PostsList
-                  posts={user.posts}
+                  posts={user.posts.reverse()}
                   user={{
                     id: user.id,
                     username: user.username,
