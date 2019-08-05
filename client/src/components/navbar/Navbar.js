@@ -7,31 +7,33 @@ import UnauthedButtons from './UnauthedButtons';
 
 import './navbar.styles.scss';
 
-const Navbar = ({ currentUser, renderIconsOnly }) => (
-  <nav id="side-nav" className="mt-app">
+const Navbar = ({ currentUser }) => (
+  <nav id="side-nav">
     <div className="nav-header chowster-font">
       <NavLink to="/" exact className="nav-link">
-        {renderIconsOnly ? <i className="fas fa-hamburger" /> : 'Chowster'}
+        <span className="hide-on-lg">
+          <i className="fas fa-hamburger" />
+        </span>
+        <span className="hide-on-md">Chowster</span>
       </NavLink>
     </div>
     <ul className="nav-items">
       <li>
         <NavLink to={currentUser.id ? '/home' : '/'} exact className="nav-link">
-          <i className="fa fa-home fa-fw" /> {!renderIconsOnly && 'Home'}
+          <i className="fa fa-home fa-fw" />{' '}
+          <span className="hide-on-md">Home</span>
         </NavLink>
       </li>
       <li>
         <NavLink to="/about" exact className="nav-link">
-          <i className="fas fa-info-circle" /> {!renderIconsOnly && 'About'}
+          <i className="fas fa-info-circle" />{' '}
+          <span className="hide-on-md">About</span>
         </NavLink>
       </li>
       {currentUser.id ? (
-        <AuthedButtons
-          currentUser={currentUser}
-          renderIconsOnly={renderIconsOnly}
-        />
+        <AuthedButtons currentUser={currentUser} />
       ) : (
-        <UnauthedButtons renderIconsOnly={renderIconsOnly} />
+        <UnauthedButtons />
       )}
     </ul>
   </nav>
@@ -39,7 +41,6 @@ const Navbar = ({ currentUser, renderIconsOnly }) => (
 
 Navbar.propTypes = {
   currentUser: PropTypes.object.isRequired,
-  renderIconsOnly: PropTypes.bool.isRequired,
 };
 
 export default Navbar;

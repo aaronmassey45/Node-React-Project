@@ -5,33 +5,35 @@ import PropTypes from 'prop-types';
 import LogoutLink from './LogoutLink';
 import ComposeChowtLink from '../compose-chowt-link/ComposeChowtLink';
 
-const AuthedButtons = ({ currentUser, renderIconsOnly }) => {
-  const { profileImg, username } = currentUser;
+const AuthedButtons = ({ currentUser: { profileImg, username } }) => {
   return (
     <>
       <li>
         <NavLink to="/notifications" exact className="nav-link">
-          <i className="fas fa-bell" /> {!renderIconsOnly && 'Notifications'}
+          <i className="fas fa-bell" />{' '}
+          <span className="hide-on-md">Notifications</span>
         </NavLink>
       </li>
       <li>
         <NavLink to="/messages" exact className="nav-link">
-          <i className="fas fa-inbox" /> {!renderIconsOnly && 'Messages'}
+          <i className="fas fa-inbox" />{' '}
+          <span className="hide-on-md">Messages</span>
         </NavLink>
       </li>
       <li>
         <NavLink to="/account/edit" exact className="nav-link">
-          <i className="fas fa-user-cog" /> {!renderIconsOnly && 'Settings'}
+          <i className="fas fa-user-cog" />{' '}
+          <span className="hide-on-md">Settings</span>
         </NavLink>
       </li>
       <li>
         <NavLink to={`/users/account/${username}`} exact className="nav-link">
           <img src={profileImg} alt="user avatar" />{' '}
-          {!renderIconsOnly && 'Profile'}
+          <span className="hide-on-md">Profile</span>
         </NavLink>
       </li>
       <li>
-        <LogoutLink renderIconsOnly={renderIconsOnly} />
+        <LogoutLink />
       </li>
       <li>
         <ComposeChowtLink />
@@ -42,7 +44,6 @@ const AuthedButtons = ({ currentUser, renderIconsOnly }) => {
 
 AuthedButtons.propTypes = {
   currentUser: PropTypes.object,
-  renderIconsOnly: PropTypes.bool.isRequired,
 };
 
 export default AuthedButtons;
