@@ -1,5 +1,6 @@
 import React from 'react';
 import { Mutation, withApollo } from 'react-apollo';
+import PropTypes from 'prop-types';
 
 import Spinner from '../../components/spinner/Spinner';
 
@@ -59,6 +60,13 @@ const onUpdate = (proxy, chowt, client) => {
   } catch (err) {
     console.log('Error updating GET_USERS_FEED');
   }
+};
+
+ChowtSubmitButton.propTypes = {
+  handleSubmit: PropTypes.func.isRequired,
+  client: PropTypes.object.isRequired,
+  history: PropTypes.func.isRequired,
+  disabled: PropTypes.bool.isRequired,
 };
 
 export default withApollo(ChowtSubmitButton);
