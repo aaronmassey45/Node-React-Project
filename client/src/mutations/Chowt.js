@@ -5,6 +5,19 @@ export default gql`
     chowt(text: $text, location: $location) {
       id
       text
+      timeCreated
+      likedBy {
+        id
+      }
+      location {
+        lat
+        lng
+      }
+      _creator {
+        username
+        profileImg
+        id
+      }
     }
   }
 `;
