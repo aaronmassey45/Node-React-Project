@@ -28,8 +28,8 @@ const Post = ({
   return (
     <Fragment>
       {showModal && <Alert closeModal={hide} msg={msg} bg={bg} />}
-      <div className="post">
-        <div className="media">
+      <>
+        <div className="media post">
           <img
             src={profile.profileImg}
             alt="user avatar"
@@ -91,7 +91,7 @@ const Post = ({
             </div>
           </div>
         </div>
-      </div>
+      </>
     </Fragment>
   );
 };
