@@ -92,6 +92,10 @@ body {
   .landing-page {
     font-size: 1.2rem;
   }
+
+  .hide-on-sm {
+    display: none;
+  }
 }
 
 @media only screen and (max-width: $breakpoint-md) {
