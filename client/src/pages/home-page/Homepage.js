@@ -22,7 +22,7 @@ const HomePage = ({ isLoading, posts, currentUser, onLoadMore }) => (
       <div className="list-header">
         <span className="chowster-font">Chowster</span> - Home
       </div>
-      <div className="list-group-item">
+      <div className="list-group-item hide-on-sm">
         <ChowtForm />
       </div>
       {isLoading ? (
