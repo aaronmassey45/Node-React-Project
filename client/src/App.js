@@ -11,6 +11,12 @@ const ChowtPage = lazy(() => import('./pages/chowt-page/ChowtPage'));
 const UserPage = lazy(() => import('./pages/user-page/UserPage'));
 const EditUser = lazy(() => import('./components/editUser/EditUser'));
 const HomePage = lazy(() => import('./pages/home-page/HomePageContainer'));
+const DirectMessagesPage = lazy(() =>
+  import('./pages/direct-messages-page/DirectMessagesPage')
+);
+const NotificationsPage = lazy(() =>
+  import('./pages/notifications-page/NotificationsPage')
+);
 const LandingPage = lazy(() => import('./components/LandingPage'));
 const Login = lazy(() => import('./components/AuthForms/Login'));
 const NotFound = lazy(() => import('./pages/not-found/NotFound'));
@@ -50,6 +56,14 @@ const App = () => (
           />
           <Route path="/" exact render={props => <LandingPage {...props} />} />
           <Route path="/about" render={props => <AboutPage {...props} />} />
+          <Route
+            path="/notifications"
+            render={props => <NotificationsPage {...props} />}
+          />
+          <Route
+            path="/messages"
+            render={props => <DirectMessagesPage {...props} />}
+          />
           <Route
             path="/compose/chowt"
             render={props => <ChowtPage {...props} />}
