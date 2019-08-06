@@ -5,7 +5,7 @@ import { Route, Redirect } from 'react-router-dom';
 import query from '../../queries/CurrentUser';
 
 const PrivateRoute = ({ component: Component, redirectTo, ...rest }) => (
-  <Query query={query} variables={{ withEditingData: true }}>
+  <Query query={query}>
     {({ loading, data }) => {
       if (loading) return null;
       return (
