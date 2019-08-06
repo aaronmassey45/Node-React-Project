@@ -9,6 +9,7 @@ import DeleteAccount from './DeleteAccount';
 import mutation from '../../mutations/UpdateUser';
 import FIELDS from './form-fields';
 import CURRENT_USER from '../../queries/CurrentUser';
+import isValidUrl from '../../utils/isValidUrl';
 
 class AccountEdit extends PureComponent {
   state = {
@@ -17,7 +18,7 @@ class AccountEdit extends PureComponent {
     email: '',
     isAFoodTruck: false,
     errors: {},
-    location: null,
+    location: '',
     newPassword: '',
     profileImg: '',
     username: '',
@@ -26,26 +27,6 @@ class AccountEdit extends PureComponent {
   updateAndShowAlert = ({ bg, msg }) => {
     this.props.updateAlert({ bg, msg });
     this.props.show();
-  };
-
-  checkUrl = url => {
-    return new Promise((resolve, reject) => {
-      let timer,
-        img = new Image();
-      img.onerror = img.onabort = function() {
-        clearTimeout(timer);
-        reject('error');
-      };
-      img.onload = function() {
-        clearTimeout(timer);
-        resolve('success');
-      };
-      timer = setTimeout(function() {
-        img.src = '//!!!!/test.jpg';
-        reject('timeout');
-      }, 2500);
-      img.src = url;
-    });
   };
 
   handleChange = e => {
@@ -60,7 +41,6 @@ class AccountEdit extends PureComponent {
 
   handleSubmit = async () => {
     const {
-      checkUrl,
       updateAndShowAlert,
       validate,
       state: { bio, currentPassword, email, location, profileImg, username },
@@ -86,7 +66,7 @@ class AccountEdit extends PureComponent {
     }
 
     try {
-      await checkUrl(profileImg);
+      await isValidUrl(profileImg);
     } catch (err) {
       return this.setState({
         errors: {
@@ -156,8 +136,9 @@ class AccountEdit extends PureComponent {
             username: me.username,
           }));
         }}
+        notifyOnNetworkStatusChange
       >
-        {({ loading }) => {
+        {({ loading, data }) => {
           return loading ? (
             <Spinner />
           ) : (
