@@ -10,10 +10,15 @@ import FETCH_USER from '../../queries/FetchUser';
 
 import './chowt-submit-button.styles.scss';
 
-const ChowtSubmitButton = ({ history, disabled, handleSubmit, client }) => (
+const ChowtSubmitButton = ({
+  _onCompleted,
+  disabled,
+  handleSubmit,
+  client,
+}) => (
   <Mutation
     mutation={SEND_CHOWT}
-    onCompleted={history.goBack}
+    onCompleted={_onCompleted}
     update={(proxy, { data: { chowt } }) => onUpdate(proxy, chowt, client)}
   >
     {(sendChowt, { loading }) => (
@@ -65,7 +70,7 @@ const onUpdate = (proxy, chowt, client) => {
 ChowtSubmitButton.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   client: PropTypes.object.isRequired,
-  history: PropTypes.func.isRequired,
+  _onCompleted: PropTypes.func.isRequired,
   disabled: PropTypes.bool.isRequired,
 };
 
