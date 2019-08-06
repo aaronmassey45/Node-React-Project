@@ -1,12 +1,12 @@
 import React from 'react';
 
-import Chowt from '../../components/chowt-component/Chowt';
+import { default as ChowtForm } from '../../components/chowt-form/ChowtFormContainer';
 
 import './chowt-page.styles.scss';
 
-const ChowtPage = () => (
+const ChowtPage = ({ history }) => (
   <div id="chowt-page">
-    <Chowt />
+    <ChowtForm goBack={history.goBack} showHeader />
   </div>
 );
 
