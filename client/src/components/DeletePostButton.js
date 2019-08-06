@@ -1,35 +1,35 @@
 import React from 'react';
 import { Mutation } from 'react-apollo';
+import PropTypes from 'prop-types';
 
 import DELETE_CHOWT from '../mutations/DeleteChowt';
 import FETCH_USER_QUERY from '../queries/FetchUser';
-import GET_POSTS from '../queries/GetPosts';
+import GET_USERS_FEED from '../queries/getUsersFeed';
 
-const DeletePostButton = ({ id, username, updateAlert, show }) => {
-  return (
-    <Mutation
-      mutation={DELETE_CHOWT}
-      onError={err => {
-        updateAlert({ bg: 'danger', msg: err.graphQLErrors });
-        show();
-      }}
-    >
-      {deleteChowt => (
-        <i
-          className="fa fa-trash fake-link"
-          onClick={() =>
-            deleteChowt({
-              variables: { id },
-              refetchQueries: [
-                { query: FETCH_USER_QUERY, variables: { username } },
-                { query: GET_POSTS },
-              ],
-            })
-          }
-        />
-      )}
-    </Mutation>
-  );
+const DeletePostButton = ({ id, username, updateAlert, show }) => (
+  <Mutation
+    mutation={DELETE_CHOWT}
+    variables={{ id }}
+    onError={err => {
+      updateAlert({ bg: 'danger', msg: err.graphQLErrors });
+      show();
+    }}
+    refetchQueries={[
+      { query: FETCH_USER_QUERY, variables: { username } },
+      { query: GET_USERS_FEED },
+    ]}
+  >
+    {deleteChowt => (
+      <i className="fa fa-trash fake-link" onClick={deleteChowt} />
+    )}
+  </Mutation>
+);
+
+DeletePostButton.propTypes = {
+  id: PropTypes.string.isRequired,
+  username: PropTypes.string.isRequired,
+  updateAlert: PropTypes.func.isRequired,
+  show: PropTypes.func.isRequired,
 };
 
 export default DeletePostButton;
