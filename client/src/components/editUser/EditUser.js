@@ -1,15 +1,18 @@
 import React, { PureComponent } from 'react';
-import { graphql, compose, Query } from 'react-apollo';
+import { Query, Mutation } from 'react-apollo';
 
 import Alert from '../Alert';
 import Spinner from '../spinner/Spinner';
 import addAlertProps from '../HOCs/add-alert';
 import InputField from './InputField';
 import DeleteAccount from './DeleteAccount';
-import mutation from '../../mutations/UpdateUser';
+
+import UPDATE_USER from '../../mutations/UpdateUser';
 import FIELDS from './form-fields';
 import CURRENT_USER from '../../queries/CurrentUser';
+
 import isValidUrl from '../../utils/isValidUrl';
+import validateInputs from '../../utils/validateInputs';
 
 class AccountEdit extends PureComponent {
   state = {
@@ -39,21 +42,21 @@ class AccountEdit extends PureComponent {
     this.setState({ [e.target.name]: e.target.value });
   };
 
-  handleSubmit = async () => {
+  handleSubmit = async updateAccount => {
     const {
       updateAndShowAlert,
-      validate,
       state: { bio, currentPassword, email, location, profileImg, username },
     } = this;
 
     if (!currentPassword) {
-      return updateAndShowAlert({
+      updateAndShowAlert({
         bg: 'warning',
         msg: 'You must enter your current password!',
       });
+      return;
     }
 
-    const errors = validate({
+    const errors = validateInputs({
       bio,
       email,
       location,
@@ -68,54 +71,16 @@ class AccountEdit extends PureComponent {
     try {
       await isValidUrl(profileImg);
     } catch (err) {
-      return this.setState({
+      this.setState({
         errors: {
           profileImg: 'Image link is invalid',
         },
       });
+
+      return;
     }
 
-    try {
-      await this.props.mutate({ variables: { ...this.state } });
-      updateAndShowAlert({ bg: 'success', msg: 'Account updated!' });
-      return this.setState({
-        ...this.state,
-        currentPassword: '',
-        newPassword: '',
-        errors: {},
-      });
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  validate = values => {
-    const errors = {};
-
-    Object.keys(values).forEach(key => {
-      if (!values[key]) {
-        errors[key] =
-          key === 'profileImg' ? 'Enter your image link' : `Enter your ${key}`;
-      }
-    });
-
-    return errors;
-  };
-
-  renderFields = () => {
-    return FIELDS.map(({ label, name, type }) => {
-      return (
-        <InputField
-          key={name}
-          label={label}
-          name={name}
-          type={type}
-          handleChange={this.handleChange}
-          value={this.state[name]}
-          error={this.state.errors[name]}
-        />
-      );
-    });
+    updateAccount({ variables: { ...this.state } });
   };
 
   render() {
@@ -138,7 +103,7 @@ class AccountEdit extends PureComponent {
         }}
         notifyOnNetworkStatusChange
       >
-        {({ loading, data }) => {
+        {({ loading }) => {
           return loading ? (
             <Spinner />
           ) : (
@@ -164,7 +129,15 @@ class AccountEdit extends PureComponent {
                 <div className="card-header">Basic Information</div>
                 <div className="card-body">
                   <form onSubmit={e => e.preventDefault()}>
-                    {this.renderFields()}
+                    {FIELDS.map(fieldProps => (
+                      <InputField
+                        key={fieldProps.name}
+                        {...fieldProps}
+                        handleChange={this.handleChange}
+                        value={this.state[fieldProps.name]}
+                        error={this.state.errors[fieldProps.name]}
+                      />
+                    ))}
                   </form>
                   <button
                     className="btn btn-danger text-white"
@@ -176,12 +149,32 @@ class AccountEdit extends PureComponent {
                   </button>
                 </div>
                 <div className="card-footer text-right">
-                  <button
-                    className="btn btn-success"
-                    onClick={this.handleSubmit}
+                  <Mutation
+                    mutation={UPDATE_USER}
+                    onCompleted={() => {
+                      this.updateAndShowAlert({
+                        bg: 'success',
+                        msg: 'Account updated!',
+                      });
+
+                      this.setState({
+                        ...this.state,
+                        currentPassword: '',
+                        newPassword: '',
+                        errors: {},
+                      });
+                    }}
+                    onError={err => console.log(err)}
                   >
-                    Update
-                  </button>
+                    {updateAccount => (
+                      <button
+                        className="btn btn-success"
+                        onClick={() => this.handleSubmit(updateAccount)}
+                      >
+                        Update
+                      </button>
+                    )}
+                  </Mutation>
                 </div>
               </div>
             </div>
@@ -192,7 +185,4 @@ class AccountEdit extends PureComponent {
   }
 }
 
-export default compose(
-  addAlertProps,
-  graphql(mutation)
-)(AccountEdit);
+export default addAlertProps(AccountEdit);
