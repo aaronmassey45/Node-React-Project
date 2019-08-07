@@ -1,6 +1,14 @@
 import React, { memo } from 'react';
 
-const InputField = ({ error, handleChange, label, name, type, value }) => {
+const InputField = ({
+  error,
+  handleChange,
+  label,
+  name,
+  type,
+  value,
+  required,
+}) => {
   if (type === 'checkbox') {
     return (
       <div className="form-group form-check pl-0">
@@ -31,6 +39,7 @@ const InputField = ({ error, handleChange, label, name, type, value }) => {
           name={name}
           onChange={handleChange}
           value={value}
+          required={required || false}
         />
         <small className="text-danger">{error}</small>
       </div>
