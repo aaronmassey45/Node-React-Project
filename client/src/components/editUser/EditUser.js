@@ -1,20 +1,20 @@
 import React, { PureComponent } from 'react';
 import { Query, Mutation } from 'react-apollo';
+import PropTypes from 'prop-types';
 
 import Alert from '../Alert';
 import Spinner from '../spinner/Spinner';
 import addAlertProps from '../HOCs/add-alert';
-import InputField from './InputField';
 import DeleteAccount from './DeleteAccount';
+import EditUserForm from '../edit-user-form/EditUserForm';
 
 import UPDATE_USER from '../../mutations/UpdateUser';
-import FIELDS from './form-fields';
 import CURRENT_USER from '../../queries/CurrentUser';
 
 import isValidUrl from '../../utils/isValidUrl';
 import validateInputs from '../../utils/validateInputs';
 
-class AccountEdit extends PureComponent {
+class EditUser extends PureComponent {
   state = {
     bio: '',
     currentPassword: '',
@@ -32,24 +32,22 @@ class AccountEdit extends PureComponent {
     this.props.show();
   };
 
-  handleChange = e => {
-    if (e.target.name === 'isAFoodTruck') {
-      return this.setState(prevState => ({
-        isAFoodTruck: !prevState.isAFoodTruck,
-      }));
-    }
-
-    this.setState({ [e.target.name]: e.target.value });
+  handleChange = ({ target: { name, value, checked } }) => {
+    this.setState({ [name]: name === 'isAFoodTruck' ? checked : value });
   };
 
   handleSubmit = async updateAccount => {
     const {
-      updateAndShowAlert,
-      state: { bio, currentPassword, email, location, profileImg, username },
-    } = this;
+      bio,
+      currentPassword,
+      email,
+      location,
+      profileImg,
+      username,
+    } = this.state;
 
     if (!currentPassword) {
-      updateAndShowAlert({
+      this.updateAndShowAlert({
         bg: 'warning',
         msg: 'You must enter your current password!',
       });
@@ -119,7 +117,6 @@ class AccountEdit extends PureComponent {
                   bg={alert.bg}
                 />
               )}
-
               <div className="card bg-secondary text-white mb-3">
                 <div className="card-body p-2">
                   <h4 className="card-title mb-0">Edit User Account</h4>
@@ -128,17 +125,11 @@ class AccountEdit extends PureComponent {
               <div className="card bg-light">
                 <div className="card-header">Basic Information</div>
                 <div className="card-body">
-                  <form onSubmit={e => e.preventDefault()}>
-                    {FIELDS.map(fieldProps => (
-                      <InputField
-                        key={fieldProps.name}
-                        {...fieldProps}
-                        handleChange={this.handleChange}
-                        value={this.state[fieldProps.name]}
-                        error={this.state.errors[fieldProps.name]}
-                      />
-                    ))}
-                  </form>
+                  <EditUserForm
+                    handleChange={this.handleChange}
+                    values={this.state}
+                    errors={this.state.errors}
+                  />
                   <button
                     className="btn btn-danger text-white"
                     data-toggle="modal"
@@ -185,4 +176,13 @@ class AccountEdit extends PureComponent {
   }
 }
 
-export default addAlertProps(AccountEdit);
+EditUser.propTypes = {
+  alert: PropTypes.func.isRequired,
+  showModal: PropTypes.bool.isRequired,
+  show: PropTypes.func.isRequired,
+  hide: PropTypes.func.isRequired,
+  clearAlert: PropTypes.func.isRequired,
+  updateAlert: PropTypes.func.isRequired,
+};
+
+export default addAlertProps(EditUser);
