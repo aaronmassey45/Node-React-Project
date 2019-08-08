@@ -10,9 +10,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-rater/lib/react-rater.css';
 import './App.scss';
 
-const cache = new InMemoryCache({
-  dataIdFromObject: o => o.id,
-});
+const cache = new InMemoryCache();
 
 const client = new ApolloClient({
   cache,
