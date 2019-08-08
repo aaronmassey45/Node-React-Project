@@ -1,7 +1,5 @@
 const graphql = require('graphql');
-const mongoose = require('mongoose');
-const User = mongoose.model('user');
-const Post = mongoose.model('post');
+
 const UserType = require('./types/userType');
 const PostType = require('./types/postType');
 
@@ -102,7 +100,6 @@ const mutations = new GraphQLObjectType({
         bio: { type: new GraphQLNonNull(GraphQLString) },
         currentPassword: { type: new GraphQLNonNull(GraphQLString) },
         email: { type: new GraphQLNonNull(GraphQLString) },
-        isAFoodTruck: { type: new GraphQLNonNull(GraphQLBoolean) },
         location: { type: new GraphQLNonNull(GraphQLString) },
         newPassword: { type: GraphQLString },
         profileImg: { type: new GraphQLNonNull(GraphQLString) },

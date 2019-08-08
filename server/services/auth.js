@@ -68,7 +68,6 @@ const updateUser = async (args, me) => {
     const values = pick(args, [
       'bio',
       'email',
-      'isAFoodTruck',
       'location',
       'newPassword',
       'profileImg',
