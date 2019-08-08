@@ -177,7 +177,7 @@ class EditUser extends PureComponent {
 }
 
 EditUser.propTypes = {
-  alert: PropTypes.func.isRequired,
+  alert: PropTypes.object.isRequired,
   showModal: PropTypes.bool.isRequired,
   show: PropTypes.func.isRequired,
   hide: PropTypes.func.isRequired,
