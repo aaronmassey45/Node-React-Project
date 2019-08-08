@@ -19,7 +19,6 @@ class EditUser extends PureComponent {
     bio: '',
     currentPassword: '',
     email: '',
-    isAFoodTruck: false,
     errors: {},
     location: '',
     newPassword: '',
@@ -32,8 +31,8 @@ class EditUser extends PureComponent {
     this.props.show();
   };
 
-  handleChange = ({ target: { name, value, checked } }) => {
-    this.setState({ [name]: name === 'isAFoodTruck' ? checked : value });
+  handleChange = ({ target: { name, value } }) => {
+    this.setState({ [name]: value });
   };
 
   handleSubmit = async updateAccount => {
@@ -93,7 +92,6 @@ class EditUser extends PureComponent {
             ...prevState,
             bio: me.bio,
             email: me.email,
-            isAFoodTruck: me.isAFoodTruck,
             location: me.location,
             profileImg: me.profileImg,
             username: me.username,
