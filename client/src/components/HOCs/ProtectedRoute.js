@@ -1,27 +1,25 @@
 import React from 'react';
-import { Query } from 'react-apollo';
+import { useQuery } from '@apollo/react-hooks';
 import { Route, Redirect } from 'react-router-dom';
 
-import query from '../../queries/CurrentUser';
+import CURRENT_USER from '../../queries/CurrentUser';
 
-const PrivateRoute = ({ component: Component, redirectTo, ...rest }) => (
-  <Query query={query}>
-    {({ loading, data }) => {
-      if (loading) return null;
-      return (
-        <Route
-          {...rest}
-          render={props =>
-            data.me ? (
-              <Component {...props} user={data.me} />
-            ) : (
-              <Redirect to={{ pathname: redirectTo || '/login' }} />
-            )
-          }
-        />
-      );
-    }}
-  </Query>
-);
+const PrivateRoute = ({ component: Component, redirectTo, ...rest }) => {
+  const { loading, data } = useQuery(CURRENT_USER);
+
+  if (loading) return null;
+  return (
+    <Route
+      {...rest}
+      render={props =>
+        data.me ? (
+          <Component {...props} user={data.me} />
+        ) : (
+          <Redirect to={{ pathname: redirectTo || '/login' }} />
+        )
+      }
+    />
+  );
+};
 
 export default PrivateRoute;
