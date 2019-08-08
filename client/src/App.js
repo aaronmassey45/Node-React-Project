@@ -1,6 +1,6 @@
 import React, { Suspense, lazy } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import { Query } from 'react-apollo';
+import { useQuery } from '@apollo/react-hooks';
 
 import { default as Navbar } from './components/navbar/NavbarContainer';
 import ProtectedRoute from './components/HOCs/ProtectedRoute';
@@ -24,65 +24,64 @@ const Login = lazy(() => import('./components/AuthForms/Login'));
 const NotFound = lazy(() => import('./pages/not-found/NotFound'));
 const SignUp = lazy(() => import('./components/AuthForms/Signup'));
 
-const App = () => (
-  <Query query={CURRENT_USER} fetchPolicy="network-only">
-    {() => (
-      <BrowserRouter>
-        <Navbar />
-        <main className="App">
-          <Suspense fallback={<Spinner />}>
-            <Switch>
-              <UnProtectedRoute
-                path="/login"
-                exact
-                component={props => <Login {...props} />}
-              />
-              <UnProtectedRoute
-                path="/signup"
-                exact
-                component={props => <SignUp {...props} />}
-              />
-              <ProtectedRoute
-                path="/account/edit"
-                exact
-                component={props => <EditUser {...props} />}
-              />
-              <Route
-                path="/users/account/:username"
-                exact
-                render={props => <UserPage {...props} />}
-              />
-              <ProtectedRoute
-                path="/home"
-                redirectTo="/"
-                exact
-                component={props => <HomePage {...props} />}
-              />
-              <Route
-                path="/"
-                exact
-                render={props => <LandingPage {...props} />}
-              />
-              <Route path="/about" render={props => <AboutPage {...props} />} />
-              <Route
-                path="/notifications"
-                render={props => <NotificationsPage {...props} />}
-              />
-              <Route
-                path="/messages"
-                render={props => <DirectMessagesPage {...props} />}
-              />
-              <Route
-                path="/compose/chowt"
-                render={props => <ChowtPage {...props} />}
-              />
-              <Route render={props => <NotFound {...props} />} />
-            </Switch>
-          </Suspense>
-        </main>
-      </BrowserRouter>
-    )}
-  </Query>
-);
+const App = () => {
+  useQuery(CURRENT_USER, { fetchPolicy: 'network-only' });
+  return (
+    <BrowserRouter>
+      <Navbar />
+      <main className="App">
+        <Suspense fallback={<Spinner />}>
+          <Switch>
+            <UnProtectedRoute
+              path="/login"
+              exact
+              component={props => <Login {...props} />}
+            />
+            <UnProtectedRoute
+              path="/signup"
+              exact
+              component={props => <SignUp {...props} />}
+            />
+            <ProtectedRoute
+              path="/account/edit"
+              exact
+              component={props => <EditUser {...props} />}
+            />
+            <Route
+              path="/users/account/:username"
+              exact
+              render={props => <UserPage {...props} />}
+            />
+            <ProtectedRoute
+              path="/home"
+              redirectTo="/"
+              exact
+              component={props => <HomePage {...props} />}
+            />
+            <Route
+              path="/"
+              exact
+              render={props => <LandingPage {...props} />}
+            />
+            <Route path="/about" render={props => <AboutPage {...props} />} />
+            <Route
+              path="/notifications"
+              render={props => <NotificationsPage {...props} />}
+            />
+            <Route
+              path="/messages"
+              render={props => <DirectMessagesPage {...props} />}
+            />
+            <Route
+              path="/compose/chowt"
+              render={props => <ChowtPage {...props} />}
+            />
+            <Route render={props => <NotFound {...props} />} />
+          </Switch>
+        </Suspense>
+      </main>
+    </BrowserRouter>
+  );
+};
 
 export default App;
