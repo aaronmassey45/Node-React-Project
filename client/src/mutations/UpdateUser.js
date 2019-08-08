@@ -5,7 +5,6 @@ export default gql`
     $bio: String!
     $currentPassword: String!
     $email: String!
-    $isAFoodTruck: Boolean!
     $location: String!
     $newPassword: String
     $profileImg: String!
@@ -16,12 +15,16 @@ export default gql`
       currentPassword: $currentPassword
       email: $email
       location: $location
-      isAFoodTruck: $isAFoodTruck
       newPassword: $newPassword
       profileImg: $profileImg
       username: $username
     ) {
       id
+      bio
+      email
+      location
+      profileImg
+      username
     }
   }
 `;
