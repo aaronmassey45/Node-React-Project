@@ -1,5 +1,5 @@
 import React from 'react';
-import { Mutation, withApollo } from 'react-apollo';
+import { useMutation, useApolloClient } from '@apollo/react-hooks';
 import PropTypes from 'prop-types';
 
 import Spinner from '../../components/spinner/Spinner';
@@ -10,29 +10,24 @@ import FETCH_USER from '../../queries/FetchUser';
 
 import './chowt-submit-button.styles.scss';
 
-const ChowtSubmitButton = ({
-  _onCompleted,
-  disabled,
-  handleSubmit,
-  client,
-}) => (
-  <Mutation
-    mutation={SEND_CHOWT}
-    onCompleted={_onCompleted}
-    update={(proxy, { data: { chowt } }) => onUpdate(proxy, chowt, client)}
-  >
-    {(sendChowt, { loading }) => (
-      <button
-        id="chowt-submit-button"
-        className="btn"
-        onClick={() => handleSubmit(sendChowt)}
-        disabled={disabled}
-      >
-        {loading && <Spinner />} Chowt
-      </button>
-    )}
-  </Mutation>
-);
+const ChowtSubmitButton = ({ _onCompleted, disabled, handleSubmit }) => {
+  const client = useApolloClient();
+  const [sendChowt, { loading }] = useMutation(SEND_CHOWT, {
+    update: (proxy, { data: { chowt } }) => onUpdate(proxy, chowt, client),
+    onCompleted: _onCompleted,
+  });
+
+  return (
+    <button
+      id="chowt-submit-button"
+      className="btn"
+      onClick={() => handleSubmit(sendChowt)}
+      disabled={disabled}
+    >
+      {loading && <Spinner />} Chowt
+    </button>
+  );
+};
 
 const onUpdate = (proxy, chowt, client) => {
   try {
@@ -69,9 +64,8 @@ const onUpdate = (proxy, chowt, client) => {
 
 ChowtSubmitButton.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
-  client: PropTypes.object.isRequired,
   _onCompleted: PropTypes.func.isRequired,
   disabled: PropTypes.bool.isRequired,
 };
 
-export default withApollo(ChowtSubmitButton);
+export default ChowtSubmitButton;
