@@ -24,12 +24,6 @@ export default [
     required: true,
   },
   {
-    label: 'Is account a food truck?*',
-    name: 'isAFoodTruck',
-    type: 'checkbox',
-    required: true,
-  },
-  {
     label: 'Bio*',
     name: 'bio',
     type: 'textarea',
