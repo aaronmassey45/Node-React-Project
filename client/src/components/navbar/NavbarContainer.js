@@ -1,16 +1,13 @@
 import React from 'react';
-import { Query } from 'react-apollo';
+import { useQuery } from '@apollo/react-hooks';
 
 import Navbar from './Navbar';
 
 import CURRENT_USER from '../../queries/CurrentUser';
 
-const NavbarContainer = () => (
-  <Query query={CURRENT_USER} onError={err => console.log(err)}>
-    {({ data = {} }) => {
-      return <Navbar currentUser={data.me || {}} />;
-    }}
-  </Query>
-);
+const NavbarContainer = () => {
+  const { data } = useQuery(CURRENT_USER);
+  return <Navbar currentUser={data.me || {}} />;
+};
 
 export default NavbarContainer;
