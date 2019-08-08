@@ -6,7 +6,7 @@ import Navbar from './Navbar';
 import CURRENT_USER from '../../queries/CurrentUser';
 
 const NavbarContainer = () => {
-  const { data } = useQuery(CURRENT_USER);
+  const { data = {} } = useQuery(CURRENT_USER);
   return <Navbar currentUser={data.me || {}} />;
 };
 
