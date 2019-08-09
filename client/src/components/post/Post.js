@@ -2,10 +2,10 @@ import React, { memo, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-import Alert from '../Alert';
-import addAlertProps from '../HOCs/add-alert';
-import LikePostButton from '../LikePostButton';
-import DeletePostButton from '../DeletePostButton';
+import Alert from '../alert-modal/Alert';
+import addAlertProps from '../../HOCs/add-alert';
+import LikePostButton from '../like-post-button/LikePostButton';
+import DeletePostButton from '../delete-post-button/DeletePostButton';
 import getTimeDifference from '../../utils/getTimeDifference';
 
 import './post.styles.scss';
@@ -22,13 +22,14 @@ const Post = ({
 }) => {
   const timeString = getTimeDifference(new Date(Number(post.timeCreated)));
 
-  const iLiked = me && me.likedPosts.find(postObj => postObj.id === post.id);
+  const likedBy = post.likedBy.map(user => user.id);
+  const iLiked = likedBy.includes(me.id);
 
   return (
     <Fragment>
       {showModal && <Alert closeModal={hide} msg={msg} bg={bg} />}
-      <div className="post">
-        <div className="media">
+      <>
+        <div className="media post">
           <img
             src={profile.profileImg}
             alt="user avatar"
@@ -66,6 +67,7 @@ const Post = ({
                           href={`https://www.google.com/maps?q=${post.location.lat},${post.location.lng}`}
                           target="_blank"
                           rel="noopener noreferrer"
+                          className="location"
                         >
                           My Location
                         </a>
@@ -90,7 +92,7 @@ const Post = ({
             </div>
           </div>
         </div>
-      </div>
+      </>
     </Fragment>
   );
 };

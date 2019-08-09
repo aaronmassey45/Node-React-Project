@@ -1,54 +1,46 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 
-const Navbar = ({ navButtons }) => (
-  <nav className="navbar fixed-top navbar-expand-md navbar-dark bg-dark">
-    <NavLink to="/" exact className="nav-link p-0">
-      <span className="navbar-brand mb-0 chowster-font text-dark">
-        Chowster
-      </span>
-    </NavLink>
+import AuthedButtons from './AuthedButtons';
+import UnauthedButtons from './UnauthedButtons';
 
-    <button
-      className="navbar-toggler"
-      type="button"
-      data-toggle="collapse"
-      data-target="#navbarNav"
-      aria-controls="navbarNav"
-      aria-expanded="false"
-      aria-label="Toggle navigation"
-    >
-      <span className="navbar-toggler-icon" />
-    </button>
-    <div
-      className="navbar-collapse collapse justify-content-between"
-      id="navbarNav"
-    >
-      <ul className="navbar-nav mb-0 p-0">
-        <li
-          className="nav-item"
-          data-toggle="collapse"
-          data-target=".navbar-collapse.show"
-        >
-          <NavLink to="/" exact className="nav-link">
-            <i className="fa fa-home fa-fw" />
-            Home
-          </NavLink>
-        </li>
-        <li
-          className="nav-item"
-          data-toggle="collapse"
-          data-target=".navbar-collapse.show"
-        >
-          <NavLink to="/about" exact className="nav-link">
-            About
-          </NavLink>
-        </li>
+import './navbar.styles.scss';
 
-        {navButtons}
-      </ul>
+const Navbar = ({ currentUser }) => (
+  <nav id="side-nav">
+    <div className="nav-header chowster-font">
+      <NavLink to="/" exact className="nav-link">
+        <span className="hide-on-lg">
+          <i className="fas fa-hamburger" />
+        </span>
+        <span className="hide-on-md">Chowster</span>
+      </NavLink>
     </div>
+    <ul className="nav-items">
+      <li>
+        <NavLink to={currentUser.id ? '/home' : '/'} exact className="nav-link">
+          <i className="fa fa-home fa-fw" />{' '}
+          <span className="hide-on-md">Home</span>
+        </NavLink>
+      </li>
+      <li>
+        <NavLink to="/about" exact className="nav-link">
+          <i className="fas fa-info-circle" />{' '}
+          <span className="hide-on-md">About</span>
+        </NavLink>
+      </li>
+      {currentUser.id ? (
+        <AuthedButtons currentUser={currentUser} />
+      ) : (
+        <UnauthedButtons />
+      )}
+    </ul>
   </nav>
 );
+
+Navbar.propTypes = {
+  currentUser: PropTypes.object.isRequired,
+};
 
 export default Navbar;

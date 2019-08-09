@@ -1,56 +1,77 @@
 import React, { Suspense, lazy } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { useQuery } from '@apollo/react-hooks';
 
 import { default as Navbar } from './components/navbar/NavbarContainer';
-import ProtectedRoute from './components/HOCs/ProtectedRoute';
-import ComposeChowtLink from './components/compose-chowt-link/ComposeChowtLink';
+import ProtectedRoute from './HOCs/ProtectedRoute';
+import UnProtectedRoute from './HOCs/UnProtectedRoute';
 import Spinner from './components/spinner/Spinner';
+import CURRENT_USER from './graphql/queries/CurrentUser';
 
 const AboutPage = lazy(() => import('./pages/about/AboutPage'));
 const ChowtPage = lazy(() => import('./pages/chowt-page/ChowtPage'));
 const UserPage = lazy(() => import('./pages/user-page/UserPage'));
-const EditUser = lazy(() => import('./components/editUser/EditUser'));
-const HomePage = lazy(() => import('./pages/home-page/Homepage'));
-const LandingPage = lazy(() => import('./components/LandingPage'));
-const Login = lazy(() => import('./components/AuthForms/Login'));
+const EditUserPage = lazy(() => import('./pages/edit-user-page/EditUserPage'));
+const HomePage = lazy(() => import('./pages/home-page/HomePageContainer'));
+const DirectMessagesPage = lazy(() =>
+  import('./pages/direct-messages-page/DirectMessagesPage')
+);
+const NotificationsPage = lazy(() =>
+  import('./pages/notifications-page/NotificationsPage')
+);
+const LandingPage = lazy(() => import('./pages/landing-page/LandingPage'));
+const Login = lazy(() => import('./components/auth-forms/Login'));
 const NotFound = lazy(() => import('./pages/not-found/NotFound'));
-const SignUp = lazy(() => import('./components/AuthForms/Signup'));
+const SignUp = lazy(() => import('./components/auth-forms/Signup'));
 
-const App = () => (
-  <BrowserRouter>
-    <div className="App">
+const App = () => {
+  useQuery(CURRENT_USER, { fetchPolicy: 'network-only' });
+  return (
+    <BrowserRouter>
       <Navbar />
-      <div className="mt-app">
+      <main className="App">
         <Suspense fallback={<Spinner />}>
           <Switch>
-            <Route path="/login" exact render={props => <Login {...props} />} />
+            <UnProtectedRoute
+              path="/login"
+              exact
+              component={props => <Login {...props} />}
+            />
+            <UnProtectedRoute
+              path="/signup"
+              exact
+              component={props => <SignUp {...props} />}
+            />
             <ProtectedRoute
               path="/account/edit"
               exact
-              component={props => <EditUser {...props} />}
+              component={props => <EditUserPage {...props} />}
             />
             <Route
               path="/users/account/:username"
               exact
               render={props => <UserPage {...props} />}
             />
-            <Route
-              path="/signup"
-              exact
-              render={props => <SignUp {...props} />}
-            />
             <ProtectedRoute
-              path="/feed"
+              path="/home"
               redirectTo="/"
               exact
               component={props => <HomePage {...props} />}
             />
-            <Route
+            <UnProtectedRoute
               path="/"
               exact
-              render={props => <LandingPage {...props} />}
+              component={props => <LandingPage {...props} />}
             />
             <Route path="/about" render={props => <AboutPage {...props} />} />
+            <Route
+              path="/notifications"
+              render={props => <NotificationsPage {...props} />}
+            />
+            <Route
+              path="/messages"
+              render={props => <DirectMessagesPage {...props} />}
+            />
             <Route
               path="/compose/chowt"
               render={props => <ChowtPage {...props} />}
@@ -58,10 +79,9 @@ const App = () => (
             <Route render={props => <NotFound {...props} />} />
           </Switch>
         </Suspense>
-        <ComposeChowtLink />
-      </div>
-    </div>
-  </BrowserRouter>
-);
+      </main>
+    </BrowserRouter>
+  );
+};
 
 export default App;

@@ -1,49 +1,46 @@
 import React from 'react';
-import { Query } from 'react-apollo';
+import PropTypes from 'prop-types';
 
-import Post from './../../components/post/Post';
-import CurrentUser from '../../queries/CurrentUser';
 import Spinner from '../../components/spinner/Spinner';
-import Chowt from '../../components/chowt-component/Chowt';
-
-import GET_POSTS from '../../queries/GetPosts';
+import { default as ChowtForm } from '../../components/chowt-form/ChowtFormContainer';
+import PostsList from '../../components/posts-list/PostsList';
 
 import './home-page.styles.scss';
 
-const HomePage = () => (
-  <Query query={GET_POSTS}>
-    {({ loading: loadingOne, data: { posts } }) => (
-      <Query query={CurrentUser} variables={{ withLikedPosts: true }}>
-        {({ loading: loadingTwo, data: { me } }) => (
-          <div id="home-page" className="container mb-2">
-            <div className="card">
-              <div className="list-header">
-                <span className="chowster-font">Chowster</span> - Home
-              </div>
-              <div className="list-group-item p-0">
-                <Chowt />
-              </div>
-              {loadingOne || loadingTwo ? (
-                <div className="list-group-item">
-                  <Spinner />
-                </div>
-              ) : (
-                posts
-                  .map(post => {
-                    return (
-                      <div key={post.id} className="list-group-item">
-                        <Post post={post} profile={post._creator} me={me} />
-                      </div>
-                    );
-                  })
-                  .reverse()
-              )}
-            </div>
-          </div>
-        )}
-      </Query>
-    )}
-  </Query>
+const handleScroll = ({ currentTarget }, onLoadMore) => {
+  if (
+    currentTarget.scrollTop + currentTarget.clientHeight >=
+    currentTarget.scrollHeight
+  ) {
+    onLoadMore();
+  }
+};
+
+const HomePage = ({ isLoading, posts, currentUser, onLoadMore }) => (
+  <div id="home-page" onScroll={e => handleScroll(e, onLoadMore)}>
+    <div className="card">
+      <div className="list-header">
+        <span className="chowster-font">Chowster</span> - Home
+      </div>
+      <div className="list-group-item hide-on-sm">
+        <ChowtForm />
+      </div>
+      {isLoading ? (
+        <div className="list-group-item">
+          <Spinner />
+        </div>
+      ) : (
+        <PostsList posts={posts} currentUser={currentUser} />
+      )}
+    </div>
+  </div>
 );
+
+HomePage.propTypes = {
+  isLoading: PropTypes.bool.isRequired,
+  posts: PropTypes.arrayOf(PropTypes.object).isRequired,
+  currentUser: PropTypes.object.isRequired,
+  onLoadMore: PropTypes.func.isRequired,
+};
 
 export default HomePage;

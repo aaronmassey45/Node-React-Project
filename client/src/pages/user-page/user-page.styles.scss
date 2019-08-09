@@ -1,14 +1,9 @@
+@import '../../variables';
+
 #user-page {
-  margin: auto;
   text-align: left;
   color: white;
-
-  .card {
-    background-color: #a0081e;
-    border-radius: unset;
-    border-left: 1px solid lightgrey;
-    border-right: 1px solid lightgrey;
-  }
+  flex-basis: 100%;
 
   .profile-img {
     width: 33%;

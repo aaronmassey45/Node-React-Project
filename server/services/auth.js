@@ -9,7 +9,8 @@ const login = async ({ password, username }) => {
       if (!user || user === 'Invalid Credentials') {
         return reject(new Error('Invalid Credentials'));
       }
-      const token = user
+
+      user
         .generateAuthToken()
         .then(token => resolve(token))
         .catch(err => new Error(err));
@@ -41,8 +42,8 @@ const signup = async ({ email, password, username, isAFoodTruck }) => {
   } catch (err) {
     const errors = [];
     if (err.errors) {
-      for (key in err.errors) {
-        errors.push(err.errors[key].message);
+      for (const key in err.errors) {
+        if (key !== 'username_lowercase') errors.push(err.errors[key].message);
       }
     } else {
       errors.push(err);
@@ -67,7 +68,6 @@ const updateUser = async (args, me) => {
     const values = pick(args, [
       'bio',
       'email',
-      'isAFoodTruck',
       'location',
       'newPassword',
       'profileImg',

@@ -1,29 +1,21 @@
 import React, { Fragment } from 'react';
 import { NavLink } from 'react-router-dom';
 
-export default () => {
-  return (
-    <Fragment>
-      <li
-        className="nav-item"
-        data-toggle="collapse"
-        data-target=".navbar-collapse.show"
-      >
-        <NavLink to="/login" exact className="nav-link">
-          <i className="fa fa-sign-in fa-fw" />
-          Login
-        </NavLink>
-      </li>
-      <li
-        className="nav-item"
-        data-toggle="collapse"
-        data-target=".navbar-collapse.show"
-      >
-        <NavLink to="/signup" exact className="nav-link">
-          <i className="fa fa-user-plus fa-fw" />
-          Sign Up
-        </NavLink>
-      </li>
-    </Fragment>
-  );
-};
+const UnauthedButtons = () => (
+  <Fragment>
+    <li>
+      <NavLink to="/login" exact className="nav-link">
+        <i className="fa fa-sign-in fa-fw" />{' '}
+        <span className="hide-on-md">Login</span>
+      </NavLink>
+    </li>
+    <li>
+      <NavLink to="/signup" exact className="nav-link">
+        <i className="fa fa-user-plus fa-fw" />{' '}
+        <span className="hide-on-md">Sign Up</span>
+      </NavLink>
+    </li>
+  </Fragment>
+);
+
+export default UnauthedButtons;

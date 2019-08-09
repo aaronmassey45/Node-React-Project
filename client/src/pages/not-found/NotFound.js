@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 import './not-found.styles.scss';
 
@@ -23,5 +24,9 @@ const NotFound = ({ history }) => (
     </div>
   </div>
 );
+
+NotFound.propTypes = {
+  history: PropTypes.object.isRequired,
+};
 
 export default NotFound;

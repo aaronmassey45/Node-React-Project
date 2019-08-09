@@ -1,0 +1,39 @@
+@import '../../variables';
+#chowt-page {
+  flex-basis: 100%;
+
+  .actions {
+    border-bottom: 1px solid silver;
+    padding: 0.5rem 0.25rem;
+
+    & > .actions-container {
+      display: flex;
+      align-items: center;
+      width: 85%;
+      margin: auto;
+
+      .back-btn {
+        cursor: pointer;
+        color: #faebd7;
+
+        &:hover {
+          color: #f0dec7;
+        }
+      }
+    }
+  }
+
+  #chowt-form {
+    width: 100%;
+
+    .flex {
+      padding: 1rem;
+      margin: 0 auto;
+      width: 85%;
+
+      @media only screen and (max-width: $breakpoint-sm) {
+        width: 100%;
+      }
+    }
+  }
+}

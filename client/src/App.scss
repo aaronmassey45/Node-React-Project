@@ -1,11 +1,31 @@
+@import 'variables';
 @import url('https://fonts.googleapis.com/css?family=Bungee|Itim|Ubuntu');
+
+#root {
+  display: flex;
+
+  main {
+    flex: 3;
+    order: 2;
+    height: 100vh;
+    overflow-y: auto;
+  }
+
+  @media only screen and (max-width: 768px) {
+    main {
+      flex: 5;
+    }
+  }
+}
 
 .App {
   text-align: center;
+  display: flex;
+  overflow-y: hidden;
 }
 
 body {
-  background-color: #a0081e;
+  background-color: $chowster-red;
 }
 
 .dropdown-item:hover {
@@ -40,16 +60,12 @@ body {
     rgb(255, 255, 255) 2.88051px -0.838247px 0px;
 }
 
-.itim-font {
-  font-family: 'Itim', cursive;
-}
-
-.mt-app {
-  margin-top: calc(40px + 1rem);
-}
-
 .landing-page {
   font-size: 1rem;
+
+  .chowster-font {
+    font-size: 4rem;
+  }
 }
 
 #welcome {
@@ -76,20 +92,46 @@ body {
   max-height: 5rem;
 }
 
-@media only screen and (max-width: 544px) {
+@media only screen and (max-width: $breakpoint-sm) {
   .landing-page {
     font-size: 1.2rem;
   }
-}
 
-@media only screen and (max-width: 768px) {
-  .landing-page {
-    font-size: 1.4rem;
+  .hide-on-sm {
+    display: none;
   }
 }
 
-@media only screen and (min-width: 992px) {
+@media only screen and (max-width: $breakpoint-md) {
+  .landing-page {
+    font-size: 1.4rem;
+
+    .chowster-font {
+      font-size: 3rem;
+    }
+  }
+
+  .hide-on-md {
+    display: none;
+  }
+}
+
+@media only screen and (min-width: $breakpoint-md) {
+  .hide-on-lg {
+    display: none;
+  }
+}
+
+@media only screen and (min-width: $breakpoint-lg) {
   .landing-page {
     font-size: 1.6rem;
+  }
+}
+
+.flex {
+  display: flex;
+
+  .right {
+    margin-left: auto;
   }
 }

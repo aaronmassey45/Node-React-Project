@@ -1,11 +1,11 @@
+@import '../../variables';
+
 #chowt-form {
-  width: 65%;
-  margin: auto;
   color: white;
 
   #text {
     color: inherit;
-    background-color: #a0081e;
+    background-color: $chowster-red;
     border: none;
     resize: none;
     width: 80%;
@@ -20,19 +20,11 @@
     }
   }
 
-  & > .d-flex {
+  & > .flex {
     align-items: center;
 
     input[type='checkbox'] {
       margin-top: 0.5rem;
     }
-
-    .align-right {
-      margin-left: auto;
-    }
-  }
-
-  @media only screen and (max-width: 576px) {
-    width: 85%;
   }
 }

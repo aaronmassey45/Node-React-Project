@@ -1,20 +1,13 @@
 @import '../../variables';
 
 #home-page {
-  .card {
-    background-color: $chowster-red;
-    border: 1.5px solid white;
-    border-top: none;
-    border-radius: 0px;
-    color: white;
+  overflow: auto;
+  max-height: 100vh;
+  flex-basis: 100%;
 
+  .card {
     #chowt {
       margin-bottom: 2rem;
-    }
-
-    .list-group-item {
-      background-color: $chowster-red;
-      border-color: white;
     }
 
     .list-header {

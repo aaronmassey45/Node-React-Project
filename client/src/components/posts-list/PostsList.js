@@ -5,29 +5,22 @@ import Post from '../../components/post/Post';
 
 import './posts-lists.styles.scss';
 
-const PostsList = ({ fetchedUser, currentUser }) => {
-  const { posts, username, profileImg, id } = fetchedUser;
-
+const PostsList = ({ posts, currentUser, user }) => {
   return posts.length === 0 ? (
-    <div className="list-group-item">This user has not chowted yet!</div>
+    <div className="list-group-item">No chowts yet :(</div>
   ) : (
-    posts
-      .map(post => (
-        <div className="list-group-item" key={post.id}>
-          <Post
-            post={post}
-            profile={{ username, profileImg, id }}
-            me={currentUser}
-          />
-        </div>
-      ))
-      .reverse()
+    posts.map(post => (
+      <div className="list-group-item" key={post.id}>
+        <Post post={post} profile={post._creator || user} me={currentUser} />
+      </div>
+    ))
   );
 };
 
 PostsList.propTypes = {
-  fetchedUser: PropTypes.object,
-  currentUser: PropTypes.object,
+  currentUser: PropTypes.object.isRequired,
+  posts: PropTypes.array.isRequired,
+  user: PropTypes.object,
 };
 
 export default PostsList;

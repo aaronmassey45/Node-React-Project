@@ -1,11 +1,12 @@
 import React, { useState, Fragment } from 'react';
+import { useMutation } from '@apollo/react-hooks';
+import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
-import { Mutation } from 'react-apollo';
-import classNames from 'classnames';
-
-import FOLLOW_USER from '../../mutations/FollowUser';
-import UNFOLLOW_USER from '../../mutations/UnfollowUser';
+import FOLLOW_USER from '../../graphql/mutations/FollowUser';
+import UNFOLLOW_USER from '../../graphql/mutations/UnfollowUser';
+import GET_USERS_FOLLOWERS from '../../graphql/queries/getUsersFollowers';
+import GET_USERS_FEED from '../../graphql/queries/getUsersFeed';
 
 import './follow-button.styles.scss';
 
@@ -13,44 +14,45 @@ const FollowButton = ({ following, userId }) => {
   const [isFollowing, setFollowingState] = useState(following);
   const [isHovering, setHovering] = useState(false);
 
+  const mutation = isFollowing ? UNFOLLOW_USER : FOLLOW_USER;
+  const [followMutation] = useMutation(mutation, {
+    variables: { id: userId },
+    onCompleted: () => setFollowingState(!isFollowing),
+    refetchQueries: [
+      { query: GET_USERS_FOLLOWERS, variables: { id: userId } },
+      { query: GET_USERS_FEED },
+    ],
+  });
+
   const btnClasses = classNames('follow-button', {
     active: isFollowing,
   });
 
   return (
-    <Mutation
-      mutation={isFollowing ? UNFOLLOW_USER : FOLLOW_USER}
-      variables={{ id: userId }}
-      onCompleted={() => setFollowingState(!isFollowing)}
-      onError={err => console.log(err)}
+    <button
+      className={btnClasses}
+      onClick={followMutation}
+      onMouseEnter={() => setHovering(true)}
+      onMouseLeave={() => setHovering(false)}
     >
-      {followFunc => (
-        <button
-          className={btnClasses}
-          onClick={followFunc}
-          onMouseEnter={() => setHovering(true)}
-          onMouseLeave={() => setHovering(false)}
-        >
-          {isFollowing ? (
+      {isFollowing ? (
+        <Fragment>
+          {isHovering ? (
             <Fragment>
-              {isHovering ? (
-                <Fragment>
-                  Unfollow <i className="fas fa-user-minus" />
-                </Fragment>
-              ) : (
-                <Fragment>
-                  Following <i className="fas fa-check" />
-                </Fragment>
-              )}
+              Unfollow <i className="fas fa-user-minus" />
             </Fragment>
           ) : (
             <Fragment>
-              Follow <i className="fas fa-user-plus"></i>
+              Following <i className="fas fa-check" />
             </Fragment>
           )}
-        </button>
+        </Fragment>
+      ) : (
+        <Fragment>
+          Follow <i className="fas fa-user-plus"></i>
+        </Fragment>
       )}
-    </Mutation>
+    </button>
   );
 };
 

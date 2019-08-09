@@ -1,7 +1,20 @@
-.list-group-item {
-  border-radius: unset;
-  background-color: #a0081e;
-  border-top: 1px solid lightgrey;
-  border-bottom: 1px solid lightgrey;
-  color: white;
+@import '../../variables';
+
+#home-page,
+#user-page {
+  .card {
+    background-color: $chowster-red;
+    border: 1.5px solid grey;
+    border-top: none;
+    border-right: none;
+    border-radius: 0px;
+    color: white;
+
+    .list-group-item {
+      border-right: none;
+      border-left: none;
+      background-color: $chowster-red;
+      border-color: grey;
+    }
+  }
 }
