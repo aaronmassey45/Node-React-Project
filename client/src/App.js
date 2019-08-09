@@ -19,7 +19,7 @@ const DirectMessagesPage = lazy(() =>
 const NotificationsPage = lazy(() =>
   import('./pages/notifications-page/NotificationsPage')
 );
-const LandingPage = lazy(() => import('./components/LandingPage'));
+const LandingPage = lazy(() => import('./pages/landing-page/LandingPage'));
 const Login = lazy(() => import('./components/AuthForms/Login'));
 const NotFound = lazy(() => import('./pages/not-found/NotFound'));
 const SignUp = lazy(() => import('./components/AuthForms/Signup'));
@@ -58,10 +58,10 @@ const App = () => {
               exact
               component={props => <HomePage {...props} />}
             />
-            <Route
+            <UnProtectedRoute
               path="/"
               exact
-              render={props => <LandingPage {...props} />}
+              component={props => <LandingPage {...props} />}
             />
             <Route path="/about" render={props => <AboutPage {...props} />} />
             <Route
