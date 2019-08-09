@@ -9,12 +9,12 @@ import GET_USERS_FEED from '../../queries/getUsersFeed';
 const HomePageContainer = () => {
   const {
     loading: loadingUserFeed,
-    data: { populateFeed: posts },
+    data: { populateFeed: posts = [] },
     fetchMore: fetchMorePosts,
   } = useQuery(GET_USERS_FEED);
   const {
     loading: loadingCurrentUser,
-    data: { me },
+    data: { me = {} },
   } = useQuery(CURRENT_USER, {
     variables: { withLikedPosts: true },
   });
@@ -22,8 +22,8 @@ const HomePageContainer = () => {
   return (
     <HomePage
       isLoading={loadingUserFeed || loadingCurrentUser}
-      currentUser={me || {}}
-      posts={posts || []}
+      currentUser={me}
+      posts={posts}
       onLoadMore={() => {
         fetchMorePosts({
           variables: {
