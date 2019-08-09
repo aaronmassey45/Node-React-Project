@@ -11,7 +11,7 @@ import CURRENT_USER from './graphql/queries/CurrentUser';
 const AboutPage = lazy(() => import('./pages/about/AboutPage'));
 const ChowtPage = lazy(() => import('./pages/chowt-page/ChowtPage'));
 const UserPage = lazy(() => import('./pages/user-page/UserPage'));
-const EditUser = lazy(() => import('./components/editUser/EditUser'));
+const EditUserPage = lazy(() => import('./pages/edit-user-page/EditUserPage'));
 const HomePage = lazy(() => import('./pages/home-page/HomePageContainer'));
 const DirectMessagesPage = lazy(() =>
   import('./pages/direct-messages-page/DirectMessagesPage')
@@ -45,7 +45,7 @@ const App = () => {
             <ProtectedRoute
               path="/account/edit"
               exact
-              component={props => <EditUser {...props} />}
+              component={props => <EditUserPage {...props} />}
             />
             <Route
               path="/users/account/:username"
