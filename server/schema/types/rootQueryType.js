@@ -35,12 +35,6 @@ const RootQuery = new GraphQLObjectType({
         return User.findOne({ $or: [{ _id: id }, { username }] });
       },
     },
-    posts: {
-      type: new GraphQLList(PostType),
-      resolve() {
-        return Post.find({});
-      },
-    },
     populateFeed: {
       type: new GraphQLList(PostType),
       args: { offset: { type: GraphQLInt, defaultValue: 0 } },
