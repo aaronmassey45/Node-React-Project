@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 const handleModal = WrappedComponent => {
-  return class extends Component {
+  return class HandleModal extends Component {
     state = {
       showModal: false,
     };
