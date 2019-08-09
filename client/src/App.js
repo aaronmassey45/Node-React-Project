@@ -20,9 +20,9 @@ const NotificationsPage = lazy(() =>
   import('./pages/notifications-page/NotificationsPage')
 );
 const LandingPage = lazy(() => import('./pages/landing-page/LandingPage'));
-const Login = lazy(() => import('./components/AuthForms/Login'));
+const Login = lazy(() => import('./components/auth-forms/Login'));
 const NotFound = lazy(() => import('./pages/not-found/NotFound'));
-const SignUp = lazy(() => import('./components/AuthForms/Signup'));
+const SignUp = lazy(() => import('./components/auth-forms/Signup'));
 
 const App = () => {
   useQuery(CURRENT_USER, { fetchPolicy: 'network-only' });
