@@ -108,14 +108,16 @@ const EditUser = ({
   const { loading } = useQuery(CURRENT_USER, {
     variables: { withEditingData: true },
     onCompleted: ({ me }) => {
-      setInputValues({
-        ...inputValues,
-        bio: me.bio,
-        email: me.email,
-        location: me.location,
-        profileImg: me.profileImg,
-        username: me.username,
-      });
+      if (me) {
+        setInputValues({
+          ...inputValues,
+          bio: me.bio,
+          email: me.email,
+          location: me.location,
+          profileImg: me.profileImg,
+          username: me.username,
+        });
+      }
     },
     notifyOnNetworkStatusChange: true,
   });
