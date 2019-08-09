@@ -1,27 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const FormInput = ({ label, smallText, ...otherProps }) => {
+const FormInput = ({ label, children, ...otherProps }) => {
   return (
     <div className="form-group">
       <label htmlFor={otherProps.id}>{label}</label>
       <input className="form-control" {...otherProps} />
-      {smallText && (
-        <small className="form-text text-muted text-left flex">
-          {smallText}
-        </small>
-      )}
+      {children}
     </div>
   );
 };
 
 FormInput.propTypes = {
   label: PropTypes.string.isRequired,
-  smallText: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.elementType,
-    PropTypes.bool,
-  ]),
+  children: PropTypes.element,
 };
 
 export default FormInput;
