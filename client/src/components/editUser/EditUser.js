@@ -8,8 +8,8 @@ import addAlertProps from '../../HOCs/add-alert';
 import DeleteAccount from './DeleteAccount';
 import EditUserForm from '../edit-user-form/EditUserForm';
 
-import UPDATE_USER from '../../mutations/UpdateUser';
-import CURRENT_USER from '../../queries/CurrentUser';
+import UPDATE_USER from '../../graphql/mutations/UpdateUser';
+import CURRENT_USER from '../../graphql/queries/CurrentUser';
 
 import isValidUrl from '../../utils/isValidUrl';
 import validateInputs from '../../utils/validateInputs';

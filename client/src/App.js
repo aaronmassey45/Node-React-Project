@@ -6,7 +6,7 @@ import { default as Navbar } from './components/navbar/NavbarContainer';
 import ProtectedRoute from './HOCs/ProtectedRoute';
 import UnProtectedRoute from './HOCs/UnProtectedRoute';
 import Spinner from './components/spinner/Spinner';
-import CURRENT_USER from './queries/CurrentUser';
+import CURRENT_USER from './graphql/queries/CurrentUser';
 
 const AboutPage = lazy(() => import('./pages/about/AboutPage'));
 const ChowtPage = lazy(() => import('./pages/chowt-page/ChowtPage'));

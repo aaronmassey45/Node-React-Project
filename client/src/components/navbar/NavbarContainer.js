@@ -3,7 +3,7 @@ import { useQuery } from '@apollo/react-hooks';
 
 import Navbar from './Navbar';
 
-import CURRENT_USER from '../../queries/CurrentUser';
+import CURRENT_USER from '../../graphql/queries/CurrentUser';
 
 const NavbarContainer = () => {
   const { data = {} } = useQuery(CURRENT_USER);

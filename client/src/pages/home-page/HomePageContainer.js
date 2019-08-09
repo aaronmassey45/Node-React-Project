@@ -3,8 +3,8 @@ import { useQuery } from '@apollo/react-hooks';
 
 import HomePage from './Homepage';
 
-import CURRENT_USER from '../../queries/CurrentUser';
-import GET_USERS_FEED from '../../queries/getUsersFeed';
+import CURRENT_USER from '../../graphql/queries/CurrentUser';
+import GET_USERS_FEED from '../../graphql/queries/getUsersFeed';
 
 const HomePageContainer = () => {
   const {

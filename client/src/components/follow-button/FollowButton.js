@@ -3,10 +3,10 @@ import { useMutation } from '@apollo/react-hooks';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
-import FOLLOW_USER from '../../mutations/FollowUser';
-import UNFOLLOW_USER from '../../mutations/UnfollowUser';
-import GET_USERS_FOLLOWERS from '../../queries/getUsersFollowers';
-import GET_USERS_FEED from '../../queries/getUsersFeed';
+import FOLLOW_USER from '../../graphql/mutations/FollowUser';
+import UNFOLLOW_USER from '../../graphql/mutations/UnfollowUser';
+import GET_USERS_FOLLOWERS from '../../graphql/queries/getUsersFollowers';
+import GET_USERS_FEED from '../../graphql/queries/getUsersFeed';
 
 import './follow-button.styles.scss';
 

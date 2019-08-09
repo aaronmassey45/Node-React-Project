@@ -3,9 +3,9 @@ import { useMutation } from '@apollo/react-hooks';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
-import LIKE_CHOWT from '../mutations/LikeChowt';
-import CURRENT_USER_QUERY from '../queries/CurrentUser';
-import FETCH_USER_QUERY from '../queries/FetchUser';
+import LIKE_CHOWT from '../graphql/mutations/LikeChowt';
+import CURRENT_USER_QUERY from '../graphql/queries/CurrentUser';
+import FETCH_USER_QUERY from '../graphql/queries/FetchUser';
 
 const LikePostButton = ({ liked, id, username, updateAlert, show }) => {
   const [likeChowt] = useMutation(LIKE_CHOWT, {

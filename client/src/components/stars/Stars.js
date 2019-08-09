@@ -3,7 +3,7 @@ import Rater from 'react-rater';
 import { useMutation } from '@apollo/react-hooks';
 import PropTypes from 'prop-types';
 
-import RATE_ACCOUNT from '../../mutations/rateAccount';
+import RATE_ACCOUNT from '../../graphql/mutations/rateAccount';
 
 import './stars.styles.scss';
 

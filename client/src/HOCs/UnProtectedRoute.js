@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 import Spinner from '../components/spinner/Spinner';
 
-import CURRENT_USER from '../queries/CurrentUser';
+import CURRENT_USER from '../graphql/queries/CurrentUser';
 
 const UnProtectedRoute = ({ component: Component, ...rest }) => {
   const { loading, data, ...queryProps } = useQuery(CURRENT_USER);

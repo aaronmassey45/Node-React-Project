@@ -5,8 +5,8 @@ import PropTypes from 'prop-types';
 import Spinner from '../spinner/Spinner';
 import FormInput from '../form-input/FormInput';
 
-import SIGNUP from '../../mutations/Signup';
-import LOGIN from '../../mutations/Login';
+import SIGNUP from '../../graphql/mutations/Signup';
+import LOGIN from '../../graphql/mutations/Login';
 
 import './auth-form.styles.scss';
 

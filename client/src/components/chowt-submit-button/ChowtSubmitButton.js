@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 
 import Spinner from '../../components/spinner/Spinner';
 
-import SEND_CHOWT from '../../mutations/Chowt';
-import GET_USERS_FEED from '../../queries/getUsersFeed';
-import FETCH_USER from '../../queries/FetchUser';
+import SEND_CHOWT from '../../graphql/mutations/Chowt';
+import GET_USERS_FEED from '../../graphql/queries/getUsersFeed';
+import FETCH_USER from '../../graphql/queries/FetchUser';
 
 import './chowt-submit-button.styles.scss';
 

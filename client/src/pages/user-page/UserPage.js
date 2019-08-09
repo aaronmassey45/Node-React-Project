@@ -6,8 +6,8 @@ import Spinner from '../../components/spinner/Spinner';
 import PostsList from '../../components/posts-list/PostsList';
 import UserDetails from '../../components/user-details/UserDetails';
 
-import FETCH_USER from '../../queries/FetchUser';
-import CURRENT_USER from '../../queries/CurrentUser';
+import FETCH_USER from '../../graphql/queries/FetchUser';
+import CURRENT_USER from '../../graphql/queries/CurrentUser';
 
 import './user-page.styles.scss';
 
