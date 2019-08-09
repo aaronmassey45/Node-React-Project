@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import FOLLOW_USER from '../../mutations/FollowUser';
 import UNFOLLOW_USER from '../../mutations/UnfollowUser';
 import GET_USERS_FOLLOWERS from '../../queries/getUsersFollowers';
+import GET_USERS_FEED from '../../queries/getUsersFeed';
 
 import './follow-button.styles.scss';
 
@@ -17,7 +18,10 @@ const FollowButton = ({ following, userId }) => {
   const [followMutation] = useMutation(mutation, {
     variables: { id: userId },
     onCompleted: () => setFollowingState(!isFollowing),
-    refetchQueries: [{ query: GET_USERS_FOLLOWERS, variables: { id: userId } }],
+    refetchQueries: [
+      { query: GET_USERS_FOLLOWERS, variables: { id: userId } },
+      { query: GET_USERS_FEED },
+    ],
   });
 
   const btnClasses = classNames('follow-button', {
