@@ -43,7 +43,7 @@ const signup = async ({ email, password, username, isAFoodTruck }) => {
     const errors = [];
     if (err.errors) {
       for (const key in err.errors) {
-        errors.push(err.errors[key].message);
+        if (key !== 'username_lowercase') errors.push(err.errors[key].message);
       }
     } else {
       errors.push(err);
