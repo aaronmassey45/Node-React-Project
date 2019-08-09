@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import PropTypes from 'prop-types';
 
-import Alert from '../Alert';
+import Alert from '../alert-modal/Alert';
 import Spinner from '../spinner/Spinner';
 import addAlertProps from '../../HOCs/add-alert';
 import DeleteAccount from './DeleteAccount';

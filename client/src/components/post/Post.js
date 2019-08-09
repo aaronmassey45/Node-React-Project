@@ -2,7 +2,7 @@ import React, { memo, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-import Alert from '../Alert';
+import Alert from '../alert-modal/Alert';
 import addAlertProps from '../../HOCs/add-alert';
 import LikePostButton from '../like-post-button/LikePostButton';
 import DeletePostButton from '../delete-post-button/DeletePostButton';
