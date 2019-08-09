@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import { default as ChowtForm } from '../../components/chowt-form/ChowtFormContainer';
 
@@ -9,5 +10,7 @@ const ChowtPage = ({ history }) => (
     <ChowtForm goBack={history.goBack} showHeader />
   </div>
 );
+
+ChowtPage.propTypes = { history: PropTypes.object.isRequired };
 
 export default ChowtPage;
