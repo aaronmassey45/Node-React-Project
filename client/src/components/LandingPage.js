@@ -14,7 +14,7 @@ const LandingPage = () => {
   ) : (
     <div className="landing-page text-white row container mx-auto">
       <div id="welcome" className="col-12 ubuntu">
-        Welcome to <div className="chowster-font display-3">Chowster</div>
+        Welcome to <div className="chowster-font">Chowster</div>
       </div>
       <div className="col-6">
         Not a member?
