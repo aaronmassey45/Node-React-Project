@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const Alert = ({ bg, closeModal, msg }) => (
   <div
@@ -31,5 +32,11 @@ const Alert = ({ bg, closeModal, msg }) => (
     </div>
   </div>
 );
+
+Alert.propTypes = {
+  bg: PropTypes.string.isRequired,
+  closeModal: PropTypes.func.isRequired,
+  msg: PropTypes.string.isRequired,
+};
 
 export default Alert;
