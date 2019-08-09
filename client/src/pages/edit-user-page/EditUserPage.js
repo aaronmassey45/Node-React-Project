@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import PropTypes from 'prop-types';
 
-import Alert from '../alert-modal/Alert';
-import Spinner from '../spinner/Spinner';
+import Alert from '../../components/alert-modal/Alert';
+import Spinner from '../../components/spinner/Spinner';
 import addAlertProps from '../../HOCs/add-alert';
-import DeleteAccount from './DeleteAccount';
-import EditUserForm from '../edit-user-form/EditUserForm';
+import DeleteAccount from '../../components/delete-account/DeleteAccount';
+import EditUserForm from '../../components/edit-user-form/EditUserForm';
 
 import UPDATE_USER from '../../graphql/mutations/UpdateUser';
 import CURRENT_USER from '../../graphql/queries/CurrentUser';
