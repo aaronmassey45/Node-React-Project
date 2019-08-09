@@ -87,8 +87,11 @@ const AuthForm = ({ isSignup, refetch }) => {
             type="email"
             value={email}
             label="Email Address"
-            smallText="We'll never share your email with anyone else."
-          />
+          >
+            <small className="form-text text-muted text-left flex">
+              We&apos;ll never share your email with anyone else.
+            </small>
+          </FormInput>
         )}
         <FormInput
           autoComplete="username"
@@ -100,14 +103,11 @@ const AuthForm = ({ isSignup, refetch }) => {
           type="text"
           value={username}
           label="Username"
-          smallText={
-            isSignup && (
-              <>
-                <span>Min: 4</span> <span className="right">Max: 20</span>
-              </>
-            )
-          }
-        />
+        >
+          <small className="form-text text-muted text-left flex">
+            <span>Min: 4</span> <span className="right">Max: 20</span>
+          </small>
+        </FormInput>
         <FormInput
           autoComplete="password"
           className="form-control"
@@ -130,8 +130,11 @@ const AuthForm = ({ isSignup, refetch }) => {
             type="password"
             value={confirmPassword}
             label="Confirm Password"
-            smallText="Min: 6"
-          />
+          >
+            <small className="form-text text-muted text-left flex">
+              Min: 6
+            </small>
+          </FormInput>
         )}
         {isSignup && (
           <div className="form-check my-2">
