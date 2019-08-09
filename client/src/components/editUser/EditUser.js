@@ -1,5 +1,5 @@
-import React, { PureComponent } from 'react';
-import { Query, Mutation } from 'react-apollo';
+import React, { useState } from 'react';
+import { useQuery, useMutation } from '@apollo/react-hooks';
 import PropTypes from 'prop-types';
 
 import Alert from '../Alert';
@@ -14,28 +14,54 @@ import CURRENT_USER from '../../queries/CurrentUser';
 import isValidUrl from '../../utils/isValidUrl';
 import validateInputs from '../../utils/validateInputs';
 
-class EditUser extends PureComponent {
-  state = {
-    bio: '',
-    currentPassword: '',
-    email: '',
-    errors: {},
-    location: '',
-    newPassword: '',
-    profileImg: '',
-    username: '',
+const INITIAL_INPUTS_STATE = {
+  bio: '',
+  currentPassword: '',
+  email: '',
+  location: '',
+  newPassword: '',
+  profileImg: '',
+  username: '',
+};
+
+const EditUser = ({
+  alert,
+  showModal,
+  clearAlert,
+  hide,
+  updateAlert,
+  show,
+}) => {
+  const [inputValues, setInputValues] = useState({ ...INITIAL_INPUTS_STATE });
+  const [inputErrors, setInputErrors] = useState({});
+
+  const [updateAccount] = useMutation(UPDATE_USER, {
+    variables: { ...inputValues },
+    onCompleted: () => {
+      updateAndShowAlert({
+        bg: 'success',
+        msg: 'Account updated!',
+      });
+
+      setInputValues({
+        ...inputValues,
+        currentPassword: '',
+        newPassword: '',
+      });
+    },
+    onError: err => console.log(err),
+  });
+
+  const updateAndShowAlert = ({ bg, msg }) => {
+    updateAlert({ bg, msg });
+    show();
   };
 
-  updateAndShowAlert = ({ bg, msg }) => {
-    this.props.updateAlert({ bg, msg });
-    this.props.show();
+  const handleChange = ({ target: { name, value } }) => {
+    setInputValues({ ...inputValues, [name]: value });
   };
 
-  handleChange = ({ target: { name, value } }) => {
-    this.setState({ [name]: value });
-  };
-
-  handleSubmit = async updateAccount => {
+  const handleSubmit = async () => {
     const {
       bio,
       currentPassword,
@@ -43,10 +69,10 @@ class EditUser extends PureComponent {
       location,
       profileImg,
       username,
-    } = this.state;
+    } = inputValues;
 
     if (!currentPassword) {
-      this.updateAndShowAlert({
+      updateAndShowAlert({
         bg: 'warning',
         msg: 'You must enter your current password!',
       });
@@ -62,117 +88,86 @@ class EditUser extends PureComponent {
     });
 
     if (Object.keys(errors).length) {
-      return this.setState({ ...this.state, errors });
+      setInputErrors(errors);
+      return;
     }
 
     try {
       await isValidUrl(profileImg);
     } catch (err) {
-      this.setState({
-        errors: {
-          profileImg: 'Image link is invalid',
-        },
+      setInputErrors({
+        profileImg: 'Image link is invalid',
       });
 
       return;
     }
 
-    updateAccount({ variables: { ...this.state } });
+    updateAccount();
   };
 
-  render() {
-    const { alert, showModal, clearAlert, hide } = this.props;
+  const { loading } = useQuery(CURRENT_USER, {
+    variables: { withEditingData: true },
+    onCompleted: ({ me }) => {
+      setInputValues({
+        ...inputValues,
+        bio: me.bio,
+        email: me.email,
+        location: me.location,
+        profileImg: me.profileImg,
+        username: me.username,
+      });
+    },
+    notifyOnNetworkStatusChange: true,
+  });
 
-    return (
-      <Query
-        query={CURRENT_USER}
-        variables={{ withEditingData: true }}
-        onCompleted={({ me }) => {
-          this.setState(prevState => ({
-            ...prevState,
-            bio: me.bio,
-            email: me.email,
-            location: me.location,
-            profileImg: me.profileImg,
-            username: me.username,
-          }));
-        }}
-        notifyOnNetworkStatusChange
-      >
-        {({ loading }) => {
-          return loading ? (
-            <Spinner />
-          ) : (
-            <div className="AccountEdit text-left container my-1">
-              <DeleteAccount />
-              {showModal && (
-                <Alert
-                  closeModal={() => {
-                    clearAlert();
-                    hide();
-                  }}
-                  msg={alert.msg}
-                  bg={alert.bg}
-                />
-              )}
-              <div className="card bg-secondary text-white mb-3">
-                <div className="card-body p-2">
-                  <h4 className="card-title mb-0">Edit User Account</h4>
-                </div>
-              </div>
-              <div className="card bg-light">
-                <div className="card-header">Basic Information</div>
-                <div className="card-body">
-                  <EditUserForm
-                    handleChange={this.handleChange}
-                    values={this.state}
-                    errors={this.state.errors}
-                  />
-                  <button
-                    className="btn btn-danger text-white"
-                    data-toggle="modal"
-                    data-target="#deleteModal"
-                  >
-                    <i className="fa fa-ban" aria-hidden="true" /> Delete
-                    account
-                  </button>
-                </div>
-                <div className="card-footer text-right">
-                  <Mutation
-                    mutation={UPDATE_USER}
-                    onCompleted={() => {
-                      this.updateAndShowAlert({
-                        bg: 'success',
-                        msg: 'Account updated!',
-                      });
-
-                      this.setState({
-                        ...this.state,
-                        currentPassword: '',
-                        newPassword: '',
-                        errors: {},
-                      });
-                    }}
-                    onError={err => console.log(err)}
-                  >
-                    {updateAccount => (
-                      <button
-                        className="btn btn-success"
-                        onClick={() => this.handleSubmit(updateAccount)}
-                      >
-                        Update
-                      </button>
-                    )}
-                  </Mutation>
-                </div>
-              </div>
-            </div>
-          );
-        }}
-      </Query>
-    );
-  }
-}
+  return loading ? (
+    <Spinner />
+  ) : (
+    <div className="AccountEdit text-left container my-1">
+      <DeleteAccount />
+      {showModal && (
+        <Alert
+          closeModal={() => {
+            clearAlert();
+            hide();
+          }}
+          msg={alert.msg}
+          bg={alert.bg}
+        />
+      )}
+      <div className="card bg-secondary text-white mb-3">
+        <div className="card-body p-2">
+          <h4 className="card-title mb-0">Edit User Account</h4>
+        </div>
+      </div>
+      <div className="card bg-light">
+        <div className="card-header">Basic Information</div>
+        <div className="card-body">
+          <EditUserForm
+            handleChange={handleChange}
+            values={inputValues}
+            errors={inputErrors}
+          />
+          <button
+            className="btn btn-danger text-white"
+            data-toggle="modal"
+            data-target="#deleteModal"
+          >
+            <i className="fa fa-ban" aria-hidden="true" /> Delete account
+          </button>
+        </div>
+        <div className="card-footer text-right">
+          <button
+            className="btn btn-success"
+            onClick={() => handleSubmit(updateAccount)}
+          >
+            Update
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 EditUser.propTypes = {
   alert: PropTypes.object.isRequired,
