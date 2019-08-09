@@ -1,6 +1,7 @@
 import React from 'react';
 import { useMutation } from '@apollo/react-hooks';
 import classNames from 'classnames';
+import PropTypes from 'prop-types';
 
 import LIKE_CHOWT from '../mutations/LikeChowt';
 import CURRENT_USER_QUERY from '../queries/CurrentUser';
@@ -34,6 +35,14 @@ const LikePostButton = ({ liked, id, username, updateAlert, show }) => {
       onClick={likeChowt}
     />
   );
+};
+
+LikePostButton.propTypes = {
+  liked: PropTypes.bool.isRequired,
+  id: PropTypes.string.isRequired,
+  username: PropTypes.string.isRequired,
+  updateAlert: PropTypes.func.isRequired,
+  show: PropTypes.func.isRequired,
 };
 
 export default LikePostButton;
