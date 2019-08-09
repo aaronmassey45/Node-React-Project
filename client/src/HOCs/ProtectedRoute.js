@@ -3,7 +3,7 @@ import { useQuery } from '@apollo/react-hooks';
 import { Route, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-import CURRENT_USER from '../../queries/CurrentUser';
+import CURRENT_USER from '../queries/CurrentUser';
 
 const PrivateRoute = ({
   component: Component,

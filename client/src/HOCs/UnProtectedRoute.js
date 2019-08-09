@@ -3,9 +3,9 @@ import { useQuery } from '@apollo/react-hooks';
 import { Route, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-import Spinner from '../spinner/Spinner';
+import Spinner from '../components/spinner/Spinner';
 
-import CURRENT_USER from '../../queries/CurrentUser';
+import CURRENT_USER from '../queries/CurrentUser';
 
 const UnProtectedRoute = ({ component: Component, ...rest }) => {
   const { loading, data, ...queryProps } = useQuery(CURRENT_USER);

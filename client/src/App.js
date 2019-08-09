@@ -3,8 +3,8 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { useQuery } from '@apollo/react-hooks';
 
 import { default as Navbar } from './components/navbar/NavbarContainer';
-import ProtectedRoute from './components/HOCs/ProtectedRoute';
-import UnProtectedRoute from './components/HOCs/UnProtectedRoute';
+import ProtectedRoute from './HOCs/ProtectedRoute';
+import UnProtectedRoute from './HOCs/UnProtectedRoute';
 import Spinner from './components/spinner/Spinner';
 import CURRENT_USER from './queries/CurrentUser';
 

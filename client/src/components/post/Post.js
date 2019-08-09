@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import Alert from '../Alert';
-import addAlertProps from '../HOCs/add-alert';
+import addAlertProps from '../../HOCs/add-alert';
 import LikePostButton from '../LikePostButton';
 import DeletePostButton from '../DeletePostButton';
 import getTimeDifference from '../../utils/getTimeDifference';

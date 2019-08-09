@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import Alert from '../Alert';
 import Spinner from '../spinner/Spinner';
-import addAlertProps from '../HOCs/add-alert';
+import addAlertProps from '../../HOCs/add-alert';
 import DeleteAccount from './DeleteAccount';
 import EditUserForm from '../edit-user-form/EditUserForm';
 
