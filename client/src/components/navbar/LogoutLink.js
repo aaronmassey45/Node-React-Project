@@ -1,17 +1,19 @@
 import React from 'react';
 import { useMutation, useApolloClient } from '@apollo/react-hooks';
+import { withRouter } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 import CURRENT_USER from '../../queries/CurrentUser';
 import LOGOUT from '../../mutations/Logout';
 
-const LogoutLink = () => {
+const LogoutLink = ({ history }) => {
   const client = useApolloClient();
   const [logout] = useMutation(LOGOUT, {
     refetchQueries: [{ query: CURRENT_USER }],
-    awaitRefetchQueries: true,
     onCompleted: () => {
       localStorage.removeItem('x-auth');
       client.cache.reset();
+      history.push('/');
     },
   });
 
@@ -23,4 +25,8 @@ const LogoutLink = () => {
   );
 };
 
-export default LogoutLink;
+LogoutLink.propTypes = {
+  history: PropTypes.object.isRequired,
+};
+
+export default withRouter(LogoutLink);
