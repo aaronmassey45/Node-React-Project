@@ -1,6 +1,11 @@
 @import '../../variables';
 
 .post {
+  a.location {
+    color: white;
+    text-decoration: underline;
+  }
+
   .post-avatar {
     border-radius: 50%;
     border: 1.5px solid black;

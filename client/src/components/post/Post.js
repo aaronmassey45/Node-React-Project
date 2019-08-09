@@ -67,6 +67,7 @@ const Post = ({
                           href={`https://www.google.com/maps?q=${post.location.lat},${post.location.lng}`}
                           target="_blank"
                           rel="noopener noreferrer"
+                          className="location"
                         >
                           My Location
                         </a>
