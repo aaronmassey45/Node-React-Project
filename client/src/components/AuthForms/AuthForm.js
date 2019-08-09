@@ -68,13 +68,13 @@ const AuthForm = ({ isSignup, refetch }) => {
   } = inputValues;
 
   const authMutation = isSignup ? SIGNUP : LOGIN;
-  const [mutation, { loading }] = useMutation(authMutation, {
+  const [mutation, { data, loading }] = useMutation(authMutation, {
     variables: { email, password, username, isAFoodTruck },
     onCompleted: data => _onCompleted(data),
     onError: handleErrors,
   });
 
-  if (loading) return <Spinner />;
+  if (loading || data) return <Spinner />;
 
   return (
     <>
