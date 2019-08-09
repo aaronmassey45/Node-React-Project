@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import Alert from '../Alert';
 import addAlertProps from '../../HOCs/add-alert';
 import LikePostButton from '../LikePostButton';
-import DeletePostButton from '../DeletePostButton';
+import DeletePostButton from '../delete-post-button/DeletePostButton';
 import getTimeDifference from '../../utils/getTimeDifference';
 
 import './post.styles.scss';
