@@ -20,7 +20,7 @@ const INITIAL_FORM_STATE = {
 
 const AuthForm = ({ isSignup, refetch }) => {
   const [inputValues, setInputValues] = useState({ ...INITIAL_FORM_STATE });
-  const [inputErrors, setInputErrors] = useState(null);
+  const [inputErrors, setInputErrors] = useState([]);
   const [mutationHasError, setMutationHasError] = useState(false);
 
   const handleChange = ({ target: { id, value, checked } }) => {
@@ -41,7 +41,7 @@ const AuthForm = ({ isSignup, refetch }) => {
       const graphQLErrors = err.graphQLErrors.map(({ message }) => message);
       if (graphQLErrors.length === 1) {
         const errors = graphQLErrors[0].split(',');
-        setInputErrors({ errors });
+        setInputErrors([...errors]);
       }
     } else {
       setMutationHasError(true);
@@ -156,7 +156,7 @@ const AuthForm = ({ isSignup, refetch }) => {
           <small>Username or password incorrect.</small>
         </div>
       )}
-      {inputErrors && (
+      {inputErrors.length > 0 && (
         <div className="alert alert-danger" role="alert">
           {inputErrors.map(err => (
             <div key={err}>{err}</div>
