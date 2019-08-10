@@ -39,7 +39,6 @@ const RootQuery = new GraphQLObjectType({
       type: new GraphQLList(PostType),
       args: { offset: { type: GraphQLInt, defaultValue: 0 } },
       resolve(_, { offset }, { user }) {
-        console.log(offset);
         return Post.find(
           { _creator: { $in: [...user.following, user.id] } },
           null,
