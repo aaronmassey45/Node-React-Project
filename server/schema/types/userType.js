@@ -26,7 +26,9 @@ const UserType = new GraphQLObjectType({
       posts: {
         type: new GraphQLList(PostType),
         resolve(parentValue) {
-          return Post.find({ _creator: parentValue.id });
+          return Post.find({ _creator: parentValue.id })
+            .sort({ $natural: -1 })
+            .limit(100);
         },
       },
       likedPosts: {
