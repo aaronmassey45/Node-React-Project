@@ -23,6 +23,9 @@ const LandingPage = lazy(() => import('./pages/landing-page/LandingPage'));
 const Login = lazy(() => import('./components/auth-forms/Login'));
 const NotFound = lazy(() => import('./pages/not-found/NotFound'));
 const SignUp = lazy(() => import('./components/auth-forms/Signup'));
+const FollowersPage = lazy(() =>
+  import('./pages/followers-page/FollowersPage')
+);
 
 const App = () => {
   useQuery(CURRENT_USER, { fetchPolicy: 'network-only' });
@@ -75,6 +78,10 @@ const App = () => {
             <Route
               path="/compose/chowt"
               render={props => <ChowtPage {...props} />}
+            />
+            <Route
+              path={['/:username/followers', '/:username/following']}
+              render={props => <FollowersPage {...props} />}
             />
             <Route render={props => <NotFound {...props} />} />
           </Switch>
