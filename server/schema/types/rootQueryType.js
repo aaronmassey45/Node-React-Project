@@ -13,6 +13,7 @@ const {
   GraphQLList,
   GraphQLString,
   GraphQLInt,
+  GraphQLBoolean,
 } = graphql;
 
 const RootQuery = new GraphQLObjectType({
@@ -48,6 +49,17 @@ const RootQuery = new GraphQLObjectType({
         )
           .sort({ $natural: -1 })
           .limit(25);
+      },
+    },
+    getFollowers: {
+      type: new GraphQLList(UserType),
+      args: { getUsersFollowing: { type: GraphQLBoolean } },
+      resolve(_, { getUsersFollowing }, { user }) {
+        if (getUsersFollowing) {
+          return User.find({ _id: { $in: user.following } });
+        }
+
+        return User.find({ _id: { $in: user.followers } });
       },
     },
   }),
