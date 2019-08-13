@@ -1,0 +1,10 @@
+@import '../../variables';
+
+#side-bar {
+  order: 2;
+  flex: 2;
+
+  @media only screen and (max-width: $breakpoint-lg) {
+    display: none;
+  }
+}
