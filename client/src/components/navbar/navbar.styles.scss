@@ -4,11 +4,11 @@
   flex: 1;
   order: 1;
   height: 100vh;
-  z-index: 1; /* Stay on top */
-  top: 0; /* Stay at the top */
+  z-index: 1;
+  top: 0;
   left: 0;
-  background-color: #111; /* Black */
-  overflow-x: hidden; /* Disable horizontal scroll */
+  background-color: #111;
+  overflow-x: hidden;
   padding: 20px 10px 0 10px;
 
   .nav-header > a {
@@ -36,7 +36,6 @@
     }
   }
 
-  /* The navigation menu links */
   a,
   .fake-link {
     color: #818181;
@@ -45,7 +44,6 @@
     font-size: 1.5rem;
     display: block;
 
-    /* When you mouse over the navigation links, change their color */
     &:hover {
       color: #f1f1f1;
     }
@@ -56,11 +54,8 @@
     height: 1.5rem;
     border-radius: 50%;
   }
-}
 
-/* On smaller screens, where height is less than 450px, change the style of the sidebar (less padding and a smaller font size) */
-@media only screen and (max-width: 768px) {
-  #side-nav {
+  @media only screen and (max-width: $breakpoint-lg) {
     width: 100px;
     text-align: center;
   }
