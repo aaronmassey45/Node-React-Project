@@ -62,6 +62,21 @@ const RootQuery = new GraphQLObjectType({
         return User.find({ _id: { $in: user.followers } });
       },
     },
+    randomUsers: {
+      type: new GraphQLList(UserType),
+      args: { sampleSize: { type: GraphQLInt, defaultValue: 6 } },
+      resolve(_, { sampleSize }, { user }) {
+        return User.aggregate([{ $sample: { size: sampleSize } }]).then(users =>
+          users
+            .map(randomUser => {
+              randomUser.id = randomUser._id;
+              return randomUser;
+            })
+            .filter(randomUser => randomUser._id != user.id)
+            .splice(0, sampleSize - 1)
+        );
+      },
+    },
   }),
 });
 
