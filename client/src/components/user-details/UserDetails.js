@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import FollowButton from '../../components/follow-button/FollowButton';
@@ -26,14 +27,14 @@ const UserDetails = ({ user, currentUser, canFollow }) => (
         <i className="fas fa-map-marked-alt" /> {user.location}
       </div>
       <div className="followers-container">
-        <div>
+        <Link to={`/${user.username}/following`}>
           <span className="content-bold">{user.following.length}</span>{' '}
           Following
-        </div>
-        <div>
+        </Link>
+        <Link to={`/${user.username}/followers`}>
           <span className="content-bold">{user.followers.length}</span>{' '}
           Followers
-        </div>
+        </Link>
       </div>
       {user.isAFoodTruck && (
         <Stars
