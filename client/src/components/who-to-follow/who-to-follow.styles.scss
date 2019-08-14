@@ -1,0 +1,26 @@
+$card-color: lighten(#111, 5%);
+
+#who-to-follow {
+  background-color: $card-color;
+  border-radius: 10px;
+  color: white;
+  overflow: hidden;
+
+  .card {
+    background-color: inherit;
+  }
+
+  .list-item {
+    border-left: none;
+    border-right: none;
+
+    a {
+      color: inherit;
+      font-weight: bolder;
+    }
+
+    &:hover {
+      background-color: lighten($card-color, 5%);
+    }
+  }
+}
