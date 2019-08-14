@@ -2,12 +2,15 @@ import React from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import { Link } from 'react-router-dom';
 
+import './who-to-follow.styles.scss';
+
 import GET_RANDOM_USERS from '../../graphql/queries/getRandomUsers';
 
 const WhoToFollow = () => {
   const {
     data: { randomUsers },
     loading,
+    refetch,
   } = useQuery(GET_RANDOM_USERS);
 
   return (
@@ -29,6 +32,11 @@ const WhoToFollow = () => {
                 </div>
               </div>
             ))}
+        <div className="card-footer">
+          <button className="btn btn-block btn-dark" onClick={() => refetch()}>
+            Get more
+          </button>
+        </div>
       </div>
     </div>
   );
