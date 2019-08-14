@@ -53,13 +53,23 @@ const RootQuery = new GraphQLObjectType({
     },
     getFollowers: {
       type: new GraphQLList(UserType),
-      args: { getUsersFollowing: { type: GraphQLBoolean } },
-      resolve(_, { getUsersFollowing }, { user }) {
-        if (getUsersFollowing) {
-          return User.find({ _id: { $in: user.following } });
-        }
+      args: {
+        getUsersFollowing: { type: GraphQLBoolean },
+        username: { type: GraphQLString },
+      },
+      async resolve(_, { getUsersFollowing, username }) {
+        try {
+          if (!username) throw Error('You must enter a user name');
+          const user = await User.findOne({ username });
 
-        return User.find({ _id: { $in: user.followers } });
+          if (getUsersFollowing) {
+            return User.find({ _id: { $in: user.following } });
+          }
+
+          return User.find({ _id: { $in: user.followers } });
+        } catch (err) {
+          return err;
+        }
       },
     },
     randomUsers: {
