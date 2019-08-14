@@ -6,6 +6,9 @@ const CURRENT_USER = gql`
       id
       username
       profileImg
+      following {
+        id
+      }
       ... on User @include(if: $withEditingData) {
         email
         location
