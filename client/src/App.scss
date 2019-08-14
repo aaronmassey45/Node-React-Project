@@ -90,6 +90,12 @@ body {
   }
 }
 
+.show-on-xl {
+  @media only screen and (max-width: calc(#{$breakpoint-xl} - 1px)) {
+    display: none;
+  }
+}
+
 .flex {
   display: flex;
 

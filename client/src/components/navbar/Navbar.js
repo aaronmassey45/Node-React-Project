@@ -21,13 +21,13 @@ const Navbar = ({ currentUser }) => (
       <li>
         <NavLink to={currentUser.id ? '/home' : '/'} exact className="nav-link">
           <i className="fa fa-home fa-fw" />{' '}
-          <span className="hide-on-md">Home</span>
+          <span className="show-on-xl">Home</span>
         </NavLink>
       </li>
       <li>
         <NavLink to="/about" exact className="nav-link">
           <i className="fas fa-info-circle" />{' '}
-          <span className="hide-on-md">About</span>
+          <span className="show-on-xl">About</span>
         </NavLink>
       </li>
       {currentUser.id ? (
