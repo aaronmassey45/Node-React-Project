@@ -64,7 +64,7 @@ const RootQuery = new GraphQLObjectType({
     },
     randomUsers: {
       type: new GraphQLList(UserType),
-      args: { sampleSize: { type: GraphQLInt, defaultValue: 6 } },
+      args: { sampleSize: { type: GraphQLInt, defaultValue: 4 } },
       resolve(_, { sampleSize }, { user }) {
         return User.aggregate([{ $sample: { size: sampleSize } }]).then(users =>
           users
