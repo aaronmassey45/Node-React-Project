@@ -10,15 +10,16 @@ import GET_FOLLOWERS from '../../graphql/queries/getFollowers';
 import './followers-page.styles.scss';
 
 const FollowersPage = ({ match }) => {
-  const page = match.url.split('/').slice(-1)[0];
+  const [page] = match.url.split('/').slice(-1);
+  const { username } = match.params;
+
   const getUsersFollowing = page === 'following';
 
   const {
     data: { getFollowers },
     loading,
-  } = useQuery(GET_FOLLOWERS, { variables: { getUsersFollowing } });
+  } = useQuery(GET_FOLLOWERS, { variables: { getUsersFollowing, username } });
 
-  const { username } = match.params;
   return (
     <div id="followers-page">
       <div className="header">@{username}</div>
