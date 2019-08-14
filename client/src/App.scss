@@ -26,6 +26,7 @@
 body {
   background-color: $chowster-red;
 }
+
 .dropdown-item:hover {
   background-color: transparent;
 }
@@ -58,14 +59,6 @@ body {
     rgb(255, 255, 255) 2.88051px -0.838247px 0px;
 }
 
-.landing-page {
-  font-size: 1rem;
-
-  .chowster-font {
-    font-size: 4rem;
-  }
-}
-
 #welcome {
   margin-top: 25vh;
   margin-bottom: 15px;
@@ -75,40 +68,17 @@ body {
   font-family: 'Ubuntu', sans-serif;
 }
 
-.landing-page a {
-  color: #84919e;
-  text-decoration: none;
-}
-
-.landing-page a:hover {
-  color: #1f2020;
-  text-decoration: none;
-  cursor: pointer;
-}
-
 .Post img {
   max-height: 5rem;
 }
 
 @media only screen and (max-width: $breakpoint-sm) {
-  .landing-page {
-    font-size: 1.2rem;
-  }
-
   .hide-on-sm {
     display: none;
   }
 }
 
 @media only screen and (max-width: $breakpoint-md) {
-  .landing-page {
-    font-size: 1.4rem;
-
-    .chowster-font {
-      font-size: 3rem;
-    }
-  }
-
   .hide-on-md {
     display: none;
   }
@@ -117,12 +87,6 @@ body {
 @media only screen and (min-width: $breakpoint-md) {
   .hide-on-lg {
     display: none;
-  }
-}
-
-@media only screen and (min-width: $breakpoint-lg) {
-  .landing-page {
-    font-size: 1.6rem;
   }
 }
 
