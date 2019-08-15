@@ -1,21 +1,17 @@
 @import '../../variables';
 
 #side-nav {
-  flex: 1;
   order: 1;
   height: 100vh;
-  z-index: 1;
-  top: 0;
-  left: 0;
   background-color: #111;
-  overflow-x: hidden;
   padding: 20px 10px 0 10px;
+  text-align: right;
 
   .nav-header > a {
     color: black;
 
     &:hover {
-      @include chowster-text-shadow($chowster-red);
+      @include chowster-text-shadow(#111);
     }
   }
 
@@ -27,7 +23,7 @@
 
     .nav-link {
       &.active {
-        color: white;
+        color: $chowster-red;
 
         img {
           border: 1px solid $chowster-red;
@@ -42,10 +38,9 @@
     padding: 6px 8px;
     text-decoration: none;
     font-size: 1.5rem;
-    display: block;
 
     &:hover {
-      color: #f1f1f1;
+      color: $chowster-red;
     }
   }
 
@@ -53,10 +48,17 @@
     width: 1.5rem;
     height: 1.5rem;
     border-radius: 50%;
+
+    &:hover {
+      border: 2px solid $chowster-red;
+    }
   }
 
-  @media only screen and (max-width: $breakpoint-lg) {
-    width: 100px;
+  @media only screen and (max-width: $breakpoint-md) {
     text-align: center;
+  }
+
+  @media only screen and (max-width: 1199px) {
+    flex: 1;
   }
 }
