@@ -11,10 +11,8 @@ const Navbar = ({ currentUser }) => (
   <nav id="side-nav">
     <div className="nav-header chowster-font">
       <NavLink to="/" exact className="nav-link">
-        <span className="hide-on-lg">
-          <i className="fas fa-hamburger" />
-        </span>
-        <span className="hide-on-md">Chowster</span>
+        <i className="fas fa-hamburger" />
+        <span className="show-on-xl">Chowster</span>
       </NavLink>
     </div>
     <ul className="nav-items">
