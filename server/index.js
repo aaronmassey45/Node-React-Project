@@ -7,14 +7,24 @@ require('./models/user');
 require('./models/post');
 const schema = require('./schema/schema');
 const authenticate = require('./middleware/authenticate');
+const maintenance = require('./middleware/maintenance');
 
-mongoose.Promise = global.Promise;
-mongoose.connect(process.env.MONGO_URI, {
-  useNewUrlParser: true,
-  useCreateIndex: true,
-});
+if (
+  process.env.NODE_ENV === 'production' ||
+  process.env.NODE_ENV === 'development'
+) {
+  mongoose.Promise = global.Promise;
+  mongoose.connect(process.env.MONGO_URI, {
+    useNewUrlParser: true,
+    useCreateIndex: true,
+  });
+}
 
 const app = express();
+
+if (process.env.NODE_ENV === 'maintenance') {
+  app.use(maintenance);
+}
 
 app.use(
   '/api',
