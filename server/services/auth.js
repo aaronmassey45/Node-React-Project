@@ -1,7 +1,10 @@
 const mongoose = require('mongoose');
+
+const pick = require('../utils/pick');
+const { sendVerificationEmail } = require('../emails/account');
+
 const User = mongoose.model('user');
 const Post = mongoose.model('post');
-const pick = require('../utils/pick');
 
 const login = async ({ password, username }) => {
   return new Promise((resolve, reject) => {
@@ -36,6 +39,7 @@ const signup = async ({ email, password, username, isAFoodTruck }) => {
   try {
     const user = new User({ username, email, password, isAFoodTruck });
     await user.save();
+    sendVerificationEmail(email);
 
     const token = await user.generateAuthToken();
     return token;
