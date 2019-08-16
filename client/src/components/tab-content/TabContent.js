@@ -3,9 +3,11 @@ import Spinner from '../spinner/Spinner';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
+import FollowButton from '../follow-button/FollowButton';
+
 import './tab-content.styles.scss';
 
-const TabContent = ({ loading = false, users }) => {
+const TabContent = ({ loading = false, users, currentUser }) => {
   if (loading) return <Spinner />;
 
   return (
@@ -16,7 +18,17 @@ const TabContent = ({ loading = false, users }) => {
             <img src={user.profileImg} alt={user.username} />
           </div>
           <div className="content-body">
-            <Link to={`/users/account/${user.username}`}>@{user.username}</Link>
+            <div className="flex">
+              <Link to={`/users/account/${user.username}`}>
+                @{user.username}
+              </Link>
+              {currentUser !== user.id && (
+                <FollowButton
+                  userId={user.id}
+                  following={!!user.followers.find(o => o.id === currentUser)}
+                />
+              )}
+            </div>
             <div>{user.bio}</div>
           </div>
         </div>
@@ -28,6 +40,7 @@ const TabContent = ({ loading = false, users }) => {
 TabContent.propTypes = {
   loading: PropTypes.bool.isRequired,
   users: PropTypes.array.isRequired,
+  currentUser: PropTypes.string.isRequired,
 };
 
 export default TabContent;
