@@ -29,8 +29,8 @@ const UserSchema = new Schema({
     },
     unique: true,
   },
-  followers: { type: [Schema.Types.ObjectId], ref: 'User', default: [] },
-  following: { type: [Schema.Types.ObjectId], ref: 'User', default: [] },
+  followers: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+  following: [{ type: Schema.Types.ObjectId, ref: 'User' }],
   isAFoodTruck: {
     required: true,
     type: Boolean,
