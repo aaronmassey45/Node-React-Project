@@ -5,7 +5,9 @@ import PropTypes from 'prop-types';
 import Tabs from '../../components/tabs/Tabs';
 import TabContent from '../../components/tab-content/TabContent';
 
-import GET_FOLLOWERS from '../../graphql/queries/getFollowers';
+import GET_USERS_FOLLOWERS from '../../graphql/queries/getUsersFollowers';
+import GET_USERS_FOLLOWING from '../../graphql/queries/getUsersFollowing';
+import CURRENT_USER from '../../graphql/queries/CurrentUser';
 
 import './followers-page.styles.scss';
 
@@ -13,12 +15,17 @@ const FollowersPage = ({ match }) => {
   const [page] = match.url.split('/').slice(-1);
   const { username } = match.params;
 
-  const getUsersFollowing = page === 'following';
+  const query =
+    page === 'following' ? GET_USERS_FOLLOWING : GET_USERS_FOLLOWERS;
 
   const {
-    data: { getFollowers },
+    data: { me = {} },
+  } = useQuery(CURRENT_USER);
+
+  const {
+    data: { user = {} },
     loading,
-  } = useQuery(GET_FOLLOWERS, { variables: { getUsersFollowing, username } });
+  } = useQuery(query, { variables: { username } });
 
   return (
     <div id="followers-page">
@@ -28,7 +35,11 @@ const FollowersPage = ({ match }) => {
         defaultTab={page}
         username={username}
       />
-      <TabContent loading={loading} users={getFollowers || []} />
+      <TabContent
+        loading={loading}
+        users={user[page] || []}
+        currentUser={me.id || ''}
+      />
     </div>
   );
 };
