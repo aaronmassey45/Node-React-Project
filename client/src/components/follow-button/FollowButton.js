@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 import FOLLOW_USER from '../../graphql/mutations/FollowUser';
 import UNFOLLOW_USER from '../../graphql/mutations/UnfollowUser';
-import GET_USERS_FOLLOWERS from '../../graphql/queries/getUsersFollowers';
+import UPDATE_AFTER_FOLLOW from '../../graphql/queries/updateAfterFollow';
 import GET_USERS_FEED from '../../graphql/queries/getUsersFeed';
 
 import './follow-button.styles.scss';
@@ -19,7 +19,7 @@ const FollowButton = ({ following, userId }) => {
     variables: { id: userId },
     onCompleted: () => setFollowingState(!isFollowing),
     refetchQueries: [
-      { query: GET_USERS_FOLLOWERS, variables: { id: userId } },
+      { query: UPDATE_AFTER_FOLLOW, variables: { id: userId } },
       { query: GET_USERS_FEED },
     ],
   });

@@ -1,6 +1,6 @@
 import gql from 'graphql-tag';
 
-const GET_USERS_FOLLOWERS = gql`
+const UPDATE_AFTER_FOLLOW = gql`
   query updateFollowingDetails($id: ID!) {
     me {
       id
@@ -18,4 +18,4 @@ const GET_USERS_FOLLOWERS = gql`
   }
 `;
 
-export default GET_USERS_FOLLOWERS;
+export default UPDATE_AFTER_FOLLOW;
