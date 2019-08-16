@@ -18,7 +18,6 @@ const WhoToFollow = () => {
   const {
     data: { me },
   } = useQuery(CURRENT_USER);
-  console.log(me);
 
   return (
     <div id="who-to-follow">
