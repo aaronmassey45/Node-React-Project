@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 const pick = require('../utils/pick');
+const { sendAccountRemovedEmail } = require('../emails/account');
 
 const Post = mongoose.model('post');
 const User = mongoose.model('user');
@@ -9,6 +10,7 @@ const deleteUser = async user => {
   try {
     await User.findOneAndRemove({ _id: user._id });
     await Post.remove({ _creator: user._id });
+    sendAccountRemovedEmail(user.email);
     return user._id;
   } catch (err) {
     console.log('Error', err);
