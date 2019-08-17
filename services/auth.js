@@ -37,9 +37,9 @@ const signup = async ({ email, password, username, isAFoodTruck }) => {
   try {
     const user = new User({ username, email, password, isAFoodTruck });
     await user.save();
-    sendVerificationEmail(email);
 
     const token = await user.generateAuthToken();
+    sendVerificationEmail(email, username, token);
     return token;
   } catch (err) {
     const errors = [];
