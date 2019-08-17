@@ -12,20 +12,24 @@ import useWindowWidth from './react-hooks/useWindowWidth';
 import CURRENT_USER from './graphql/queries/CurrentUser';
 
 const App = () => {
-  const {
-    data: { me },
-  } = useQuery(CURRENT_USER, { fetchPolicy: 'network-only' });
+  const { loading, data } = useQuery(CURRENT_USER, {
+    fetchPolicy: 'network-only',
+  });
   const windowWidth = useWindowWidth();
-  const shouldShowSideBar = windowWidth >= 992 && me;
+  const shouldShowSideBar = windowWidth >= 992 && data.me;
 
   return (
     <BrowserRouter>
       <Navbar />
       <Suspense fallback={<Spinner />}>
-        <main className="App d-flex">
-          <Routes />
-          {shouldShowSideBar && <SideBar />}
-        </main>
+        {!loading ? (
+          <main className="App d-flex">
+            <Routes />
+            {shouldShowSideBar && <SideBar />}
+          </main>
+        ) : (
+          <Spinner />
+        )}
       </Suspense>
     </BrowserRouter>
   );
