@@ -4,6 +4,10 @@
 #root {
   display: flex;
 
+  .spinner-overlay {
+    order: 2;
+  }
+
   main {
     flex: 5;
     order: 2;
