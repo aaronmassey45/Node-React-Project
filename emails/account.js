@@ -1,16 +1,13 @@
 const sgMail = require('@sendgrid/mail');
 
-const sendgridAPIKey = process.env.SENDGRID_API_KEY;
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
-sgMail.setApiKey(sendgridAPIKey);
-
-const sendVerificationEmail = email => {
+const sendVerificationEmail = (email, username, token) => {
   sgMail.send({
     to: email,
     from: 'noreply@chowster.glitch.me',
     subject: 'Verify Your Account',
-    text:
-      "Welcome to Chowster! Please verify your account to access the web app's full capabilities.",
+    html: `Welcome to Chowster! Click on this <a href="${process.env.BASE_URL}/verification?username=${username}&token=${token}">link</a> to verify your account.`,
   });
 };
 
