@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 
 const UserType = require('./userType');
 const PostType = require('./postType');
+const UserService = require('../../services/user');
 
 const User = mongoose.model('user');
 const Post = mongoose.model('post');
@@ -85,6 +86,19 @@ const RootQuery = new GraphQLObjectType({
             .filter(randomUser => randomUser._id != user.id)
             .splice(0, sampleSize - 1)
         );
+      },
+    },
+    verifyUserAccount: {
+      type: GraphQLString,
+      args: {
+        username: { type: GraphQLString },
+        token: { type: GraphQLString },
+      },
+      resolve(_, { username, token }) {
+        if (!username || !token) {
+          throw new Error('Missing verification information.');
+        }
+        return UserService.verifyUserAccount(username, token);
       },
     },
   }),
