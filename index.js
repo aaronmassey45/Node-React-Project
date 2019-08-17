@@ -1,5 +1,3 @@
-require('./config/config');
-
 const express = require('express');
 const mongoose = require('mongoose');
 const expressGraphQL = require('express-graphql');
@@ -49,7 +47,7 @@ if (process.env.NODE_ENV === 'production') {
   });
 }
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT;
 app.listen(PORT, () => {
   console.log(
     `App is listening on port ${PORT}. Mode: ${process.env.NODE_ENV}`

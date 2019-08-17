@@ -11,7 +11,7 @@
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "dev-localdb": "concurrently \"mongod\" \"npm run server\" \"npm run client\"",
     "format": "prettier --write \"**/*.js\"",
-    "server": "nodemon index.js",
+    "server": "env-cmd ./config/dev.env nodemon index.js",
     "start": "node index.js"
   },
   "dependencies": {
