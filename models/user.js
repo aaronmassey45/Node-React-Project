@@ -35,6 +35,11 @@ const UserSchema = new Schema({
     required: true,
     type: Boolean,
   },
+  isEmailVerified: {
+    required: true,
+    type: Boolean,
+    default: false,
+  },
   likedPosts: [{ type: Schema.Types.ObjectId, ref: 'Post' }],
   location: {
     default: "Somewhere chowin' down",
@@ -154,13 +159,13 @@ UserSchema.statics.findByToken = function(token) {
   try {
     decoded = jwt.verify(token, process.env.JWT_SECRET);
   } catch (err) {
-    return Promise.reject();
+    return Promise.reject(new Error('Token does not exist'));
   }
 
   return User.findOne({
     _id: decoded._id,
     'tokens.token': token,
-    'tokens.access': 'auth',
+    'tokens.access': decoded.access,
   });
 };
 
