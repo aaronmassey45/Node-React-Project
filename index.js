@@ -1,42 +1,30 @@
 const express = require('express');
-const mongoose = require('mongoose');
-const expressGraphQL = require('express-graphql');
-require('./models/user');
-require('./models/post');
-const schema = require('./schema/schema');
-const authenticate = require('./middleware/authenticate');
-const maintenance = require('./middleware/maintenance');
-
-if (
-  process.env.NODE_ENV === 'production' ||
-  process.env.NODE_ENV === 'development'
-) {
-  mongoose.Promise = global.Promise;
-  mongoose.connect(process.env.MONGO_URI, {
-    useNewUrlParser: true,
-    useCreateIndex: true,
-  });
-}
 
 const app = express();
 
 if (process.env.NODE_ENV === 'maintenance') {
+  const maintenance = require('./middleware/maintenance');
   app.use(maintenance);
-}
+} else {
+  require('./db/mongoose');
+  const expressGraphQL = require('express-graphql');
+  const authenticate = require('./middleware/authenticate');
+  const schema = require('./schema/schema');
 
-app.use(
-  '/api',
-  express.json(),
-  authenticate,
-  expressGraphQL(req => ({
-    schema,
-    context: {
-      user: req.user,
-      token: req.token,
-    },
-    graphiql: process.env.NODE_ENV === 'development',
-  }))
-);
+  app.use(
+    '/api',
+    express.json(),
+    authenticate,
+    expressGraphQL(req => ({
+      schema,
+      context: {
+        user: req.user,
+        token: req.token,
+      },
+      graphiql: process.env.NODE_ENV === 'development',
+    }))
+  );
+}
 
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static('client/build'));
