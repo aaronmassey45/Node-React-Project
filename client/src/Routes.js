@@ -6,21 +6,24 @@ import UnProtectedRoute from './HOCs/UnProtectedRoute';
 
 const AboutPage = lazy(() => import('./pages/about/AboutPage'));
 const ChowtPage = lazy(() => import('./pages/chowt-page/ChowtPage'));
-const UserPage = lazy(() => import('./pages/user-page/UserPage'));
-const EditUserPage = lazy(() => import('./pages/edit-user-page/EditUserPage'));
-const HomePage = lazy(() => import('./pages/home-page/HomePageContainer'));
 const DirectMessagesPage = lazy(() =>
   import('./pages/direct-messages-page/DirectMessagesPage')
 );
-const NotificationsPage = lazy(() =>
-  import('./pages/notifications-page/NotificationsPage')
+const EditUserPage = lazy(() => import('./pages/edit-user-page/EditUserPage'));
+const FollowersPage = lazy(() =>
+  import('./pages/followers-page/FollowersPage')
 );
+const HomePage = lazy(() => import('./pages/home-page/HomePageContainer'));
 const LandingPage = lazy(() => import('./pages/landing-page/LandingPage'));
 const Login = lazy(() => import('./components/auth-forms/Login'));
 const NotFound = lazy(() => import('./pages/not-found/NotFound'));
+const NotificationsPage = lazy(() =>
+  import('./pages/notifications-page/NotificationsPage')
+);
 const SignUp = lazy(() => import('./components/auth-forms/Signup'));
-const FollowersPage = lazy(() =>
-  import('./pages/followers-page/FollowersPage')
+const UserPage = lazy(() => import('./pages/user-page/UserPage'));
+const VerificationPage = lazy(() =>
+  import('./pages/verification/VerificationPage')
 );
 
 const Routes = () => {
@@ -70,6 +73,10 @@ const Routes = () => {
         <Route
           path="/compose/chowt"
           render={props => <ChowtPage {...props} />}
+        />
+        <Route
+          path="/verification"
+          render={props => <VerificationPage {...props} />}
         />
         <Route
           path={['/:username/followers', '/:username/following']}
