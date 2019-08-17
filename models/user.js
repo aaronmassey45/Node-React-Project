@@ -103,7 +103,7 @@ const UserSchema = new Schema({
   },
 });
 
-UserSchema.methods.generateAuthToken = function() {
+UserSchema.methods.generateAuthToken = async function() {
   const user = this;
   const access = 'auth';
   const token = jwt
@@ -116,10 +116,9 @@ UserSchema.methods.generateAuthToken = function() {
     )
     .toString();
 
-  user.tokens.push({ access, token });
-  return user.save().then(() => {
-    return token;
-  });
+  user.tokens = [...user.tokens, { access, token }];
+  await user.save();
+  return token;
 };
 
 UserSchema.methods.toJSON = function() {
