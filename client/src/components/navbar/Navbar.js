@@ -11,7 +11,7 @@ const Navbar = ({ currentUser }) => (
   <nav id="side-nav">
     <div className="nav-header chowster-font">
       <NavLink to="/" exact className="nav-link">
-        <i className="fas fa-hamburger" />
+        <i className="fas fa-hamburger" />{' '}
         <span className="show-on-xl">Chowster</span>
       </NavLink>
     </div>
