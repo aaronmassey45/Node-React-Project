@@ -5,6 +5,7 @@ const PostType = require('./types/postType');
 
 const AuthService = require('../services/auth');
 const PostService = require('../services/post');
+const UserService = require('../services/user');
 
 const {
   GraphQLObjectType,
@@ -91,7 +92,7 @@ const mutations = new GraphQLObjectType({
     deleteUser: {
       type: GraphQLID,
       resolve(_, args, { user }) {
-        return AuthService.deleteUser(user);
+        return UserService.deleteUser(user);
       },
     },
     updateUser: {
@@ -106,7 +107,7 @@ const mutations = new GraphQLObjectType({
         username: { type: new GraphQLNonNull(GraphQLString) },
       },
       resolve(_, args, { user }) {
-        return AuthService.updateUser(args, user);
+        return UserService.updateUser(args, user);
       },
     },
     rateAccount: {
@@ -116,21 +117,21 @@ const mutations = new GraphQLObjectType({
         rating: { type: new GraphQLNonNull(GraphQLInt) },
       },
       resolve(_, { id, rating }) {
-        return AuthService.rateFoodTruck(id, rating);
+        return UserService.rateFoodTruck(id, rating);
       },
     },
     followUser: {
       type: GraphQLString,
       args: { id: { type: new GraphQLNonNull(GraphQLID) } },
       resolve(_, { id }, { user }) {
-        return AuthService.followUser(id, user);
+        return UserService.followUser(id, user);
       },
     },
     unfollowUser: {
       type: GraphQLID,
       args: { id: { type: new GraphQLNonNull(GraphQLID) } },
       resolve(_, { id }, { user }) {
-        return AuthService.unfollowUser(id, user);
+        return UserService.unfollowUser(id, user);
       },
     },
   },
