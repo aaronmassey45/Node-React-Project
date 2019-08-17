@@ -9,6 +9,8 @@
     border: none;
     resize: none;
     width: 80%;
+    display: block;
+    margin: auto;
 
     &::placeholder {
       color: white;
