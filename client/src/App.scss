@@ -9,6 +9,10 @@
     order: 2;
     height: 100vh;
   }
+
+  #primary-column {
+    overflow-y: auto;
+  }
 }
 
 .App {
