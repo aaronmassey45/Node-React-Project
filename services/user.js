@@ -149,10 +149,30 @@ const updateUser = async (args, me) => {
   }
 };
 
+const verifyUserAccount = async (username, token) => {
+  try {
+    const user = await User.findByToken(token);
+    if (user.username !== username) {
+      throw new Error('Unable to verify account.');
+    }
+    if (user.isEmailVerified) {
+      throw new Error('You have already verified your email!');
+    }
+
+    user.isEmailVerified = true;
+    await user.save();
+
+    return 'Success';
+  } catch (err) {
+    return err;
+  }
+};
+
 module.exports = {
   deleteUser,
-  updateUser,
-  rateFoodTruck,
   followUser,
+  rateFoodTruck,
   unfollowUser,
+  updateUser,
+  verifyUserAccount,
 };
