@@ -9,7 +9,7 @@
   "scripts": {
     "client": "npm run start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "build": "npm run build --prefix client",
+    "build": "cd client && npm install && npm run build --prefix client",
     "dev-localdb": "concurrently \"mongod\" \"npm run server\" \"npm run client\"",
     "format": "prettier --write \"**/*.js\"",
     "server": "env-cmd ./config/dev.env nodemon index.js",
