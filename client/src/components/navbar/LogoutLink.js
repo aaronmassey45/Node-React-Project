@@ -20,7 +20,7 @@ const LogoutLink = ({ history }) => {
   return (
     <span className="nav-link fake-link" onClick={logout}>
       <i className="fa fa-sign-out fa-fw" />{' '}
-      <span className="hide-on-md">Logout</span>
+      <span className="show-on-xl">Logout</span>
     </span>
   );
 };

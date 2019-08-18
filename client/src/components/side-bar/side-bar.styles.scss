@@ -1,0 +1,13 @@
+@import '../../variables';
+
+#side-bar {
+  height: 100vh;
+  padding: 1rem;
+  order: 2;
+  flex: 2;
+  background-color: #111;
+
+  @media only screen and (max-width: $breakpoint-lg) {
+    display: none;
+  }
+}

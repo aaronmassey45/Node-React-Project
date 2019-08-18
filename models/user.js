@@ -29,11 +29,16 @@ const UserSchema = new Schema({
     },
     unique: true,
   },
-  followers: { type: [Schema.Types.ObjectId], ref: 'User', default: [] },
-  following: { type: [Schema.Types.ObjectId], ref: 'User', default: [] },
+  followers: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+  following: [{ type: Schema.Types.ObjectId, ref: 'User' }],
   isAFoodTruck: {
     required: true,
     type: Boolean,
+  },
+  isEmailVerified: {
+    required: true,
+    type: Boolean,
+    default: false,
   },
   likedPosts: [{ type: Schema.Types.ObjectId, ref: 'Post' }],
   location: {
@@ -103,7 +108,7 @@ const UserSchema = new Schema({
   },
 });
 
-UserSchema.methods.generateAuthToken = function() {
+UserSchema.methods.generateAuthToken = async function() {
   const user = this;
   const access = 'auth';
   const token = jwt
@@ -116,10 +121,9 @@ UserSchema.methods.generateAuthToken = function() {
     )
     .toString();
 
-  user.tokens.push({ access, token });
-  return user.save().then(() => {
-    return token;
-  });
+  user.tokens = [...user.tokens, { access, token }];
+  await user.save();
+  return token;
 };
 
 UserSchema.methods.toJSON = function() {
@@ -155,13 +159,13 @@ UserSchema.statics.findByToken = function(token) {
   try {
     decoded = jwt.verify(token, process.env.JWT_SECRET);
   } catch (err) {
-    return Promise.reject();
+    return Promise.reject(new Error('Token does not exist'));
   }
 
   return User.findOne({
     _id: decoded._id,
     'tokens.token': token,
-    'tokens.access': 'auth',
+    'tokens.access': decoded.access,
   });
 };
 

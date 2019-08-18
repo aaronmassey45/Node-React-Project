@@ -1,21 +1,17 @@
 @import '../../variables';
 
 #side-nav {
-  flex: 1;
   order: 1;
   height: 100vh;
-  z-index: 1; /* Stay on top */
-  top: 0; /* Stay at the top */
-  left: 0;
-  background-color: #111; /* Black */
-  overflow-x: hidden; /* Disable horizontal scroll */
+  background-color: #111;
   padding: 20px 10px 0 10px;
+  text-align: right;
 
   .nav-header > a {
     color: black;
 
     &:hover {
-      @include chowster-text-shadow($chowster-red);
+      @include chowster-text-shadow(#111);
     }
   }
 
@@ -27,41 +23,42 @@
 
     .nav-link {
       &.active {
-        color: white;
+        color: $chowster-red;
 
         img {
-          border: 1px solid $chowster-red;
+          border: 3px solid $chowster-red;
         }
       }
     }
   }
 
-  /* The navigation menu links */
   a,
   .fake-link {
     color: #818181;
     padding: 6px 8px;
     text-decoration: none;
     font-size: 1.5rem;
-    display: block;
 
-    /* When you mouse over the navigation links, change their color */
     &:hover {
-      color: #f1f1f1;
+      color: $chowster-red;
     }
   }
 
   img {
-    width: 1.5rem;
-    height: 1.5rem;
+    width: 2.5rem;
+    height: 2.5rem;
     border-radius: 50%;
-  }
-}
 
-/* On smaller screens, where height is less than 450px, change the style of the sidebar (less padding and a smaller font size) */
-@media only screen and (max-width: 768px) {
-  #side-nav {
-    width: 100px;
+    &:hover {
+      border: 2px solid $chowster-red;
+    }
+  }
+
+  @media only screen and (max-width: $breakpoint-md) {
     text-align: center;
+  }
+
+  @media only screen and (max-width: 1199px) {
+    flex: 1;
   }
 }

@@ -11,23 +11,21 @@ const Navbar = ({ currentUser }) => (
   <nav id="side-nav">
     <div className="nav-header chowster-font">
       <NavLink to="/" exact className="nav-link">
-        <span className="hide-on-lg">
-          <i className="fas fa-hamburger" />
-        </span>
-        <span className="hide-on-md">Chowster</span>
+        <i className="fas fa-hamburger" />{' '}
+        <span className="show-on-xl">Chowster</span>
       </NavLink>
     </div>
     <ul className="nav-items">
       <li>
         <NavLink to={currentUser.id ? '/home' : '/'} exact className="nav-link">
           <i className="fa fa-home fa-fw" />{' '}
-          <span className="hide-on-md">Home</span>
+          <span className="show-on-xl">Home</span>
         </NavLink>
       </li>
       <li>
         <NavLink to="/about" exact className="nav-link">
           <i className="fas fa-info-circle" />{' '}
-          <span className="hide-on-md">About</span>
+          <span className="show-on-xl">About</span>
         </NavLink>
       </li>
       {currentUser.id ? (

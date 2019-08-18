@@ -31,6 +31,10 @@ $text-color: #fff;
     display: flex;
     justify-content: flex-start;
 
+    a {
+      color: $text-color;
+    }
+
     > :first-child {
       margin-right: 10px;
     }

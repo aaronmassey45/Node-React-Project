@@ -1,0 +1,36 @@
+@import '../../variables';
+
+#landing-page {
+  font-size: 1rem;
+
+  .chowster-font {
+    font-size: 4rem;
+  }
+
+  a {
+    color: #84919e;
+    text-decoration: none;
+
+    &:hover {
+      color: #1f2020;
+      text-decoration: none;
+      cursor: pointer;
+    }
+  }
+
+  @media only screen and (max-width: $breakpoint-sm) {
+    font-size: 1.2rem;
+  }
+
+  @media only screen and (max-width: $breakpoint-md) {
+    font-size: 1.4rem;
+
+    .chowster-font {
+      font-size: 3rem;
+    }
+  }
+
+  @media only screen and (min-width: $breakpoint-lg) {
+    font-size: 1.6rem;
+  }
+}

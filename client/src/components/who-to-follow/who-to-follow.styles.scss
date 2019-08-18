@@ -1,0 +1,37 @@
+$card-color: lighten(#111, 5%);
+
+#who-to-follow {
+  background-color: $card-color;
+  border-radius: 10px;
+  color: white;
+  overflow: hidden;
+
+  .card {
+    background-color: inherit;
+
+    .content-body {
+      display: flex;
+
+      .follow-button {
+        margin-left: auto;
+        font-size: 0.8rem;
+        max-height: 40px;
+      }
+    }
+  }
+
+  .list-item {
+    border-left: none;
+    border-right: none;
+
+    .username {
+      color: inherit;
+      font-weight: bolder;
+      max-width: 50%;
+    }
+
+    &:hover {
+      background-color: lighten($card-color, 5%);
+    }
+  }
+}

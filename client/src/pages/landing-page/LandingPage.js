@@ -1,8 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+import './landing-page.styles.scss';
+
 const LandingPage = () => (
-  <div className="landing-page text-white row container mx-auto">
+  <div id="landing-page" className="text-white row container mx-auto">
     <div id="welcome" className="col-12 ubuntu">
       Welcome to <div className="chowster-font">Chowster</div>
     </div>

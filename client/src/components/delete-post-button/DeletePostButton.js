@@ -6,16 +6,15 @@ import DELETE_CHOWT from '../../graphql/mutations/DeleteChowt';
 import FETCH_USER_QUERY from '../../graphql/queries/FetchUser';
 import GET_USERS_FEED from '../../graphql/queries/getUsersFeed';
 
-const DeletePostButton = ({ id, username, updateAlert, show }) => {
+const DeletePostButton = ({ id, username, setMessageAndShowSnackbar }) => {
   const [deleteChowt] = useMutation(DELETE_CHOWT, {
     variables: { id },
     refetchQueries: [
       { query: FETCH_USER_QUERY, variables: { username } },
       { query: GET_USERS_FEED },
     ],
-    onError: err => {
-      updateAlert({ bg: 'danger', msg: err.graphQLErrors });
-      show();
+    onError: () => {
+      setMessageAndShowSnackbar('Unable to delete chowt, try again later.');
     },
   });
 
@@ -25,8 +24,7 @@ const DeletePostButton = ({ id, username, updateAlert, show }) => {
 DeletePostButton.propTypes = {
   id: PropTypes.string.isRequired,
   username: PropTypes.string.isRequired,
-  updateAlert: PropTypes.func.isRequired,
-  show: PropTypes.func.isRequired,
+  setMessageAndShowSnackbar: PropTypes.func.isRequired,
 };
 
 export default DeletePostButton;

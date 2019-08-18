@@ -11,25 +11,25 @@ const AuthedButtons = ({ currentUser: { profileImg, username } }) => {
       <li>
         <NavLink to="/notifications" exact className="nav-link">
           <i className="fas fa-bell" />{' '}
-          <span className="hide-on-md">Notifications</span>
+          <span className="show-on-xl">Notifications</span>
         </NavLink>
       </li>
       <li>
         <NavLink to="/messages" exact className="nav-link">
           <i className="fas fa-inbox" />{' '}
-          <span className="hide-on-md">Messages</span>
+          <span className="show-on-xl">Messages</span>
         </NavLink>
       </li>
       <li>
         <NavLink to="/account/edit" exact className="nav-link">
           <i className="fas fa-user-cog" />{' '}
-          <span className="hide-on-md">Settings</span>
+          <span className="show-on-xl">Settings</span>
         </NavLink>
       </li>
       <li>
         <NavLink to={`/users/account/${username}`} exact className="nav-link">
           <img src={profileImg} alt="user avatar" />{' '}
-          <span className="hide-on-md">Profile</span>
+          <span className="show-on-xl">Profile</span>
         </NavLink>
       </li>
       <li>

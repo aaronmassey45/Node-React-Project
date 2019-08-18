@@ -1,18 +1,17 @@
 import gql from 'graphql-tag';
 
 const GET_USERS_FOLLOWERS = gql`
-  query updateFollowingDetails($id: ID!) {
-    me {
-      id
-      following {
-        id
-      }
-    }
-
-    user(id: $id) {
+  query getUsersFollowers($username: String!) {
+    user(username: $username) {
       id
       followers {
         id
+        username
+        profileImg
+        bio
+        followers {
+          id
+        }
       }
     }
   }
