@@ -7,7 +7,7 @@ import LIKE_CHOWT from '../../graphql/mutations/LikeChowt';
 import CURRENT_USER_QUERY from '../../graphql/queries/CurrentUser';
 import FETCH_USER_QUERY from '../../graphql/queries/FetchUser';
 
-const LikePostButton = ({ liked, id, username, updateAlert, show }) => {
+const LikePostButton = ({ liked, id, username, setMessageAndShowSnackbar }) => {
   const [likeChowt] = useMutation(LIKE_CHOWT, {
     variables: { id },
     refetchQueries: [
@@ -20,9 +20,8 @@ const LikePostButton = ({ liked, id, username, updateAlert, show }) => {
         variables: { username },
       },
     ],
-    onError: err => {
-      updateAlert({ bg: 'danger', msg: err.graphQLErrors });
-      show();
+    onError: () => {
+      setMessageAndShowSnackbar('Unable to like chowt, try again later.');
     },
   });
 
@@ -38,11 +37,10 @@ const LikePostButton = ({ liked, id, username, updateAlert, show }) => {
 };
 
 LikePostButton.propTypes = {
-  liked: PropTypes.bool.isRequired,
   id: PropTypes.string.isRequired,
+  liked: PropTypes.bool.isRequired,
+  setMessageAndShowSnackbar: PropTypes.func.isRequired,
   username: PropTypes.string.isRequired,
-  updateAlert: PropTypes.func.isRequired,
-  show: PropTypes.func.isRequired,
 };
 
 export default LikePostButton;
