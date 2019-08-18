@@ -1,8 +1,9 @@
 # Chowster
 
-Chowster is a social media for food truckers, essentially Twitter for food trucks!  I got the idea of building this application from an episode of Bob's Burgers. Chowster is a learning project and is my first Full Stack application.
+Chowster is a social media for food truckers, essentially Twitter for food trucks! I got the idea of building this application from an episode of Bob's Burgers. Chowster is a learning project and is my first Full Stack application.
 
 Core concepts I wanted for the user on initial release:
+
 - Create an account.
 - Login/Logout if authenticated;
 - View and edit your details if authenticated.
@@ -19,9 +20,11 @@ Core concepts I wanted for the user on initial release:
 Be sure to check out the [issues](https://github.com/aaronmassey45/Node-React-Project/issues) page to view some things I still want to do!
 
 ### Live
-You can view the live project [here!](https://chowster.glitch.me/)
+
+You can view the live project [here!](https://chowster-app.herokuapp.com/)
 
 ### Tech Stack
+
 - Node.js / Express
 - MongoDB / Mongoose
 - React / Redux
