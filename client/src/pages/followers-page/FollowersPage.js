@@ -31,7 +31,7 @@ const FollowersPage = ({ match }) => {
     <div id="followers-page">
       <div className="header">@{username}</div>
       <Tabs
-        linkNames={['followers', 'following']}
+        linkNames={['following', 'followers']}
         defaultTab={page}
         username={username}
       />
