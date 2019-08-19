@@ -6,6 +6,7 @@
   background-color: #111;
   padding: 20px 10px 0 10px;
   text-align: right;
+  overflow-y: auto;
 
   .nav-header > a {
     color: black;
@@ -27,6 +28,10 @@
 
         img {
           border: 3px solid $chowster-red;
+
+          &:hover {
+            border: unset;
+          }
         }
       }
     }
