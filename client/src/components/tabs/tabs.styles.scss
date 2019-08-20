@@ -1,12 +1,10 @@
 @import '../../variables';
 
-/* Style the tab */
 .tab {
   display: flex;
   overflow: hidden;
   border-bottom: 1px solid darken(#111, 10%);
 
-  /* Style the buttons that are used to open the tab content */
   .tab-link {
     color: white;
     flex-grow: 1;
@@ -14,16 +12,13 @@
     float: left;
     border: none;
     outline: none;
-    cursor: pointer;
     padding: 14px 16px;
     transition: 0.3s;
 
-    /* Change background color of buttons on hover */
     &:hover {
       background-color: rgba($chowster-red, 0.2);
     }
 
-    /* Create an active/current tablink class */
     &.active {
       border-bottom: 2px solid $chowster-red;
     }
