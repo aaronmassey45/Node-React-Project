@@ -1,13 +1,13 @@
 import React from 'react';
 import { useQuery } from '@apollo/react-hooks';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-import Tabs from '../../components/tabs/Tabs';
 import TabContent from '../../components/tab-content/TabContent';
-
+import Tabs from '../../components/tabs/Tabs';
+import CURRENT_USER from '../../graphql/queries/CurrentUser';
 import GET_USERS_FOLLOWERS from '../../graphql/queries/getUsersFollowers';
 import GET_USERS_FOLLOWING from '../../graphql/queries/getUsersFollowing';
-import CURRENT_USER from '../../graphql/queries/CurrentUser';
 
 import './followers-page.styles.scss';
 
@@ -29,7 +29,9 @@ const FollowersPage = ({ match }) => {
 
   return (
     <div id="followers-page">
-      <div className="header">@{username}</div>
+      <div className="header">
+        <Link to={`/users/account/${username}`}>@{username}</Link>
+      </div>
       <Tabs
         linkNames={['following', 'followers']}
         defaultTab={page}
