@@ -1,17 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import PropTypes from 'prop-types';
 
-import Spinner from '../../components/spinner/Spinner';
 import PostsList from '../../components/posts-list/PostsList';
+import Spinner from '../../components/spinner/Spinner';
+import { default as TabContent } from '../../components/tab-content/TabContentV2';
+import { default as Tabs } from '../../components/tabs/Tabs-v2';
 import UserDetails from '../../components/user-details/UserDetails';
-
 import FETCH_USER from '../../graphql/queries/FetchUser';
 import CURRENT_USER from '../../graphql/queries/CurrentUser';
 
 import './user-page.styles.scss';
 
 const UserPage = ({ history, match }) => {
+  const [activeTab, setActiveTab] = useState('chowts');
   const { loading: fetchLoading, data: fetchedUser } = useQuery(FETCH_USER, {
     variables: { username: match.params.username },
   });
@@ -28,27 +30,33 @@ const UserPage = ({ history, match }) => {
     return null;
   }
 
-  const authenticated = !!currentUser.me && !!currentUser.me.id;
+  const isAuthenticated = !!currentUser.me && !!currentUser.me.id;
 
-  const isMyPage = authenticated && user.id === currentUser.me.id;
+  const isMyPage = isAuthenticated && user.id === currentUser.me.id;
+
+  // user.post[0] is temporary until liked posts feature is added
+  const postsToRender = activeTab === 'likes' ? [user.posts[0]] : user.posts;
 
   return (
     <div id="user-page">
       <div className="card">
         <UserDetails
-          canFollow={!isMyPage && authenticated}
+          canFollow={!isMyPage && isAuthenticated}
           currentUser={currentUser.me}
           user={user}
         />
-        <PostsList
-          posts={user.posts}
-          user={{
-            id: user.id,
-            username: user.username,
-            profileImg: user.profileImg,
-          }}
-          currentUser={currentUser.me}
+        <Tabs
+          tabNames={['chowts', 'likes']}
+          activeTab={activeTab}
+          handleClick={setActiveTab}
         />
+        <TabContent>
+          <PostsList
+            currentUser={currentUser.me}
+            posts={postsToRender}
+            user={user}
+          />
+        </TabContent>
       </div>
     </div>
   );
