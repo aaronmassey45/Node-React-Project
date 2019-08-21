@@ -2,7 +2,7 @@
   "name": "client",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://chowster.glitch.me/",
+  "homepage": "https://chowster-app.herokuapp.com/",
   "dependencies": {
     "@apollo/react-hooks": "^3.0.0",
     "apollo-boost": "^0.4.3",
