@@ -6,7 +6,7 @@ const User = mongoose.model('user');
 
 const login = async ({ password, username }) => {
   return new Promise((resolve, reject) => {
-    return User.findByCredentials(username, password).then(user => {
+    return User.findByCredentials(username.trim(), password).then(user => {
       if (!user || user === 'Invalid Credentials') {
         return reject(new Error('Invalid Credentials'));
       }
