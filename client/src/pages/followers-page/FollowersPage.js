@@ -4,14 +4,14 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import TabContent from '../../components/tab-content/TabContent';
-import Tabs from '../../components/tabs/Tabs';
+import { default as Tabs } from '../../components/tabs/Tabs-v2';
 import CURRENT_USER from '../../graphql/queries/CurrentUser';
 import GET_USERS_FOLLOWERS from '../../graphql/queries/getUsersFollowers';
 import GET_USERS_FOLLOWING from '../../graphql/queries/getUsersFollowing';
 
 import './followers-page.styles.scss';
 
-const FollowersPage = ({ match }) => {
+const FollowersPage = ({ match, history }) => {
   const [page] = match.url.split('/').slice(-1);
   const { username } = match.params;
 
@@ -27,15 +27,21 @@ const FollowersPage = ({ match }) => {
     loading,
   } = useQuery(query, { variables: { username } });
 
+  const handleTabClick = () => {
+    const NAVIGATE_URL = `/${username}/follow`;
+    const url = NAVIGATE_URL + (page === 'following' ? 'ers' : 'ing');
+    history.replace(url);
+  };
+
   return (
     <div id="followers-page">
       <div className="header">
         <Link to={`/users/account/${username}`}>@{username}</Link>
       </div>
       <Tabs
-        linkNames={['following', 'followers']}
-        defaultTab={page}
-        username={username}
+        tabNames={['following', 'followers']}
+        activeTab={page}
+        handleClick={handleTabClick}
       />
       <TabContent
         loading={loading}
@@ -47,6 +53,7 @@ const FollowersPage = ({ match }) => {
 };
 
 FollowersPage.propTypes = {
+  history: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
 };
 
