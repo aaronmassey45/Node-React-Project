@@ -34,8 +34,8 @@ const UserPage = ({ history, match }) => {
 
   const isMyPage = isAuthenticated && user.id === currentUser.me.id;
 
-  // user.post[0] is temporary until liked posts feature is added
-  const postsToRender = activeTab === 'likes' ? [user.posts[0]] : user.posts;
+  const postsToRender = activeTab === 'likes' ? user.likedPosts : user.posts;
+  const hasOneUser = activeTab === 'chowts';
 
   return (
     <div id="user-page">
@@ -54,7 +54,7 @@ const UserPage = ({ history, match }) => {
           <PostsList
             currentUser={currentUser.me}
             posts={postsToRender}
-            user={user}
+            user={hasOneUser ? user : null}
           />
         </TabContent>
       </div>
