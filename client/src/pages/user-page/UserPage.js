@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import PostsList from '../../components/posts-list/PostsList';
 import Spinner from '../../components/spinner/Spinner';
-import { default as TabContent } from '../../components/tab-content/TabContentV2';
+import TabContent from '../../components/tab-content/TabContent';
 import Tabs from '../../components/tabs/Tabs';
 import UserDetails from '../../components/user-details/UserDetails';
 import FETCH_USER from '../../graphql/queries/FetchUser';
