@@ -26,8 +26,7 @@ const UserPage = ({ history, match }) => {
   const { user } = fetchedUser;
 
   if (!user) {
-    history.push(`/404/user/${match.params.username}`);
-    return null;
+    return history.push(`/404/user/${match.params.username}`);
   }
 
   const isAuthenticated = !!currentUser.me && !!currentUser.me.id;
