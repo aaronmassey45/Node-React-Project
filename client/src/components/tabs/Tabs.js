@@ -1,43 +1,37 @@
-import React, { useState } from 'react';
-import classNames from 'classnames';
-import { Link } from 'react-router-dom';
+import React from 'react';
+import classnames from 'classnames';
 import PropTypes from 'prop-types';
 
 import capitalizeString from '../../utils/capitalizeString';
 
 import './tabs.styles.scss';
 
-const Tabs = ({ linkNames, defaultTab, username }) => {
-  const initialTab = defaultTab || linkNames[0];
-  const [activeTab, setActiveTab] = useState(initialTab);
-
+const TabsV2 = ({ tabNames, handleClick, activeTab }) => {
   return (
     <div className="tab">
-      {linkNames.map(linkName => {
-        const classes = classNames('tab-link', {
-          active: activeTab === linkName,
+      {tabNames.map(tabName => {
+        const classes = classnames('tab-link', {
+          active: tabName === activeTab,
         });
-
         return (
-          <Link
-            key={linkName}
-            id={`tab-link__${linkName}`}
+          <button
             className={classes}
-            onClick={() => setActiveTab(linkName)}
-            to={`/${username}/${linkName}`}
+            id={`tab-link__${tabName}`}
+            key={tabName}
+            onClick={() => handleClick(tabName)}
           >
-            {capitalizeString(linkName)}
-          </Link>
+            {capitalizeString(tabName)}
+          </button>
         );
       })}
     </div>
   );
 };
 
-Tabs.propTypes = {
-  linkNames: PropTypes.array.isRequired,
-  defaultTab: PropTypes.string.isRequired,
-  username: PropTypes.string.isRequired,
+TabsV2.propTypes = {
+  tabNames: PropTypes.arrayOf(PropTypes.string).isRequired,
+  activeTab: PropTypes.string.isRequired,
+  handleClick: PropTypes.func.isRequired,
 };
 
-export default Tabs;
+export default TabsV2;
