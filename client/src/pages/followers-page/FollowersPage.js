@@ -3,7 +3,7 @@ import { useQuery } from '@apollo/react-hooks';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-import TabContent from '../../components/tab-content/TabContent';
+import { default as TabContent } from './FollowersPageTabContent';
 import Tabs from '../../components/tabs/Tabs';
 import CURRENT_USER from '../../graphql/queries/CurrentUser';
 import GET_USERS_FOLLOWERS from '../../graphql/queries/getUsersFollowers';
