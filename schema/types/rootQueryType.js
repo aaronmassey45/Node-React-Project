@@ -1,13 +1,11 @@
 const graphql = require('graphql');
-const mongoose = require('mongoose');
 
 const PostType = require('./postType');
 const SearchableType = require('./searchableType');
 const UserType = require('./userType');
+const Post = require('../../models/post');
+const User = require('../../models/user');
 const UserService = require('../../services/user');
-
-const User = mongoose.model('user');
-const Post = mongoose.model('post');
 
 const {
   GraphQLObjectType,
