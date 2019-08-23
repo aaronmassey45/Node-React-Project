@@ -206,4 +206,6 @@ UserSchema.plugin(uniqueValidator, {
   message: '{VALUE} is already taken!',
 });
 
-mongoose.model('user', UserSchema);
+const User = mongoose.model('user', UserSchema);
+
+module.exports = User;
