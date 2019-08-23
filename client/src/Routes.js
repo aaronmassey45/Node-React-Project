@@ -9,6 +9,7 @@ const ChowtPage = lazy(() => import('./pages/chowt-page/ChowtPage'));
 const DirectMessagesPage = lazy(() =>
   import('./pages/direct-messages-page/DirectMessagesPage')
 );
+const DiscoverPage = lazy(() => import('./pages/discover/DiscoverPage'));
 const EditUserPage = lazy(() => import('./pages/edit-user-page/EditUserPage'));
 const FollowersPage = lazy(() =>
   import('./pages/followers-page/FollowersPage')
@@ -31,25 +32,21 @@ const Routes = () => {
     <div id="primary-column">
       <Switch>
         <UnProtectedRoute
-          path="/login"
+          path="/"
           exact
-          component={props => <Login {...props} />}
+          component={props => <LandingPage {...props} />}
         />
-        <UnProtectedRoute
-          path="/signup"
-          exact
-          component={props => <SignUp {...props} />}
-        />
+        <Route path="/about" render={props => <AboutPage {...props} />} />
         <ProtectedRoute
           path="/account/edit"
           exact
           component={props => <EditUserPage {...props} />}
         />
         <Route
-          path="/users/account/:username"
-          exact
-          render={props => <UserPage {...props} />}
+          path="/compose/chowt"
+          render={props => <ChowtPage {...props} />}
         />
+        <Route path="/discover" render={props => <DiscoverPage {...props} />} />
         <ProtectedRoute
           path="/home"
           redirectTo="/"
@@ -57,30 +54,35 @@ const Routes = () => {
           component={props => <HomePage {...props} />}
         />
         <UnProtectedRoute
-          path="/"
+          path="/login"
           exact
-          component={props => <LandingPage {...props} />}
-        />
-        <Route path="/about" render={props => <AboutPage {...props} />} />
-        <Route
-          path="/notifications"
-          render={props => <NotificationsPage {...props} />}
+          component={props => <Login {...props} />}
         />
         <Route
           path="/messages"
           render={props => <DirectMessagesPage {...props} />}
         />
         <Route
-          path="/compose/chowt"
-          render={props => <ChowtPage {...props} />}
+          path="/notifications"
+          render={props => <NotificationsPage {...props} />}
+        />
+        <UnProtectedRoute
+          path="/signup"
+          exact
+          component={props => <SignUp {...props} />}
         />
         <Route
-          path="/verification"
-          render={props => <VerificationPage {...props} />}
+          path="/users/account/:username"
+          exact
+          render={props => <UserPage {...props} />}
         />
         <Route
           path={['/:username/followers', '/:username/following']}
           render={props => <FollowersPage {...props} />}
+        />
+        <Route
+          path="/verification"
+          render={props => <VerificationPage {...props} />}
         />
         <Route render={props => <NotFound {...props} />} />
       </Switch>
