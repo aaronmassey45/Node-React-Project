@@ -10,4 +10,20 @@
     max-width: 135px;
     border-radius: 50%;
   }
+
+  .tab {
+    border: unset;
+
+    .tab-link {
+      &.active {
+        border-color: black;
+      }
+
+      &:hover {
+        &:hover {
+          background-color: rgba(black, 0.4);
+        }
+      }
+    }
+  }
 }

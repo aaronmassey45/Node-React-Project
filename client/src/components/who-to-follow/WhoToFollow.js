@@ -46,7 +46,7 @@ const WhoToFollow = () => {
             ))}
         <div className="card-footer">
           <button className="btn btn-block btn-dark" onClick={() => refetch()}>
-            Get more
+            Get More Users
           </button>
         </div>
       </div>

@@ -28,6 +28,12 @@ const Navbar = ({ currentUser }) => (
           <span className="show-on-xl">About</span>
         </NavLink>
       </li>
+      <li>
+        <NavLink to="/discover" exact className="nav-link">
+          <i className="fas fa-search" />{' '}
+          <span className="show-on-xl">Discover</span>
+        </NavLink>
+      </li>
       {currentUser.id ? (
         <AuthedButtons currentUser={currentUser} />
       ) : (

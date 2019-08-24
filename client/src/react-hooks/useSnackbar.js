@@ -12,12 +12,12 @@ const useSnackbar = () => {
     }, 3000);
   };
 
-  const setMessageAndShowSnackbar = msg => {
+  const setMessageAndShowSnackbar = (msg = 'Something went wrong..') => {
     setMessage(msg);
     showSnackBar();
   };
 
-  return { isShown, showSnackBar, message, setMessageAndShowSnackbar };
+  return { isShown, message, setMessageAndShowSnackbar };
 };
 
 export default useSnackbar;

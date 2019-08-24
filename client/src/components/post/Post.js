@@ -14,8 +14,9 @@ const Post = ({ me, post, profile }) => {
   const { message, isShown, setMessageAndShowSnackbar } = useSnackbar();
   const timeString = getTimeDifference(new Date(Number(post.timeCreated)));
 
+  const isAuthenticated = !!me;
   const likedBy = post.likedBy.map(user => user.id);
-  const iLiked = likedBy.includes(me.id);
+  const iLiked = isAuthenticated && likedBy.includes(me.id);
 
   return (
     <>
@@ -27,7 +28,7 @@ const Post = ({ me, post, profile }) => {
         />
         <div className="media-body container">
           <div className="my-auto">
-            <div className="text-left row">
+            <div className="row">
               <span className="col-10">
                 <Link
                   to={`/users/account/${profile.username}`}
@@ -36,7 +37,7 @@ const Post = ({ me, post, profile }) => {
                   <b>@{profile.username}</b>
                 </Link>
               </span>
-              {me && profile.id === me.id && (
+              {isAuthenticated && profile.id === me.id && (
                 <span className="col-2 text-right">
                   <DeletePostButton
                     id={post.id}
@@ -46,7 +47,7 @@ const Post = ({ me, post, profile }) => {
                 </span>
               )}
             </div>
-            <div className="row text-left">
+            <div className="row">
               <div className="col-12 mt-1">
                 {post.text}
                 {post.location && post.location.lat && (

@@ -1,12 +1,11 @@
 const graphql = require('graphql');
-const mongoose = require('mongoose');
 
-const UserType = require('./userType');
 const PostType = require('./postType');
+const SearchableType = require('./searchableType');
+const UserType = require('./userType');
+const Post = require('../../models/post');
+const User = require('../../models/user');
 const UserService = require('../../services/user');
-
-const User = mongoose.model('user');
-const Post = mongoose.model('post');
 
 const {
   GraphQLObjectType,
@@ -86,6 +85,26 @@ const RootQuery = new GraphQLObjectType({
             .filter(randomUser => randomUser._id != user.id)
             .splice(0, sampleSize - 1)
         );
+      },
+    },
+    search: {
+      type: new GraphQLList(SearchableType),
+      args: { searchTerm: { type: GraphQLString } },
+      resolve(_, { searchTerm }) {
+        const regex = {
+          $regex: searchTerm,
+          $options: 'i',
+        };
+
+        const users = User.find({ username: regex });
+        const posts = Post.find({ text: regex });
+
+        return Promise.all([users, posts])
+          .then(values => {
+            const [foundUsers, foundPosts] = values;
+            return [...foundUsers, ...foundPosts];
+          })
+          .catch(err => err);
       },
     },
     verifyUserAccount: {

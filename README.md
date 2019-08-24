@@ -1,28 +1,61 @@
 # Chowster
 
-Chowster is a social media for food truckers, essentially Twitter for food trucks!  I got the idea of building this application from an episode of Bob's Burgers. Chowster is a learning project and is my first Full Stack application.
+> Chowster is a social media for food truckers and truckees!
 
-Core concepts I wanted for the user on initial release:
-- Create an account.
-- Login/Logout if authenticated;
-- View and edit your details if authenticated.
-- Create a post (I call them a 'chowt' like 'shout' because I'm hilarious) if authenticated.
-- View other users accounts and recent posts.
-- Like posts if authenticated.
-- Delete your post if authenticated.
-- Only food trucks accounts can post location.
-- Delete your account.
-- Update your account details.
-- Rate a food truck.
-- Display total number of likes for a post.
+## Table of contents
 
-Be sure to check out the [issues](https://github.com/aaronmassey45/Node-React-Project/issues) page to view some things I still want to do!
+- [General info](#general-info)
+- [Screenshots](#screenshots)
+- [Technologies](#technologies)
+- [Features](#features)
+- [Status](#status)
+- [Inspiration](#inspiration)
+- [Contact](#contact)
 
-### Live
-You can view the live project [here!](https://chowster.glitch.me/)
+## General Info
 
-### Tech Stack
-- Node.js / Express
-- MongoDB / Mongoose
-- React / Redux
+I started this project as the final project for my 180 Days of Code that I did in 2017. It's the first Full Stack app I created. It's a learning project and is continuously being updated as I think of new features and learn new things.
+
+## Screenshots
+
+![Landing Page](https://user-images.githubusercontent.com/18707325/63638227-20ffe980-c64b-11e9-8589-ed3c5d665194.png)
+
+## Technologies
+
+- HTML / CSS / JavaScript
+- React
+- React-Apollo (hooks)
 - Bootstrap 4
+- SCSS
+- Node / Express
+- MongoDB / Mongoose
+- Express-GraphQL
+
+## Features
+
+List of features ready and TODOs for future development
+
+- CRUD functionaly for accounts and posts (I call them a 'chowt' like 'shout' because I'm hilarious).
+- Authentication with JWT's
+- Like posts if authenticated.
+- Add current location to a post.
+- Rate food truck accounts.
+- Feed of posts from users you follow.
+
+To-do list:
+
+- Implement notifications feature.
+- Implement direct messaging.
+- Integrate Google Maps API to display food trucks near your location.
+
+## Status
+
+Project is: _in progress_!
+
+## Inspiration
+
+This web app is based off an episode of Bob's Burgers.
+
+## Contact
+
+Created by [@flynerdpl](https://aaronmassey.pro/) - feel free to contact me!

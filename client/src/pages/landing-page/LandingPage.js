@@ -5,7 +5,7 @@ import './landing-page.styles.scss';
 
 const LandingPage = () => (
   <div id="landing-page" className="text-white row container mx-auto">
-    <div id="welcome" className="col-12 ubuntu">
+    <div id="welcome" className="col-12">
       Welcome to <div className="chowster-font">Chowster</div>
     </div>
     <div className="col-6">

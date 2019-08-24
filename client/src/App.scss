@@ -1,5 +1,5 @@
 @import 'variables';
-@import url('https://fonts.googleapis.com/css?family=Bungee|Ubuntu');
+@import url('https://fonts.googleapis.com/css?family=Bungee');
 
 #root {
   display: flex;
@@ -43,10 +43,6 @@ body {
   margin-bottom: 15px;
 }
 
-.ubuntu {
-  font-family: 'Ubuntu', sans-serif;
-}
-
 @media only screen and (max-width: $breakpoint-sm) {
   .hide-on-sm {
     display: none;
@@ -87,7 +83,6 @@ body {
 .list-item {
   display: flex;
   border: 1px solid lighten(#111, 10%);
-  border-left: none;
   margin-top: -1px;
   padding: 12px;
 

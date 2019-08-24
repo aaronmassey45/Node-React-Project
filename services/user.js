@@ -154,7 +154,7 @@ const updateUser = async (args, me) => {
 const verifyUserAccount = async (username, token) => {
   try {
     const user = await User.findByToken(token);
-    if (user.username !== username) {
+    if (!user || user.username !== username) {
       throw new Error('Unable to verify account.');
     }
     if (user.isEmailVerified) {
