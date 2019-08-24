@@ -9,6 +9,11 @@ $card-color: lighten(#111, 5%);
   .card {
     background-color: inherit;
 
+    .spinner-overlay {
+      height: 10vh;
+      order: unset;
+    }
+
     .content-body {
       display: flex;
 
