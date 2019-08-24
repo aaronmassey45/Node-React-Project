@@ -3,6 +3,7 @@ import { useLazyQuery, useQuery } from '@apollo/react-hooks';
 
 import SearchForm from './search/SearchForm';
 import SearchResults from './search/SearchResults';
+import Spinner from '../../components/spinner/Spinner';
 import WhoToFollow from '../../components/who-to-follow/WhoToFollow';
 import CURRENT_USER from '../../graphql/queries/CurrentUser';
 import SEARCH from '../../graphql/queries/search';
@@ -19,11 +20,21 @@ const DiscoverPage = () => {
 
   const shouldShow = currentUser && currentUser.me && windowWidth <= 992;
 
+  const renderContent = () => {
+    if (called && !loading) {
+      return <SearchResults results={data.search} />;
+    } else if (called && loading) {
+      return <Spinner />;
+    } else {
+      return null;
+    }
+  };
+
   return (
     <div id="discover-page">
       <h2>Explore Chowster</h2>
       <SearchForm searchQuery={searchQuery} />
-      {called && !loading ? <SearchResults results={data.search} /> : null}
+      {renderContent()}
       {shouldShow && <WhoToFollow />}
     </div>
   );
