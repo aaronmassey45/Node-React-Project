@@ -14,8 +14,9 @@ const Post = ({ me, post, profile }) => {
   const { message, isShown, setMessageAndShowSnackbar } = useSnackbar();
   const timeString = getTimeDifference(new Date(Number(post.timeCreated)));
 
+  const isAuthenticated = !!me;
   const likedBy = post.likedBy.map(user => user.id);
-  const iLiked = likedBy.includes(me.id);
+  const iLiked = isAuthenticated && likedBy.includes(me.id);
 
   return (
     <>
@@ -36,7 +37,7 @@ const Post = ({ me, post, profile }) => {
                   <b>@{profile.username}</b>
                 </Link>
               </span>
-              {me && profile.id === me.id && (
+              {isAuthenticated && profile.id === me.id && (
                 <span className="col-2 text-right">
                   <DeletePostButton
                     id={post.id}
