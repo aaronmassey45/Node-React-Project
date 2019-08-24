@@ -1,0 +1,21 @@
+#discover-page {
+  padding: 1rem;
+  color: white;
+
+  #searchbar {
+    border: none;
+    border-radius: 4px;
+    padding: 12px 20px;
+    width: 100%;
+    transition: box-shadow 0.5s;
+
+    &:focus {
+      outline: none;
+      box-shadow: 4px 8px 20px black;
+    }
+  }
+
+  .list-item-group {
+    margin-top: 1.5rem;
+  }
+}
