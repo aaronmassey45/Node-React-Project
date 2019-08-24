@@ -17,15 +17,17 @@ const App = () => {
   return (
     <BrowserRouter>
       <Navbar />
-      <Suspense fallback={<Spinner />}>
-        {!loading ? (
-          <main className="App d-flex">
-            <Routes />
-            <SideBar isLoggedIn={!!data.me} />
-          </main>
-        ) : (
-          <Spinner />
-        )}
+      <Suspense fallback={<main />}>
+        <main className="App flex">
+          {!loading ? (
+            <>
+              <Routes />
+              <SideBar isLoggedIn={!!data.me} />
+            </>
+          ) : (
+            <Spinner />
+          )}
+        </main>
       </Suspense>
     </BrowserRouter>
   );
