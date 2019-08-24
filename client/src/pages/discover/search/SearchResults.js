@@ -8,6 +8,7 @@ import CURRENT_USER from '../../../graphql/queries/CurrentUser';
 
 const SearchResults = ({ results }) => {
   const { data } = useQuery(CURRENT_USER);
+  const isAuthenticated = data && data.me;
 
   return results.length > 0 ? (
     <div className="list-item-group">
@@ -19,7 +20,7 @@ const SearchResults = ({ results }) => {
                 <UserListItem
                   key={obj.id}
                   user={obj}
-                  currentUser={data.me || {}}
+                  currentUserId={isAuthenticated ? data.me.id : ''}
                 />
               );
             case 'Post':
