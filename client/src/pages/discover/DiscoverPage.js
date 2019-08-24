@@ -14,11 +14,10 @@ import './discover.styles.scss';
 const DiscoverPage = () => {
   const [searchQuery, { called, loading, data }] = useLazyQuery(SEARCH);
   const {
-    data: { currentUser },
+    data: { me: currentUser },
   } = useQuery(CURRENT_USER, { fetchPolicy: 'cache-only' });
   const windowWidth = useWindowWidth();
-
-  const shouldShow = currentUser && currentUser.me && windowWidth <= 992;
+  const shouldShow = !!currentUser && windowWidth <= 992;
 
   const renderContent = () => {
     if (called && !loading) {
