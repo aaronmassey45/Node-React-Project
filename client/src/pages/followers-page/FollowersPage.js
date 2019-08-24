@@ -19,7 +19,7 @@ const FollowersPage = ({ match, history }) => {
     page === 'following' ? GET_USERS_FOLLOWING : GET_USERS_FOLLOWERS;
 
   const {
-    data: { me = {} },
+    data: { me },
   } = useQuery(CURRENT_USER);
 
   const {
@@ -46,7 +46,7 @@ const FollowersPage = ({ match, history }) => {
       <TabContent
         loading={loading}
         users={user[page] || []}
-        currentUser={me.id || ''}
+        currentUser={(me && me.id) || {}}
       />
     </div>
   );
