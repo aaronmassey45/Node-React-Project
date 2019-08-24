@@ -1,5 +1,5 @@
 @import 'variables';
-@import url('https://fonts.googleapis.com/css?family=Bungee|Ubuntu');
+@import url('https://fonts.googleapis.com/css?family=Bungee');
 
 #root {
   display: flex;
@@ -41,10 +41,6 @@ body {
 #welcome {
   margin-top: 25vh;
   margin-bottom: 15px;
-}
-
-.ubuntu {
-  font-family: 'Ubuntu', sans-serif;
 }
 
 @media only screen and (max-width: $breakpoint-sm) {
