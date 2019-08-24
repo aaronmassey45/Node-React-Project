@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import FollowButton from '../follow-button/FollowButton';
 import './user-list-item.styles.scss';
 
-const UserListItem = ({ user, currentUser }) => (
+const UserListItem = ({ user, currentUserId }) => (
   <div key={user.username} className="list-item user">
     <div className="img-container">
       <img src={user.profileImg} alt={user.username} />
@@ -18,10 +18,10 @@ const UserListItem = ({ user, currentUser }) => (
         >
           <b>@{user.username}</b>
         </Link>
-        {currentUser !== user.id && (
+        {!!currentUserId && currentUserId !== user.id && (
           <FollowButton
             userId={user.id}
-            following={!!user.followers.find(o => o.id === currentUser)}
+            following={!!user.followers.find(o => o.id === currentUserId)}
           />
         )}
       </div>
@@ -31,8 +31,8 @@ const UserListItem = ({ user, currentUser }) => (
 );
 
 UserListItem.propTypes = {
+  currentUserId: PropTypes.string.isRequired,
   user: PropTypes.object.isRequired,
-  currentUser: PropTypes.object.isRequired,
 };
 
 export default UserListItem;
