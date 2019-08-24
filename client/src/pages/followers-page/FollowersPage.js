@@ -46,7 +46,7 @@ const FollowersPage = ({ match, history }) => {
       <TabContent
         loading={loading}
         users={user[page] || []}
-        currentUser={(me && me.id) || {}}
+        currentUser={me && me.id ? me.id : ''}
       />
     </div>
   );

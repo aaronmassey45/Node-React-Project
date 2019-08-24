@@ -21,7 +21,7 @@ const FollowersPageTabContent = ({ loading = false, users, currentUser }) => {
               <Link to={`/users/account/${user.username}`}>
                 @{user.username}
               </Link>
-              {currentUser !== user.id && (
+              {!!currentUser && currentUser !== user.id && (
                 <FollowButton
                   userId={user.id}
                   following={!!user.followers.find(o => o.id === currentUser)}
