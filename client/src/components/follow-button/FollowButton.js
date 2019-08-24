@@ -3,6 +3,8 @@ import { useMutation } from '@apollo/react-hooks';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
+import Snackbar from '../snackbar/Snackbar';
+import useSnackbar from '../../react-hooks/useSnackbar';
 import FOLLOW_USER from '../../graphql/mutations/FollowUser';
 import UNFOLLOW_USER from '../../graphql/mutations/UnfollowUser';
 import UPDATE_AFTER_FOLLOW from '../../graphql/queries/updateAfterFollow';
@@ -14,6 +16,8 @@ const FollowButton = ({ following, userId }) => {
   const [isFollowing, setFollowingState] = useState(following);
   const [isHovering, setHovering] = useState(false);
 
+  const { isShown, message, setMessageAndShowSnackbar } = useSnackbar();
+
   const mutation = isFollowing ? UNFOLLOW_USER : FOLLOW_USER;
   const [followMutation] = useMutation(mutation, {
     variables: { id: userId },
@@ -22,6 +26,9 @@ const FollowButton = ({ following, userId }) => {
       { query: UPDATE_AFTER_FOLLOW, variables: { id: userId } },
       { query: GET_USERS_FEED },
     ],
+    onError: err => {
+      setMessageAndShowSnackbar(err.graphQLErrors[0].message);
+    },
   });
 
   const btnClasses = classNames('follow-button', {
@@ -29,30 +36,33 @@ const FollowButton = ({ following, userId }) => {
   });
 
   return (
-    <button
-      className={btnClasses}
-      onClick={followMutation}
-      onMouseEnter={() => setHovering(true)}
-      onMouseLeave={() => setHovering(false)}
-    >
-      {isFollowing ? (
-        <Fragment>
-          {isHovering ? (
-            <Fragment>
-              Unfollow <i className="fas fa-user-minus" />
-            </Fragment>
-          ) : (
-            <Fragment>
-              Following <i className="fas fa-check" />
-            </Fragment>
-          )}
-        </Fragment>
-      ) : (
-        <Fragment>
-          Follow <i className="fas fa-user-plus"></i>
-        </Fragment>
-      )}
-    </button>
+    <>
+      <button
+        className={btnClasses}
+        onClick={followMutation}
+        onMouseEnter={() => setHovering(true)}
+        onMouseLeave={() => setHovering(false)}
+      >
+        {isFollowing ? (
+          <Fragment>
+            {isHovering ? (
+              <Fragment>
+                Unfollow <i className="fas fa-user-minus" />
+              </Fragment>
+            ) : (
+              <Fragment>
+                Following <i className="fas fa-check" />
+              </Fragment>
+            )}
+          </Fragment>
+        ) : (
+          <Fragment>
+            Follow <i className="fas fa-user-plus"></i>
+          </Fragment>
+        )}
+      </button>
+      <Snackbar message={message} isShown={isShown} />
+    </>
   );
 };
 
