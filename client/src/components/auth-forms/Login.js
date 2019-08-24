@@ -8,7 +8,7 @@ const Login = ({ refetch }) => {
   return (
     <div className="container auth-form">
       <div className="row">
-        <div className="col-sm-6 mx-auto mt-5 ">
+        <div className="col-10 col-lg-6 mx-auto mt-5 ">
           <div className="card">
             <div className="card-header">
               <h3>Login</h3>
