@@ -11,13 +11,12 @@ import './who-to-follow.styles.scss';
 const WhoToFollow = () => {
   const {
     data: { randomUsers },
+    loading,
     refetch,
   } = useQuery(GET_RANDOM_USERS);
   const {
     data: { me },
   } = useQuery(CURRENT_USER);
-
-  const loading = true;
 
   return (
     <div id="who-to-follow">
