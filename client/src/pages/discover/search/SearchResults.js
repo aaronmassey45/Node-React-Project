@@ -16,12 +16,16 @@ const SearchResults = ({ results }) => {
           switch (obj.__typename) {
             case 'User':
               return (
-                <UserListItem key={obj.id} user={obj} currentUser={data.me} />
+                <UserListItem
+                  key={obj.id}
+                  user={obj}
+                  currentUser={data.me || {}}
+                />
               );
             case 'Post':
               return (
                 <div className="list-item" key={obj.id}>
-                  <Post me={data.me} post={obj} profile={obj._creator} />
+                  <Post me={data.me || {}} post={obj} profile={obj._creator} />
                 </div>
               );
             default:
