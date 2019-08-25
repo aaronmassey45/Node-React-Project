@@ -58,4 +58,4 @@ This web app is based off an episode of Bob's Burgers.
 
 ## Contact
 
-Created by [@flynerdpl](https://aaronmassey.pro/) - feel free to contact me!
+Created by [Aaron Massey](https://aaronmassey.pro/) - feel free to contact me!
