@@ -13,7 +13,11 @@
     "dev-localdb": "concurrently \"mongod\" \"npm run server\" \"npm run client\"",
     "generate:graphqlSchema": "graphql-codegen",
     "server": "env-cmd ./config/dev.env nodemon index.js",
-    "start": "node index.js"
+    "start": "node index.js",
+    "test": "env-cmd ./config/test.env jest --watch"
+  },
+  "jest": {
+    "testEnvironment": "node"
   },
   "dependencies": {
     "@sendgrid/mail": "6.3.1",
@@ -32,7 +36,11 @@
     "@graphql-codegen/cli": "^1.6.1",
     "@graphql-codegen/fragment-matcher": "^1.6.1",
     "env-cmd": "8.0.2",
+    "eslint": "^6.3.0",
+    "eslint-plugin-jest": "^22.16.0",
     "eslint-plugin-react": "^7.14.3",
-    "prettier": "^1.18.2"
+    "jest": "^24.9.0",
+    "prettier": "^1.18.2",
+    "supertest": "^4.0.2"
   }
 }
