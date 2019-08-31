@@ -1,6 +1,4 @@
-const mongoose = require('mongoose');
-
-const User = mongoose.model('user');
+const User = require('../models/user');
 
 const authenticate = async (req, res, next) => {
   try {
