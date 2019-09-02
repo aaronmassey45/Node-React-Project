@@ -11,7 +11,7 @@ const userOne = {
   password: '123456',
 };
 
-beforeAll(async () => {
+beforeEach(async () => {
   await User.deleteMany();
 });
 
