@@ -25,8 +25,11 @@ const userOne = {
 };
 
 beforeEach(async () => {
-  await User.deleteMany();
   await new User(userOne).save();
+});
+
+afterEach(async () => {
+  await User.deleteMany();
 });
 
 test('Should get profile for user', async () => {
