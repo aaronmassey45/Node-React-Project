@@ -17,7 +17,6 @@ const login = async ({ password, username }) => {
         .catch(err => new Error(err));
     });
   }).catch(err => {
-    console.log('Error', err);
     return err;
   });
 };
