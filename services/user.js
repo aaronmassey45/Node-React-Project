@@ -8,12 +8,13 @@ const User = mongoose.model('user');
 
 const deleteUser = async user => {
   try {
+    if (!user) throw new Error('You are not authenticated');
+
     await User.findOneAndRemove({ _id: user._id });
-    await Post.remove({ _creator: user._id });
+    await Post.deleteMany({ _creator: user._id });
     sendAccountRemovedEmail(user.email);
     return user._id;
   } catch (err) {
-    console.log('Error', err);
     return err;
   }
 };
