@@ -13,7 +13,6 @@ const chowt = async (text, location, user) => {
     });
     return await post.save();
   } catch (err) {
-    console.log(err);
     return err;
   }
 };
@@ -28,11 +27,11 @@ const likeChowt = async (id, currentUser) => {
     const haveLiked = post.likedBy.some(user => user.equals(currentUser._id));
 
     if (haveLiked) {
-      post.likedBy = post.likedBy.filter(
-        user => (user.equals(currentUser._id) ? false : true)
+      post.likedBy = post.likedBy.filter(user =>
+        user.equals(currentUser._id) ? false : true
       );
-      currentUser.likedPosts = currentUser.likedPosts.filter(
-        post => (post.equals(id) ? false : true)
+      currentUser.likedPosts = currentUser.likedPosts.filter(post =>
+        post.equals(id) ? false : true
       );
     } else {
       post.likedBy.push(currentUser._id);
@@ -60,8 +59,8 @@ const deleteChowt = async (id, currentUser) => {
 
     if (!post) throw new Error('No post found');
 
-    currentUser.likedPosts = currentUser.likedPosts.filter(
-      post => (post.equals(id) ? false : true)
+    currentUser.likedPosts = currentUser.likedPosts.filter(post =>
+      post.equals(id) ? false : true
     );
     await currentUser.save();
 
