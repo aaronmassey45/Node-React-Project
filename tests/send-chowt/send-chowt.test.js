@@ -31,6 +31,7 @@ beforeEach(async () => {
 
 afterEach(async () => {
   await User.deleteMany();
+  await Post.deleteMany();
 });
 
 test('Should successfully submit post without location', async () => {
@@ -73,6 +74,9 @@ test('Should not submit post without any text', async () => {
     .set('x-auth', userOne.tokens[0].token)
     .send({ query: sendChowtMutation });
 
+  const posts = await Post.find();
+
+  expect(posts).toHaveLength(0);
   expect(res.body.errors).toHaveLength(1);
   expect(res.body.errors[0].message).toContain('String!');
   expect(res.body.data).toBe(undefined);
@@ -84,9 +88,28 @@ test('Should not submit post with empty string', async () => {
     .set('x-auth', userOne.tokens[0].token)
     .send({ query: sendChowtMutation, variables: { text: '' } });
 
+  const posts = await Post.find();
+
+  expect(posts).toHaveLength(0);
   expect(res.body.errors).toHaveLength(1);
   expect(res.body.errors[0].message).toContain(
     'You can not submit an empty chowt!'
   );
+  expect(res.body.data.chowt).toBeNull();
+});
+
+test('Should not submit post if unauthenticated', async () => {
+  const res = await request(app)
+    .post('/api')
+    .send({
+      query: sendChowtMutation,
+      variables: { text: 'This will not go through' },
+    });
+
+  const posts = await Post.find();
+
+  expect(posts).toHaveLength(0);
+  expect(res.body.errors).toHaveLength(1);
+  expect(res.body.errors[0].message).toContain('You are not authenticated.');
   expect(res.body.data.chowt).toBeNull();
 });
