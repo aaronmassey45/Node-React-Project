@@ -7,7 +7,7 @@ const PostSchema = new Schema({
   location: { lat: { type: Number }, lng: { type: Number } },
   text: {
     type: String,
-    required: true,
+    required: [true, 'You can not submit an empty chowt!'],
     maxlength: 300,
     minlength: 1,
     trim: true,
