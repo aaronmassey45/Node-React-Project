@@ -5,6 +5,8 @@ const ObjectId = mongoose.Types.ObjectId;
 
 const chowt = async (text, location, user) => {
   try {
+    if (!user) throw new Error('You are not authenticated.');
+
     const post = new Post({
       location,
       text,
