@@ -63,7 +63,7 @@ const UserSchema = new Schema({
   rating: {
     average: {
       default: 0,
-      type: String,
+      type: Number,
     },
     numberOfRatings: {
       default: 0,
