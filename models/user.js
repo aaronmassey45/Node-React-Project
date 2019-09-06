@@ -135,13 +135,16 @@ UserSchema.methods.toJSON = function() {
   return userObj;
 };
 
-UserSchema.methods.removeToken = function(token) {
-  const user = this;
-  return user.update({
-    $pull: {
-      tokens: { token },
-    },
-  });
+UserSchema.methods.removeToken = async function(tokenToRemove) {
+  try {
+    const user = this;
+
+    user.tokens = user.tokens.filter(token => token.token !== tokenToRemove);
+
+    return await user.save();
+  } catch (err) {
+    return 'Could not delete token, please try again.';
+  }
 };
 
 UserSchema.statics.findByToken = function(token) {
