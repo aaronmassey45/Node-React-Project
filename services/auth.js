@@ -5,20 +5,13 @@ const { sendVerificationEmail } = require('../emails/account');
 const User = mongoose.model('user');
 
 const login = async ({ password, username }) => {
-  return new Promise((resolve, reject) => {
-    return User.findByCredentials(username.trim(), password).then(user => {
-      if (!user || user === 'Invalid Credentials') {
-        return reject(new Error('Invalid Credentials'));
-      }
-
-      user
-        .generateAuthToken()
-        .then(token => resolve(token))
-        .catch(err => new Error(err));
-    });
-  }).catch(err => {
+  try {
+    const user = await User.findByCredentials(username.trim(), password);
+    const token = user.generateAuthToken();
+    return token;
+  } catch (err) {
     return err;
-  });
+  }
 };
 
 const logout = async (user, token) => {
