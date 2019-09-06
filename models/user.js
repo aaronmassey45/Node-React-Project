@@ -161,22 +161,16 @@ UserSchema.statics.findByToken = function(token) {
   });
 };
 
-UserSchema.statics.findByCredentials = async function(username, password) {
-  const User = this;
+UserSchema.statics.findByCredentials = async (username, password) => {
+  const user = await User.findOne({
+    username_lowercase: username.toLowerCase(),
+  });
+  if (!user) throw new Error('Invalid Credentials');
 
-  return User.findOne({ username_lowercase: username.toLowerCase() })
-    .then(user => {
-      if (!user) throw null;
+  const isMatch = await bcrypt.compare(password, user.password);
+  if (!isMatch) throw new Error('Invalid Credentials');
 
-      return new Promise((resolve, reject) => {
-        bcrypt.compare(password, user.password, (err, res) => {
-          res ? resolve(user) : reject('Invalid Credentials');
-        });
-      });
-    })
-    .catch(err => {
-      return err;
-    });
+  return user;
 };
 
 UserSchema.pre('save', function(next) {
