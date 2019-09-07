@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken');
 const mongoose = require('mongoose');
 
 const User = require('../models/user');
+const Post = require('../models/post');
 
 const userOneId = new mongoose.Types.ObjectId();
 const userOne = {
@@ -39,16 +40,36 @@ const userTwo = {
   ],
 };
 
+const postOne = {
+  _id: new mongoose.Types.ObjectId(),
+  text: 'We will be back in 5 minutes, have to drop a potato in the crock pot',
+  _creator: userOneId,
+};
+
+const postTwo = {
+  _id: new mongoose.Types.ObjectId(),
+  text: 'I will be Hokage!',
+  _creator: userTwoId,
+};
+
+const randomId = () => new mongoose.Types.ObjectId();
+
 const setupDatabase = async () => {
   await User.deleteMany();
+  await Post.deleteMany();
   await new User(userOne).save();
   await new User(userTwo).save();
+  await new Post(postOne).save();
+  await new Post(postTwo).save();
 };
 
 module.exports = {
+  postOne,
+  postTwo,
+  randomId,
+  setupDatabase,
   userOne,
   userOneId,
   userTwo,
   userTwoId,
-  setupDatabase,
 };
