@@ -21,10 +21,11 @@ const chowt = async (text, location, user) => {
 
 const likeChowt = async (id, currentUser) => {
   try {
+    if (!currentUser) throw new Error('You are not authenticated');
     if (!ObjectId.isValid(id)) throw new Error('Invalid chowt id.');
 
     const post = await Post.findById(id);
-    if (!post) throw new Error('No post found');
+    if (!post) throw new Error('No chowt found.');
 
     const haveLiked = post.likedBy.some(user => user.equals(currentUser._id));
 
@@ -45,7 +46,6 @@ const likeChowt = async (id, currentUser) => {
 
     return post;
   } catch (err) {
-    console.log(err);
     return err;
   }
 };
