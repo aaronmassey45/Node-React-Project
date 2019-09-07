@@ -30,12 +30,27 @@ test('Should get profile for user with editing data', async () => {
   expect(res.body.data.me.email).toBe(userOne.email);
 });
 
-test('Should not get profile for user', async () => {
+test('Should not get profile of user without sending token', async () => {
   const res = await request(app)
     .post('/api')
     .send({
       query: currentUserQuery,
     });
 
-  expect(res.body.data.me).toBeFalsy();
+  expect(res.body.data.me).toBeNull();
+  expect(res.body.errors).toHaveLength(1);
+  expect(res.body.errors[0].message).toBe('You are not authenticated.');
+});
+
+test('Should not get profile of user with invalid token', async () => {
+  const res = await request(app)
+    .post('/api')
+    .set('x-auth', 'asdf7isadh.ihdnfnsausad.214532iosadhds')
+    .send({
+      query: currentUserQuery,
+    });
+
+  expect(res.body.data.me).toBeNull();
+  expect(res.body.errors).toHaveLength(1);
+  expect(res.body.errors[0].message).toBe('You are not authenticated.');
 });
