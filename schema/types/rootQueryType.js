@@ -21,8 +21,9 @@ const RootQuery = new GraphQLObjectType({
   fields: () => ({
     me: {
       type: UserType,
-      resolve(_, args, context) {
-        return context.user;
+      resolve(_, args, { user }) {
+        if (!user) throw new Error('You are not authenticated.');
+        return user;
       },
     },
     user: {
