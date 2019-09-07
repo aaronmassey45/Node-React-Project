@@ -20,7 +20,6 @@ const logout = async (user, token) => {
     await user.removeToken(token);
     return user;
   } catch (err) {
-    console.log('Error', err);
     return err;
   }
 };
