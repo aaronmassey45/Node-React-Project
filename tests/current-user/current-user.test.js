@@ -1,36 +1,10 @@
-const jwt = require('jsonwebtoken');
-const mongoose = require('mongoose');
 const request = require('supertest');
 
-const app = require('../../app');
 const currentUserQuery = require('./current-user.query');
-const User = require('../../models/user');
+const { setupDatabase, userOne } = require('../db');
+const app = require('../../app');
 
-const userOneId = new mongoose.Types.ObjectId();
-const userOne = {
-  _id: userOneId,
-  username: 'bobsburgersfoodtruck',
-  email: 'bob@burgers.com',
-  isAFoodTruck: true,
-  password: '123456',
-  tokens: [
-    {
-      access: 'auth',
-      token: jwt.sign(
-        { _id: userOneId, access: 'auth' },
-        process.env.JWT_SECRET
-      ),
-    },
-  ],
-};
-
-beforeEach(async () => {
-  await new User(userOne).save();
-});
-
-afterEach(async () => {
-  await User.deleteMany();
-});
+beforeEach(setupDatabase);
 
 test('Should get profile for user', async () => {
   const res = await request(app)
