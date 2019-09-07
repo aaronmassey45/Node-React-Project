@@ -12,7 +12,11 @@ const PostSchema = new Schema({
     minlength: 1,
     trim: true,
   },
-  timeCreated: { type: Number, default: null },
+  timeCreated: {
+    type: Number,
+    default: Date.now(),
+    immutable: true,
+  },
 });
 
 const Post = mongoose.model('post', PostSchema);
