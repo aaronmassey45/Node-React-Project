@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const User = require('../models/user');
 const Post = mongoose.model('post');
 
 const ObjectId = mongoose.Types.ObjectId;
@@ -52,6 +53,7 @@ const likeChowt = async (id, currentUser) => {
 
 const deleteChowt = async (id, currentUser) => {
   try {
+    if (!currentUser) throw new Error('You are not authenticated.');
     if (!ObjectId.isValid(id)) throw new Error('Invalid post id.');
 
     const post = await Post.findOneAndRemove({
@@ -59,16 +61,12 @@ const deleteChowt = async (id, currentUser) => {
       _creator: currentUser._id,
     });
 
-    if (!post) throw new Error('No post found');
+    if (!post) throw new Error('No post found.');
 
-    currentUser.likedPosts = currentUser.likedPosts.filter(post =>
-      post.equals(id) ? false : true
-    );
-    await currentUser.save();
+    await User.updateMany({}, { $pull: { likedPosts: id } });
 
     return post;
   } catch (err) {
-    console.log(err);
     return err;
   }
 };
