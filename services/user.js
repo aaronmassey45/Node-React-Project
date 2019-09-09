@@ -147,7 +147,6 @@ const updateUser = async (args, me) => {
 
     return user;
   } catch (err) {
-    console.log(err);
     return err;
   }
 };
