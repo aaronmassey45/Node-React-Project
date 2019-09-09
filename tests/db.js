@@ -4,13 +4,20 @@ const mongoose = require('mongoose');
 const User = require('../models/user');
 const Post = require('../models/post');
 
-const userOneId = new mongoose.Types.ObjectId();
+const randomId = () => new mongoose.Types.ObjectId();
+
+const userOneId = randomId();
+const userTwoId = randomId();
+const postOneId = randomId();
+const postTwoId = randomId();
+
 const userOne = {
   _id: userOneId,
   username: 'bobsburgersfoodtruck',
   email: 'bob@burgers.com',
   isAFoodTruck: true,
   password: '123456',
+  likedPosts: [postOneId, postTwoId],
   tokens: [
     {
       access: 'auth',
@@ -22,7 +29,6 @@ const userOne = {
   ],
 };
 
-const userTwoId = new mongoose.Types.ObjectId();
 const userTwo = {
   _id: userTwoId,
   username: 'NarutoTheGoat',
@@ -41,18 +47,16 @@ const userTwo = {
 };
 
 const postOne = {
-  _id: new mongoose.Types.ObjectId(),
+  _id: postOneId,
   text: 'We will be back in 5 minutes, have to drop a potato in the crock pot',
   _creator: userOneId,
 };
 
 const postTwo = {
-  _id: new mongoose.Types.ObjectId(),
+  _id: postTwoId,
   text: 'I will be Hokage!',
   _creator: userTwoId,
 };
-
-const randomId = () => new mongoose.Types.ObjectId();
 
 const setupDatabase = async () => {
   await User.deleteMany();
