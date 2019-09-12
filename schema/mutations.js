@@ -116,8 +116,8 @@ const mutations = new GraphQLObjectType({
         id: { type: new GraphQLNonNull(GraphQLID) },
         rating: { type: new GraphQLNonNull(GraphQLInt) },
       },
-      resolve(_, { id, rating }) {
-        return UserService.rateFoodTruck(id, rating);
+      resolve(_, { id, rating }, { user }) {
+        return UserService.rateFoodTruck(id, rating, user);
       },
     },
     followUser: {
