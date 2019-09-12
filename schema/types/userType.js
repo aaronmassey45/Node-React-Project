@@ -10,6 +10,7 @@ const {
   GraphQLList,
   GraphQLBoolean,
   GraphQLInt,
+  GraphQLFloat,
 } = graphql;
 
 const UserType = new GraphQLObjectType({
@@ -42,7 +43,7 @@ const UserType = new GraphQLObjectType({
         type: new GraphQLObjectType({
           name: 'Rating',
           fields: () => ({
-            average: { type: GraphQLString },
+            average: { type: GraphQLFloat },
             numberOfRatings: { type: GraphQLInt },
             totalRating: { type: GraphQLInt },
           }),
