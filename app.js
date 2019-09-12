@@ -15,14 +15,10 @@ if (process.env.NODE_ENV === 'maintenance') {
     '/api',
     express.json(),
     authenticate,
-    expressGraphQL(req => ({
+    expressGraphQL({
       schema,
-      context: {
-        user: req.user,
-        token: req.token,
-      },
       graphiql: process.env.NODE_ENV === 'development',
-    }))
+    })
   );
 }
 
