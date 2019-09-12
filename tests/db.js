@@ -27,6 +27,11 @@ const userOne = {
       ),
     },
   ],
+  rating: {
+    average: 4.5,
+    numberOfRatings: 2,
+    totalRating: 9,
+  },
 };
 
 const userTwo = {
