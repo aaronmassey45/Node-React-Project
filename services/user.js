@@ -46,8 +46,9 @@ const followUser = async (userIdToFollow, user) => {
   }
 };
 
-const rateFoodTruck = async (id, rating) => {
+const rateFoodTruck = async (id, rating, currentUser) => {
   try {
+    if (!currentUser) throw new Error('You are not authenticated.');
     if (!mongoose.Types.ObjectId.isValid(id)) throw new Error('Invalid id');
     if (rating < 1 || rating > 5) {
       throw new Error(
