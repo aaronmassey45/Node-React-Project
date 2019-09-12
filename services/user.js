@@ -76,23 +76,24 @@ const rateFoodTruck = async (id, rating, currentUser) => {
   }
 };
 
-const unfollowUser = async (userIdToUnfollow, user) => {
+const unfollowUser = async (userIdToUnfollow, currentUser) => {
   try {
     if (!mongoose.Types.ObjectId.isValid(userIdToUnfollow)) {
       throw new Error('Invalid id.');
     }
-    if (!user) throw new Error("You aren't logged in.");
+    if (!currentUser) throw new Error("You aren't logged in.");
+    if (currentUser.id === userIdToUnfollow)
+      throw 'You cannot unfollow yourself.';
 
-    return Promise.all([
-      User.findByIdAndUpdate(userIdToUnfollow, {
-        $pull: { followers: user.id },
-      }),
-      User.findByIdAndUpdate(user.id, {
-        $pull: { following: userIdToUnfollow },
-      }),
-    ])
-      .then(() => userIdToUnfollow)
-      .catch(error => error);
+    await User.findByIdAndUpdate(userIdToUnfollow, {
+      $pull: { followers: currentUser.id },
+    });
+
+    await User.findByIdAndUpdate(currentUser.id, {
+      $pull: { following: userIdToUnfollow },
+    });
+
+    return userIdToUnfollow;
   } catch (err) {
     return err;
   }
