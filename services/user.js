@@ -19,28 +19,27 @@ const deleteUser = async user => {
   }
 };
 
-const followUser = async (userIdToFollow, user) => {
+const followUser = async (userIdToFollow, currentUser) => {
   try {
     if (!mongoose.Types.ObjectId.isValid(userIdToFollow)) {
       throw new Error('Invalid id.');
     }
-    if (!user) throw new Error("You aren't logged in.");
-    if (user.id === userIdToFollow)
+    if (!currentUser) throw new Error("You aren't logged in.");
+    if (currentUser.id === userIdToFollow)
       throw new Error("You can't follow yourself.");
 
-    const currentUser = await User.findById(user.id);
-
     if (currentUser.following.includes(userIdToFollow)) {
-      throw new Error('You already follow this user!');
+      throw 'You already follow this user.';
     }
 
     currentUser.following.push(userIdToFollow);
-    return Promise.all([
-      User.findByIdAndUpdate(userIdToFollow, { $push: { followers: user.id } }),
-      currentUser.save(),
-    ])
-      .then(() => `Successfully followed user ${userIdToFollow}`)
-      .catch(error => error);
+
+    await User.findByIdAndUpdate(userIdToFollow, {
+      $push: { followers: currentUser.id },
+    });
+    await currentUser.save();
+
+    return `Successfully followed user ${userIdToFollow}`;
   } catch (err) {
     return err;
   }
