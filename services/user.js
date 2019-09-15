@@ -1,10 +1,9 @@
 const mongoose = require('mongoose');
 
-const pick = require('../utils/pick');
 const { sendAccountRemovedEmail } = require('../emails/account');
-
-const Post = mongoose.model('post');
-const User = mongoose.model('user');
+const Post = require('../models/post');
+const User = require('../models/user');
+const pick = require('../utils/pick');
 
 const deleteUser = async user => {
   try {
