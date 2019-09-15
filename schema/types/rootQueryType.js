@@ -32,9 +32,27 @@ const RootQuery = new GraphQLObjectType({
         id: { type: GraphQLID },
         username: { type: GraphQLString },
       },
-      resolve(_, { id, username }) {
-        if (!id && !username) return null;
-        return User.findOne({ $or: [{ _id: id }, { username }] });
+      async resolve(_, { id, username }) {
+        try {
+          if (!id && !username) {
+            throw new Error('You must provide an username or user id.');
+          } else if (id && username) {
+            throw new Error('Only provide one search argument.');
+          }
+
+          const username_lowercase = username
+            ? username.toLowerCase()
+            : undefined;
+
+          const user = await User.findOne({
+            $or: [{ _id: id }, { username_lowercase }],
+          });
+
+          if (!user) throw new Error('User does not exist.');
+          return user;
+        } catch (err) {
+          return err;
+        }
       },
     },
     populateFeed: {
