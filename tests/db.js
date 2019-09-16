@@ -6,6 +6,8 @@ const Post = require('../models/post');
 
 const randomId = () => new mongoose.Types.ObjectId();
 
+const closeConnection = async () => await mongoose.connection.close();
+
 const userOneId = randomId();
 const userTwoId = randomId();
 const postOneId = randomId();
@@ -73,6 +75,7 @@ const setupDatabase = async () => {
 };
 
 module.exports = {
+  closeConnection,
   postOne,
   postTwo,
   randomId,
