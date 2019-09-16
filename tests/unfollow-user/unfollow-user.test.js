@@ -1,12 +1,13 @@
 const request = require('supertest');
 
 const unfollowUserMutation = require('./unfollow-user.mutation');
-const { setupDatabase, userOne, userTwo } = require('../db');
+const { setupDatabase, userOne, userTwo, closeConnection } = require('../db');
 const app = require('../../app');
 const User = require('../../models/user');
 const { followUser } = require('../../services/user');
 
 beforeEach(setupDatabase);
+afterAll(closeConnection);
 
 test('Should unfollow user', async () => {
   await followUser(userOne._id, userTwo);

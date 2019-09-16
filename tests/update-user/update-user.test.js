@@ -2,11 +2,12 @@ const request = require('supertest');
 const bcrypt = require('bcryptjs');
 
 const updateUserMutation = require('./update-user.mutation');
-const { setupDatabase, userTwo } = require('../db');
+const { setupDatabase, userTwo, closeConnection } = require('../db');
 const app = require('../../app');
 const User = require('../../models/user');
 
 beforeEach(setupDatabase);
+afterAll(closeConnection);
 
 const updatedUserVariables = {
   bio: 'The savior...',

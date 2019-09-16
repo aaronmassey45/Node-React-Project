@@ -1,10 +1,11 @@
 const request = require('supertest');
 
 const fetchUserQuery = require('./fetch-user.query');
-const { userOne, setupDatabase } = require('../db');
+const { userOne, setupDatabase, closeConnection } = require('../db');
 const app = require('../../app');
 
 beforeEach(setupDatabase);
+afterAll(closeConnection);
 
 test('Should find user when given id', async () => {
   const res = await request(app)

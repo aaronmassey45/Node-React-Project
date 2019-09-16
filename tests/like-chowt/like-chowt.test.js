@@ -1,11 +1,18 @@
 const request = require('supertest');
 
 const likeChowtMutation = require('./like-chowt.mutation');
-const { postOne, userOne, setupDatabase, randomId } = require('../db');
+const {
+  closeConnection,
+  postOne,
+  randomId,
+  setupDatabase,
+  userOne,
+} = require('../db');
 const app = require('../../app');
 const Post = require('../../models/post');
 
 beforeEach(setupDatabase);
+afterAll(closeConnection);
 
 test("Should successfully like a user's chowt", async () => {
   const res = await request(app)

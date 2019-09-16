@@ -1,12 +1,19 @@
 const request = require('supertest');
 
 const deleteChowtMutation = require('./delete-chowt.mutation');
-const { setupDatabase, userOne, postOne, randomId } = require('../db');
+const {
+  closeConnection,
+  postOne,
+  randomId,
+  setupDatabase,
+  userOne,
+} = require('../db');
 const app = require('../../app');
 const Post = require('../../models/post');
 const User = require('../../models/user');
 
 beforeEach(setupDatabase);
+afterAll(closeConnection);
 
 test('Should delete a users chowt', async () => {
   const res = await request(app)

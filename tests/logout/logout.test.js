@@ -1,10 +1,11 @@
 const request = require('supertest');
 
 const logoutMutation = require('./logout.mutation');
-const { userOne, userOneId, setupDatabase } = require('../db');
+const { userOne, userOneId, setupDatabase, closeConnection } = require('../db');
 const app = require('../../app');
 
 beforeEach(setupDatabase);
+afterAll(closeConnection);
 
 test('Should successfully log out user', async () => {
   const res = await request(app)

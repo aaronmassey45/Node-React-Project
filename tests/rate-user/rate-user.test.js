@@ -1,11 +1,12 @@
 const request = require('supertest');
 
 const rateFoodTruckMutation = require('./rate-user.mutation');
-const { setupDatabase, userOne, userTwo } = require('../db');
+const { setupDatabase, userOne, userTwo, closeConnection } = require('../db');
 const app = require('../../app');
 const User = require('../../models/user');
 
 beforeEach(setupDatabase);
+afterAll(closeConnection);
 
 test('Should rate a food truck account', async () => {
   const res = await request(app)

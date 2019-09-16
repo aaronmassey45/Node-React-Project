@@ -14,7 +14,7 @@ beforeAll(async () => {
 
 afterAll(async () => {
   await Post.deleteMany();
-  mongoose.disconnect();
+  await mongoose.connection.close();
 });
 
 test('Should create post according to schema', async () => {

@@ -1,11 +1,12 @@
 const request = require('supertest');
 
 const followUserMutation = require('./follow-user.mutation');
-const { setupDatabase, userOne, userTwo } = require('../db');
+const { setupDatabase, userOne, userTwo, closeConnection } = require('../db');
 const app = require('../../app');
 const User = require('../../models/user');
 
 beforeEach(setupDatabase);
+afterAll(closeConnection);
 
 test('Should follow another user', async () => {
   const res = await request(app)

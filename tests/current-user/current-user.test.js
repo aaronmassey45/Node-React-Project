@@ -1,10 +1,11 @@
 const request = require('supertest');
 
 const currentUserQuery = require('./current-user.query');
-const { setupDatabase, userOne } = require('../db');
+const { setupDatabase, userOne, closeConnection } = require('../db');
 const app = require('../../app');
 
 beforeEach(setupDatabase);
+afterAll(closeConnection);
 
 test('Should get profile for user', async () => {
   const res = await request(app)

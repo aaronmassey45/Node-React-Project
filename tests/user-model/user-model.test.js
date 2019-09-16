@@ -40,7 +40,7 @@ beforeAll(async () => {
 
 afterAll(async () => {
   await User.deleteMany();
-  mongoose.disconnect();
+  mongoose.connection.close();
 });
 
 beforeEach(async () => {

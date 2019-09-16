@@ -4,9 +4,10 @@ const app = require('../../app');
 const deleteUserMutation = require('./delete-user.mutation');
 const User = require('../../models/user');
 const Post = require('../../models/post');
-const { setupDatabase, userOne } = require('../db');
+const { setupDatabase, userOne, closeConnection } = require('../db');
 
 beforeEach(setupDatabase);
+afterAll(closeConnection);
 
 test('Should delete user and their posts', async () => {
   const res = await request(app)
