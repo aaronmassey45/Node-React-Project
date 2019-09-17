@@ -59,6 +59,7 @@ const RootQuery = new GraphQLObjectType({
       type: new GraphQLList(PostType),
       args: { offset: { type: GraphQLInt, defaultValue: 0 } },
       resolve(_, { offset }, { user }) {
+        if (!user) throw new Error('You are not authenticated.');
         return Post.find(
           { _creator: { $in: [...user.following, user.id] } },
           null,
