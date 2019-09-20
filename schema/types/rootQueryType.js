@@ -79,14 +79,12 @@ const RootQuery = new GraphQLObjectType({
       },
       async resolve(_, { getUsersFollowing, username }) {
         try {
-          if (!username) throw Error('You must enter a user name');
-          const user = await User.findOne({ username });
+          if (!username) throw Error('You must enter a username.');
+          const user = await User.findOne({ username })
+            .populate(getUsersFollowing ? 'following' : 'followers')
+            .exec();
 
-          if (getUsersFollowing) {
-            return User.find({ _id: { $in: user.following } });
-          }
-
-          return User.find({ _id: { $in: user.followers } });
+          return getUsersFollowing ? user.following : user.followers;
         } catch (err) {
           return err;
         }
