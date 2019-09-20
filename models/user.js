@@ -27,8 +27,8 @@ const UserSchema = new Schema({
     },
     unique: true,
   },
-  followers: [{ type: Schema.Types.ObjectId, ref: 'User' }],
-  following: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+  followers: [{ type: Schema.Types.ObjectId, ref: 'user' }],
+  following: [{ type: Schema.Types.ObjectId, ref: 'user' }],
   isAFoodTruck: {
     required: true,
     type: Boolean,
@@ -38,7 +38,7 @@ const UserSchema = new Schema({
     type: Boolean,
     default: false,
   },
-  likedPosts: [{ type: Schema.Types.ObjectId, ref: 'Post' }],
+  likedPosts: [{ type: Schema.Types.ObjectId, ref: 'post' }],
   location: {
     default: "Somewhere chowin' down",
     maxlength: 50,
