@@ -47,8 +47,6 @@ test('Should not get followers if a username is not passed', async () => {
       variables: { username: '' },
     });
 
-  console.log(res.body);
-
   expect(res.body.errors).toHaveLength(1);
   expect(res.body.errors[0].message).toBe('You must enter a username.');
 });
