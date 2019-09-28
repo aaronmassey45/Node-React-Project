@@ -100,7 +100,12 @@ const RootQuery = new GraphQLObjectType({
               randomUser.id = randomUser._id;
               return randomUser;
             })
-            .filter(randomUser => randomUser._id != user.id)
+            .filter(randomUser => {
+              if (user) {
+                return randomUser._id != user.id;
+              }
+              return true;
+            })
             .splice(0, sampleSize - 1)
         );
       },
