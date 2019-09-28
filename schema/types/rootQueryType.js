@@ -109,6 +109,10 @@ const RootQuery = new GraphQLObjectType({
       type: new GraphQLList(SearchableType),
       args: { searchTerm: { type: GraphQLString } },
       resolve(_, { searchTerm }) {
+        if (!searchTerm) {
+          throw new Error('No search term was provided.');
+        }
+
         const regex = {
           $regex: searchTerm,
           $options: 'i',
