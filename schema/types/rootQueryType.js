@@ -92,21 +92,16 @@ const RootQuery = new GraphQLObjectType({
     },
     randomUsers: {
       type: new GraphQLList(UserType),
-      args: { sampleSize: { type: GraphQLInt, defaultValue: 4 } },
+      args: { sampleSize: { type: GraphQLInt, defaultValue: 3 } },
       resolve(_, { sampleSize }, { user }) {
-        return User.aggregate([{ $sample: { size: sampleSize } }]).then(users =>
-          users
-            .map(randomUser => {
-              randomUser.id = randomUser._id;
-              return randomUser;
-            })
-            .filter(randomUser => {
-              if (user) {
-                return randomUser._id != user.id;
-              }
-              return true;
-            })
-            .splice(0, sampleSize - 1)
+        return User.aggregate([
+          { $match: { username: { $ne: user ? user.username : null } } },
+          { $sample: { size: sampleSize } },
+        ]).then(users =>
+          users.map(randomUser => {
+            randomUser.id = randomUser._id;
+            return randomUser;
+          })
         );
       },
     },
