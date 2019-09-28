@@ -41,6 +41,7 @@ const userTwo = {
   username: 'NarutoTheGoat',
   email: 'so6p@naruto.com',
   isAFoodTruck: false,
+  isEmailVerified: true,
   password: 'another0n3',
   tokens: [
     {
