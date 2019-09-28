@@ -32,11 +32,9 @@ test('Should get default (3) random users that does not include the authenticate
     .send({ query: getRandomUsersQuery });
 
   expect(res.body.data.randomUsers).toHaveLength(3);
-  expect(res.body.data.randomUsers).not.toEqual(
-    expect.arrayContaining([
-      expect.objectContaining({ username: userOne.username }),
-    ])
-  );
+  expect(res.body.data.randomUsers).not.toContainObject({
+    username: userOne.username,
+  });
 });
 
 test('Should get default (3) random users if no authenticated user', async () => {
