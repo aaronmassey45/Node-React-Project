@@ -9,7 +9,7 @@ import GET_USERS_FEED from '../../graphql/queries/getUsersFeed';
 const HomePageContainer = () => {
   const {
     loading: loadingUserFeed,
-    data: { populateFeed: posts = [] },
+    data,
     fetchMore: fetchMorePosts,
   } = useQuery(GET_USERS_FEED);
   const {
@@ -18,6 +18,8 @@ const HomePageContainer = () => {
   } = useQuery(CURRENT_USER, {
     variables: { withLikedPosts: true },
   });
+
+  const posts = (data || {}).populateFeed || [];
 
   return (
     <HomePage
