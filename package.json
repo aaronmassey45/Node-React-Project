@@ -11,35 +11,11 @@
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client",
     "dev-localdb": "concurrently \"mongod\" \"npm run server\" \"npm run client\"",
-    "generate:graphqlSchema": "graphql-codegen",
-    "server": "env-cmd ./config/dev.env nodemon index.js",
-    "start": "node index.js",
-    "test": "env-cmd ./config/test.env jest --watch --runInBand"
-  },
-  "jest": {
-    "testEnvironment": "node"
+    "server": "npm run server --prefix server",
+    "start": "npm run start --prefix server",
+    "test:server": "npm run test --prefix server"
   },
   "dependencies": {
-    "@sendgrid/mail": "6.3.1",
-    "bcryptjs": "^2.4.3",
-    "concurrently": "^4.1.1",
-    "express": "^4.17.1",
-    "express-graphql": "^0.9.0",
-    "graphql": "^14.4.2",
-    "jsonwebtoken": "^8.5.1",
-    "lodash": "^4.17.15",
-    "mongoose": "^5.6.6",
-    "mongoose-unique-validator": "^2.0.3",
-    "validator": "^11.1.0"
-  },
-  "devDependencies": {
-    "@graphql-codegen/cli": "^1.6.1",
-    "@graphql-codegen/fragment-matcher": "^1.6.1",
-    "env-cmd": "8.0.2",
-    "eslint-plugin-jest": "^22.16.0",
-    "eslint-plugin-react": "^7.14.3",
-    "jest": "^24.9.0",
-    "prettier": "^1.18.2",
-    "supertest": "^4.0.2"
+    "concurrently": "^4.1.1"
   }
 }
