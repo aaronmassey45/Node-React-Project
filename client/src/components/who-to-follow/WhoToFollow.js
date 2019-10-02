@@ -6,17 +6,17 @@ import FollowButton from '../follow-button/FollowButton';
 import Spinner from '../spinner/Spinner';
 import CURRENT_USER from '../../graphql/queries/CurrentUser';
 import GET_RANDOM_USERS from '../../graphql/queries/getRandomUsers';
+import getNestedProperty from '../../utils/getNestedProperty';
+
 import './who-to-follow.styles.scss';
 
 const WhoToFollow = () => {
-  const {
-    data: { randomUsers },
-    loading,
-    refetch,
-  } = useQuery(GET_RANDOM_USERS);
+  const { data, loading, refetch } = useQuery(GET_RANDOM_USERS);
   const {
     data: { me },
   } = useQuery(CURRENT_USER);
+
+  const randomUsers = getNestedProperty(data, 'randomUsers');
 
   return (
     <div id="who-to-follow">
