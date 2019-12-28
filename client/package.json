@@ -22,7 +22,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
+    "test": "react-scripts test --env=jest-environment-jsdom",
     "eject": "react-scripts eject"
   },
   "proxy": "http://localhost:3001",
@@ -33,6 +33,9 @@
     "not op_mini all"
   ],
   "devDependencies": {
-    "@testing-library/react": "^9.2.0"
+    "@testing-library/jest-dom": "^4.1.0",
+    "@testing-library/react": "^9.2.0",
+    "eslint-plugin-jest": "^22.17.0",
+    "eslint-plugin-react": "^7.15.1"
   }
 }
