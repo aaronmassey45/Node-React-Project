@@ -3,10 +3,10 @@ import { BrowserRouter } from 'react-router-dom';
 import { useQuery } from '@apollo/react-hooks';
 
 import { default as Navbar } from 'components/navbar/NavbarContainer';
+import Routes from 'components/route-handler/Routes';
 import SideBar from 'components/side-bar/SideBar';
 import Spinner from 'components/spinner/Spinner';
 import CURRENT_USER from 'graphql/queries/CurrentUser';
-import Routes from 'Routes';
 
 const App = () => {
   const { loading, data } = useQuery(CURRENT_USER, {
