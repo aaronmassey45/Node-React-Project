@@ -1,30 +1,28 @@
 import React, { lazy } from 'react';
 import { Route, Switch } from 'react-router-dom';
 
-import ProtectedRoute from './HOCs/ProtectedRoute';
-import UnProtectedRoute from './HOCs/UnProtectedRoute';
+import ProtectedRoute from 'HOCs/ProtectedRoute';
+import UnProtectedRoute from 'HOCs/UnProtectedRoute';
 
-const AboutPage = lazy(() => import('./pages/about/AboutPage'));
-const ChowtPage = lazy(() => import('./pages/chowt-page/ChowtPage'));
+const Login = lazy(() => import('components/auth-forms/Login'));
+const SignUp = lazy(() => import('components/auth-forms/Signup'));
+const AboutPage = lazy(() => import('pages/about/AboutPage'));
+const ChowtPage = lazy(() => import('pages/chowt-page/ChowtPage'));
 const DirectMessagesPage = lazy(() =>
-  import('./pages/direct-messages-page/DirectMessagesPage')
+  import('pages/direct-messages-page/DirectMessagesPage')
 );
-const DiscoverPage = lazy(() => import('./pages/discover/DiscoverPage'));
-const EditUserPage = lazy(() => import('./pages/edit-user-page/EditUserPage'));
-const FollowersPage = lazy(() =>
-  import('./pages/followers-page/FollowersPage')
-);
-const HomePage = lazy(() => import('./pages/home-page/HomePageContainer'));
-const LandingPage = lazy(() => import('./pages/landing-page/LandingPage'));
-const Login = lazy(() => import('./components/auth-forms/Login'));
-const NotFound = lazy(() => import('./pages/not-found/NotFound'));
+const DiscoverPage = lazy(() => import('pages/discover/DiscoverPage'));
+const EditUserPage = lazy(() => import('pages/edit-user-page/EditUserPage'));
+const FollowersPage = lazy(() => import('pages/followers-page/FollowersPage'));
+const HomePage = lazy(() => import('pages/home-page/HomePageContainer'));
+const LandingPage = lazy(() => import('pages/landing-page/LandingPage'));
+const NotFound = lazy(() => import('pages/not-found/NotFound'));
 const NotificationsPage = lazy(() =>
-  import('./pages/notifications-page/NotificationsPage')
+  import('pages/notifications-page/NotificationsPage')
 );
-const SignUp = lazy(() => import('./components/auth-forms/Signup'));
-const UserPage = lazy(() => import('./pages/user-page/UserPage'));
+const UserPage = lazy(() => import('pages/user-page/UserPage'));
 const VerificationPage = lazy(() =>
-  import('./pages/verification/VerificationPage')
+  import('pages/verification/VerificationPage')
 );
 
 const Routes = () => {
