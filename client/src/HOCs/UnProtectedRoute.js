@@ -15,7 +15,7 @@ const UnProtectedRoute = ({ component: Component, ...rest }) => {
     <Route
       {...rest}
       render={props =>
-        data.me ? (
+        data?.me ? (
           <Redirect to={{ pathname: '/home' }} />
         ) : (
           <Component {...props} {...queryProps} />
