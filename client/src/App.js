@@ -22,7 +22,7 @@ const App = () => {
           {!loading ? (
             <>
               <Routes />
-              <SideBar isLoggedIn={!!data.me} />
+              <SideBar isLoggedIn={!!data?.me} />
             </>
           ) : (
             <Spinner />
