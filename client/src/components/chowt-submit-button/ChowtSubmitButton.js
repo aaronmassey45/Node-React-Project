@@ -2,11 +2,10 @@ import React from 'react';
 import { useMutation, useApolloClient } from '@apollo/react-hooks';
 import PropTypes from 'prop-types';
 
-import Spinner from '../../components/spinner/Spinner';
-
-import SEND_CHOWT from '../../graphql/mutations/Chowt';
-import GET_USERS_FEED from '../../graphql/queries/getUsersFeed';
-import FETCH_USER from '../../graphql/queries/FetchUser';
+import Spinner from 'components/spinner/Spinner';
+import SEND_CHOWT from 'graphql/mutations/Chowt';
+import FETCH_USER from 'graphql/queries/FetchUser';
+import GET_USERS_FEED from 'graphql/queries/getUsersFeed';
 
 import './chowt-submit-button.styles.scss';
 
