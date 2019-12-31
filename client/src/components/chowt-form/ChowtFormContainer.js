@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import ChowtForm from 'components/chowt-form/ChowtForm';
@@ -6,14 +6,11 @@ import ChowtSubmitButton from 'components/chowt-submit-button/ChowtSubmitButton'
 
 import './chowt-form.styles.scss';
 
-class ChowtFormContainer extends Component {
-  state = {
-    text: '',
-    sendLocation: false,
-  };
+const ChowtFormContainer = ({ goBack, showHeader }) => {
+  const [text, setText] = useState('');
+  const [sendLocation, setSendLocation] = useState(false);
 
-  handleSubmit = async sendChowt => {
-    const { text, sendLocation } = this.state;
+  const handleSubmit = async sendChowt => {
     const variables = { text };
 
     if (sendLocation) {
@@ -36,60 +33,54 @@ class ChowtFormContainer extends Component {
 
     try {
       sendChowt({ variables });
-      this.setState({ text: '', sendLocation: false });
+      setText('');
+      setSendLocation(false);
     } catch (err) {
       console.log(err);
     }
   };
 
-  handleChange = ({ target }) => {
-    const value = target.type === 'checkbox' ? target.checked : target.value;
-
-    if (target.type === 'textarea' && value.length >= 301) {
+  const handleChange = ({ target: { type, checked, value } }) => {
+    if (type === 'textarea' && value.length >= 301) {
       return;
     }
 
-    this.setState({ [target.id]: value });
+    type === 'checkbox' ? setSendLocation(checked) : setText(value);
   };
 
-  render() {
-    const { text, sendLocation } = this.state;
-    const { showHeader = false, goBack } = this.props;
+  const SubmitButton = !showHeader ? (
+    <span className="right">
+      <ChowtSubmitButton
+        _onCompleted={() => {}}
+        disabled={text.length === 0}
+        handleSubmit={handleSubmit}
+      />
+    </span>
+  ) : null;
 
-    const submitButton = showHeader ? null : (
-      <span className="right">
-        <ChowtSubmitButton
-          _onCompleted={() => {}}
-          disabled={text.length === 0}
-          handleSubmit={this.handleSubmit}
-        />
-      </span>
-    );
-
-    return (
-      <div id="chowt-form">
-        {showHeader && (
-          <div className="actions">
-            <div className="actions-container">
-              <i className="fas fa-arrow-left back-btn" onClick={goBack} />
-              <ChowtSubmitButton
-                disabled={text.length === 0}
-                _onCompleted={goBack}
-                handleSubmit={this.handleSubmit}
-              />
-            </div>
+  return (
+    <div id="chowt-form">
+      {showHeader && (
+        <div className="actions">
+          <div className="actions-container">
+            <i className="fas fa-arrow-left back-btn" onClick={goBack} />
+            <ChowtSubmitButton
+              disabled={text.length === 0}
+              _onCompleted={goBack}
+              handleSubmit={handleSubmit}
+            />
           </div>
-        )}
-        <ChowtForm
-          text={text}
-          sendLocation={sendLocation}
-          handleChange={this.handleChange}
-          submitButton={submitButton}
-        />
-      </div>
-    );
-  }
-}
+        </div>
+      )}
+      <ChowtForm
+        text={text}
+        sendLocation={sendLocation}
+        handleChange={handleChange}
+        submitButton={!showHeader ? SubmitButton : null}
+      />
+    </div>
+  );
+};
 
 ChowtFormContainer.propTypes = {
   goBack: PropTypes.func,
