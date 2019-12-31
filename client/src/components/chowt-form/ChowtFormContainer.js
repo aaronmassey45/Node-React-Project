@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import ChowtForm from '../../components/chowt-form/ChowtForm';
-import ChowtSubmitButton from '../../components/chowt-submit-button/ChowtSubmitButton';
+import ChowtForm from 'components/chowt-form/ChowtForm';
+import ChowtSubmitButton from 'components/chowt-submit-button/ChowtSubmitButton';
 
 import './chowt-form.styles.scss';
 
