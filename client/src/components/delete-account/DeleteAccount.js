@@ -3,8 +3,8 @@ import { useMutation } from '@apollo/react-hooks';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-import DELETE_USER from '../../graphql/mutations/DeleteUser';
-import CURRENT_USER from '../../graphql/queries/CurrentUser';
+import CURRENT_USER from 'graphql/queries/CurrentUser';
+import DELETE_USER from 'graphql/mutations/DeleteUser';
 
 const DeleteAccount = ({ history }) => {
   const [deleteAccount] = useMutation(DELETE_USER, {
