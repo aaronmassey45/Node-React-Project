@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import useWindowWidth from '../../react-hooks/useWindowWidth';
-import WhoToFollow from '../who-to-follow/WhoToFollow';
+import WhoToFollow from 'components/who-to-follow/WhoToFollow';
+import useWindowWidth from 'react-hooks/useWindowWidth';
 
 import './side-bar.styles.scss';
 

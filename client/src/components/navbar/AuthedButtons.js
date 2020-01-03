@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import LogoutLink from './LogoutLink';
-import ComposeChowtLink from '../compose-chowt-link/ComposeChowtLink';
+import ComposeChowtLink from 'components/compose-chowt-link/ComposeChowtLink';
 
 const AuthedButtons = ({ currentUser: { profileImg, username } }) => {
   return (

@@ -3,12 +3,12 @@ import { useMutation } from '@apollo/react-hooks';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
-import Snackbar from '../snackbar/Snackbar';
-import useSnackbar from '../../react-hooks/useSnackbar';
-import FOLLOW_USER from '../../graphql/mutations/FollowUser';
-import UNFOLLOW_USER from '../../graphql/mutations/UnfollowUser';
-import UPDATE_AFTER_FOLLOW from '../../graphql/queries/updateAfterFollow';
-import GET_USERS_FEED from '../../graphql/queries/getUsersFeed';
+import Snackbar from 'components/snackbar/Snackbar';
+import FOLLOW_USER from 'graphql/mutations/FollowUser';
+import UNFOLLOW_USER from 'graphql/mutations/UnfollowUser';
+import GET_USERS_FEED from 'graphql/queries/getUsersFeed';
+import UPDATE_AFTER_FOLLOW from 'graphql/queries/updateAfterFollow';
+import useSnackbar from 'react-hooks/useSnackbar';
 
 import './follow-button.styles.scss';
 

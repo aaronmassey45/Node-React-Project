@@ -3,8 +3,8 @@ import { useMutation, useApolloClient } from '@apollo/react-hooks';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-import CURRENT_USER from '../../graphql/queries/CurrentUser';
-import LOGOUT from '../../graphql/mutations/Logout';
+import LOGOUT from 'graphql/mutations/Logout';
+import CURRENT_USER from 'graphql/queries/CurrentUser';
 
 const LogoutLink = ({ history }) => {
   const client = useApolloClient();

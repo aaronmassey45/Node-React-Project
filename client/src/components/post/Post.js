@@ -2,11 +2,11 @@ import React, { memo } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-import useSnackbar from '../../react-hooks/useSnackbar';
-import DeletePostButton from '../delete-post-button/DeletePostButton';
-import LikePostButton from '../like-post-button/LikePostButton';
-import Snackbar from '../snackbar/Snackbar';
-import getTimeDifference from '../../utils/getTimeDifference';
+import DeletePostButton from 'components/delete-post-button/DeletePostButton';
+import LikePostButton from 'components/like-post-button/LikePostButton';
+import Snackbar from 'components/snackbar/Snackbar';
+import useSnackbar from 'react-hooks/useSnackbar';
+import getTimeDifference from 'utils/getTimeDifference';
 
 import './post.styles.scss';
 

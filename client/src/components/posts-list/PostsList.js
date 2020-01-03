@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Post from '../../components/post/Post';
+import Post from 'components/post/Post';
 
 import './posts-lists.styles.scss';
 
